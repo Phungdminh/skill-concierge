@@ -1,0 +1,1821 @@
+
+> skill-concierge@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.5 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://100.75.117.115:3000
+✓ Ready in 475ms
+
+ GET / 200 in 302ms (next.js: 149ms, application-code: 153ms)
+✓ Compiled in 64ms
+✓ Compiled in 226ms
+ GET / 200 in 102ms (next.js: 43ms, application-code: 59ms)
+ GET / 200 in 42ms (next.js: 4ms, application-code: 38ms)
+ GET / 200 in 17ms (next.js: 2ms, application-code: 15ms)
+✓ Compiled in 48ms
+✓ Compiled in 42ms
+✓ Compiled in 46ms
+✓ Compiled in 45ms
+✓ Compiled in 53ms
+✓ Compiled in 29ms
+ GET / 200 in 60ms (next.js: 32ms, application-code: 27ms)
+✓ Compiled in 151ms
+ GET / 200 in 301ms (next.js: 116ms, application-code: 185ms)
+ GET / 200 in 149ms (next.js: 26ms, application-code: 124ms)
+ GET / 200 in 106ms (next.js: 5ms, application-code: 101ms)
+ GET / 200 in 106ms (next.js: 23ms, application-code: 83ms)
+ GET / 200 in 105ms (next.js: 63ms, application-code: 42ms)
+ GET / 200 in 106ms (next.js: 48ms, application-code: 58ms)
+ GET / 200 in 26ms (next.js: 2ms, application-code: 23ms)
+✓ Compiled in 95ms
+ GET / 200 in 137ms (next.js: 30ms, application-code: 107ms)
+ GET / 200 in 90ms (next.js: 3ms, application-code: 87ms)
+ GET / 200 in 96ms (next.js: 29ms, application-code: 67ms)
+ GET / 200 in 97ms (next.js: 3ms, application-code: 95ms)
+ GET / 200 in 97ms (next.js: 16ms, application-code: 81ms)
+ GET / 200 in 101ms (next.js: 1830µs, application-code: 99ms)
+ GET / 200 in 105ms (next.js: 3ms, application-code: 102ms)
+ GET / 200 in 106ms (next.js: 1841µs, application-code: 105ms)
+ GET / 200 in 86ms (next.js: 31ms, application-code: 55ms)
+ GET / 200 in 87ms (next.js: 3ms, application-code: 85ms)
+ GET / 200 in 87ms (next.js: 16ms, application-code: 71ms)
+ GET / 200 in 105ms (next.js: 2ms, application-code: 103ms)
+ GET / 200 in 101ms (next.js: 3ms, application-code: 99ms)
+ GET / 200 in 117ms (next.js: 2ms, application-code: 114ms)
+ GET / 200 in 102ms (next.js: 2ms, application-code: 99ms)
+ GET / 200 in 102ms (next.js: 16ms, application-code: 85ms)
+ GET / 200 in 102ms (next.js: 35ms, application-code: 67ms)
+ GET / 200 in 113ms (next.js: 2ms, application-code: 111ms)
+ GET / 200 in 110ms (next.js: 4ms, application-code: 107ms)
+ GET / 200 in 96ms (next.js: 2ms, application-code: 94ms)
+ GET / 200 in 83ms (next.js: 3ms, application-code: 81ms)
+ GET / 200 in 83ms (next.js: 16ms, application-code: 68ms)
+ GET / 200 in 83ms (next.js: 29ms, application-code: 55ms)
+ GET / 200 in 59ms (next.js: 1556µs, application-code: 58ms)
+ GET / 200 in 42ms (next.js: 2ms, application-code: 40ms)
+ GET / 200 in 23ms (next.js: 1829µs, application-code: 21ms)
+✓ Compiled in 56ms
+ GET / 200 in 181ms (next.js: 53ms, application-code: 127ms)
+ GET / 200 in 107ms (next.js: 4ms, application-code: 104ms)
+ GET / 200 in 92ms (next.js: 3ms, application-code: 89ms)
+ GET / 200 in 92ms (next.js: 18ms, application-code: 74ms)
+ GET / 200 in 92ms (next.js: 35ms, application-code: 57ms)
+ GET / 200 in 103ms (next.js: 3ms, application-code: 101ms)
+ GET / 200 in 104ms (next.js: 3ms, application-code: 102ms)
+ GET / 200 in 92ms (next.js: 4ms, application-code: 88ms)
+ GET / 200 in 86ms (next.js: 2ms, application-code: 84ms)
+ GET / 200 in 87ms (next.js: 16ms, application-code: 72ms)
+ GET / 200 in 88ms (next.js: 32ms, application-code: 56ms)
+ GET / 200 in 102ms (next.js: 2ms, application-code: 99ms)
+ GET / 200 in 96ms (next.js: 3ms, application-code: 93ms)
+ GET / 200 in 81ms (next.js: 3ms, application-code: 78ms)
+ GET / 200 in 99ms (next.js: 15ms, application-code: 83ms)
+ GET / 200 in 72ms (next.js: 5ms, application-code: 67ms)
+ GET / 200 in 86ms (next.js: 16ms, application-code: 70ms)
+ GET / 200 in 124ms (next.js: 2ms, application-code: 122ms)
+ GET / 200 in 124ms (next.js: 3ms, application-code: 121ms)
+ GET / 200 in 105ms (next.js: 1860µs, application-code: 103ms)
+ GET / 200 in 105ms (next.js: 3ms, application-code: 102ms)
+ GET / 200 in 105ms (next.js: 16ms, application-code: 89ms)
+ GET / 200 in 92ms (next.js: 3ms, application-code: 89ms)
+ GET / 200 in 85ms (next.js: 2ms, application-code: 83ms)
+ GET / 200 in 70ms (next.js: 3ms, application-code: 67ms)
+ GET / 200 in 52ms (next.js: 1841µs, application-code: 50ms)
+ GET / 200 in 36ms (next.js: 1893µs, application-code: 34ms)
+ GET / 200 in 36ms (next.js: 17ms, application-code: 19ms)
+✓ Compiled in 61ms
+ GET / 200 in 172ms (next.js: 56ms, application-code: 115ms)
+ GET / 200 in 88ms (next.js: 1733µs, application-code: 87ms)
+ GET / 200 in 95ms (next.js: 2ms, application-code: 93ms)
+ GET / 200 in 123ms (next.js: 28ms, application-code: 95ms)
+ GET / 200 in 124ms (next.js: 15ms, application-code: 110ms)
+ GET / 200 in 121ms (next.js: 1884µs, application-code: 119ms)
+ GET / 200 in 117ms (next.js: 2ms, application-code: 114ms)
+ GET / 200 in 94ms (next.js: 4ms, application-code: 90ms)
+ GET / 200 in 78ms (next.js: 4ms, application-code: 74ms)
+ GET / 200 in 77ms (next.js: 14ms, application-code: 62ms)
+ GET / 200 in 78ms (next.js: 2ms, application-code: 75ms)
+ GET / 200 in 97ms (next.js: 1642µs, application-code: 95ms)
+ GET / 200 in 81ms (next.js: 3ms, application-code: 79ms)
+ GET / 200 in 82ms (next.js: 2ms, application-code: 80ms)
+ GET / 200 in 86ms (next.js: 3ms, application-code: 83ms)
+ GET / 200 in 88ms (next.js: 2ms, application-code: 85ms)
+ GET / 200 in 88ms (next.js: 16ms, application-code: 72ms)
+ GET / 200 in 103ms (next.js: 3ms, application-code: 100ms)
+ GET / 200 in 87ms (next.js: 2ms, application-code: 85ms)
+ GET / 200 in 86ms (next.js: 3ms, application-code: 83ms)
+ GET / 200 in 84ms (next.js: 3ms, application-code: 81ms)
+ GET / 200 in 82ms (next.js: 1979µs, application-code: 80ms)
+ GET / 200 in 82ms (next.js: 14ms, application-code: 68ms)
+ GET / 200 in 103ms (next.js: 1963µs, application-code: 101ms)
+ GET / 200 in 87ms (next.js: 2ms, application-code: 85ms)
+ GET / 200 in 87ms (next.js: 2ms, application-code: 85ms)
+ GET / 200 in 72ms (next.js: 2ms, application-code: 69ms)
+ GET / 200 in 57ms (next.js: 2ms, application-code: 54ms)
+ GET / 200 in 56ms (next.js: 23ms, application-code: 33ms)
+ GET / 200 in 18ms (next.js: 2ms, application-code: 16ms)
+ GET / 200 in 136ms (next.js: 27ms, application-code: 110ms)
+ GET / 200 in 107ms (next.js: 3ms, application-code: 103ms)
+ GET / 200 in 80ms (next.js: 2ms, application-code: 78ms)
+ GET / 200 in 80ms (next.js: 15ms, application-code: 64ms)
+ GET / 200 in 80ms (next.js: 28ms, application-code: 52ms)
+ GET / 200 in 80ms (next.js: 43ms, application-code: 37ms)
+ GET / 200 in 97ms (next.js: 1905µs, application-code: 95ms)
+ GET / 200 in 96ms (next.js: 4ms, application-code: 93ms)
+ GET / 200 in 77ms (next.js: 29ms, application-code: 48ms)
+ GET / 200 in 79ms (next.js: 3ms, application-code: 76ms)
+ GET / 200 in 79ms (next.js: 16ms, application-code: 62ms)
+ GET / 200 in 79ms (next.js: 43ms, application-code: 37ms)
+ GET / 200 in 98ms (next.js: 2ms, application-code: 96ms)
+ GET / 200 in 98ms (next.js: 3ms, application-code: 95ms)
+ GET / 200 in 82ms (next.js: 18ms, application-code: 64ms)
+ GET / 200 in 82ms (next.js: 2ms, application-code: 80ms)
+ GET / 200 in 82ms (next.js: 35ms, application-code: 48ms)
+ GET / 200 in 52ms (next.js: 1855µs, application-code: 50ms)
+ GET / 200 in 115ms (next.js: 1979µs, application-code: 114ms)
+ GET / 200 in 112ms (next.js: 2ms, application-code: 109ms)
+ GET / 200 in 96ms (next.js: 2ms, application-code: 94ms)
+ GET / 200 in 96ms (next.js: 28ms, application-code: 68ms)
+ GET / 200 in 97ms (next.js: 15ms, application-code: 82ms)
+ GET / 200 in 69ms (next.js: 3ms, application-code: 66ms)
+ GET / 200 in 89ms (next.js: 1801µs, application-code: 87ms)
+ GET / 200 in 92ms (next.js: 2ms, application-code: 90ms)
+ GET / 200 in 78ms (next.js: 3ms, application-code: 76ms)
+ GET / 200 in 78ms (next.js: 16ms, application-code: 63ms)
+ GET / 200 in 79ms (next.js: 15ms, application-code: 64ms)
+ GET / 200 in 55ms (next.js: 2ms, application-code: 53ms)
+ GET / 200 in 40ms (next.js: 2ms, application-code: 37ms)
+ GET / 200 in 20ms (next.js: 2ms, application-code: 18ms)
+✓ Compiled in 64ms
+ GET / 200 in 128ms (next.js: 34ms, application-code: 94ms)
+ GET / 200 in 77ms (next.js: 3ms, application-code: 74ms)
+ GET / 200 in 93ms (next.js: 2ms, application-code: 90ms)
+ GET / 200 in 93ms (next.js: 16ms, application-code: 77ms)
+ GET / 200 in 93ms (next.js: 29ms, application-code: 64ms)
+ GET / 200 in 98ms (next.js: 18ms, application-code: 80ms)
+ GET / 200 in 99ms (next.js: 3ms, application-code: 97ms)
+ GET / 200 in 98ms (next.js: 1771µs, application-code: 96ms)
+ GET / 200 in 80ms (next.js: 16ms, application-code: 64ms)
+ GET / 200 in 81ms (next.js: 3ms, application-code: 79ms)
+ GET / 200 in 81ms (next.js: 33ms, application-code: 48ms)
+ GET / 200 in 91ms (next.js: 2ms, application-code: 89ms)
+ GET / 200 in 91ms (next.js: 15ms, application-code: 77ms)
+ GET / 200 in 79ms (next.js: 3ms, application-code: 76ms)
+ GET / 200 in 78ms (next.js: 28ms, application-code: 50ms)
+ GET / 200 in 79ms (next.js: 16ms, application-code: 63ms)
+ GET / 200 in 81ms (next.js: 3ms, application-code: 77ms)
+ GET / 200 in 97ms (next.js: 3ms, application-code: 94ms)
+ GET / 200 in 97ms (next.js: 17ms, application-code: 80ms)
+ GET / 200 in 114ms (next.js: 5ms, application-code: 109ms)
+ GET / 200 in 97ms (next.js: 14ms, application-code: 83ms)
+ GET / 200 in 97ms (next.js: 2ms, application-code: 95ms)
+ GET / 200 in 98ms (next.js: 28ms, application-code: 69ms)
+ GET / 200 in 107ms (next.js: 3ms, application-code: 104ms)
+ GET / 200 in 108ms (next.js: 34ms, application-code: 75ms)
+ GET / 200 in 62ms (next.js: 3ms, application-code: 59ms)
+ GET / 200 in 80ms (next.js: 15ms, application-code: 65ms)
+ GET / 200 in 81ms (next.js: 2ms, application-code: 79ms)
+ GET / 200 in 72ms (next.js: 1815µs, application-code: 70ms)
+ GET / 200 in 83ms (next.js: 2ms, application-code: 81ms)
+ GET / 200 in 66ms (next.js: 3ms, application-code: 64ms)
+ GET / 200 in 50ms (next.js: 3ms, application-code: 47ms)
+ GET / 200 in 32ms (next.js: 3ms, application-code: 29ms)
+ GET / 200 in 32ms (next.js: 15ms, application-code: 17ms)
+✓ Compiled in 102ms
+ GET / 200 in 136ms (next.js: 43ms, application-code: 93ms)
+ GET / 200 in 174ms (next.js: 11ms, application-code: 163ms)
+ GET / 200 in 121ms (next.js: 5ms, application-code: 117ms)
+ GET / 200 in 121ms (next.js: 47ms, application-code: 74ms)
+ GET / 200 in 122ms (next.js: 29ms, application-code: 93ms)
+ GET / 200 in 122ms (next.js: 74ms, application-code: 48ms)
+ GET / 200 in 50ms (next.js: 3ms, application-code: 47ms)
+ GET / 200 in 121ms (next.js: 4ms, application-code: 117ms)
+ GET / 200 in 98ms (next.js: 42ms, application-code: 56ms)
+ GET / 200 in 100ms (next.js: 24ms, application-code: 75ms)
+ GET / 200 in 101ms (next.js: 4ms, application-code: 97ms)
+ GET / 200 in 100ms (next.js: 58ms, application-code: 42ms)
+ GET / 200 in 83ms (next.js: 3ms, application-code: 81ms)
+ GET / 200 in 131ms (next.js: 4ms, application-code: 127ms)
+ GET / 200 in 111ms (next.js: 17ms, application-code: 93ms)
+ GET / 200 in 112ms (next.js: 3ms, application-code: 109ms)
+ GET / 200 in 75ms (next.js: 27ms, application-code: 48ms)
+ GET / 200 in 113ms (next.js: 40ms, application-code: 73ms)
+ GET / 200 in 70ms (next.js: 3ms, application-code: 68ms)
+ GET / 200 in 150ms (next.js: 4ms, application-code: 147ms)
+ GET / 200 in 131ms (next.js: 3ms, application-code: 128ms)
+ GET / 200 in 131ms (next.js: 22ms, application-code: 109ms)
+ GET / 200 in 133ms (next.js: 22ms, application-code: 111ms)
+ GET / 200 in 114ms (next.js: 26ms, application-code: 88ms)
+ GET / 200 in 81ms (next.js: 3ms, application-code: 78ms)
+ GET / 200 in 122ms (next.js: 3ms, application-code: 120ms)
+ GET / 200 in 101ms (next.js: 3ms, application-code: 98ms)
+ GET / 200 in 101ms (next.js: 19ms, application-code: 82ms)
+ GET / 200 in 90ms (next.js: 22ms, application-code: 68ms)
+ GET / 200 in 96ms (next.js: 3ms, application-code: 93ms)
+ GET / 200 in 113ms (next.js: 2ms, application-code: 111ms)
+ GET / 200 in 113ms (next.js: 3ms, application-code: 110ms)
+ GET / 200 in 89ms (next.js: 7ms, application-code: 82ms)
+ GET / 200 in 86ms (next.js: 22ms, application-code: 64ms)
+ GET / 200 in 51ms (next.js: 3ms, application-code: 47ms)
+ GET / 200 in 27ms (next.js: 3ms, application-code: 24ms)
+✓ Compiled in 87ms
+ GET / 200 in 85ms (next.js: 44ms, application-code: 41ms)
+ GET / 200 in 170ms (next.js: 7ms, application-code: 164ms)
+ GET / 200 in 126ms (next.js: 3ms, application-code: 123ms)
+ GET / 200 in 123ms (next.js: 26ms, application-code: 96ms)
+ GET / 200 in 124ms (next.js: 4ms, application-code: 121ms)
+ GET / 200 in 147ms (next.js: 47ms, application-code: 100ms)
+ GET / 200 in 147ms (next.js: 3ms, application-code: 145ms)
+ GET / 200 in 143ms (next.js: 3ms, application-code: 140ms)
+ GET / 200 in 121ms (next.js: 5ms, application-code: 116ms)
+ GET / 200 in 114ms (next.js: 3ms, application-code: 110ms)
+ GET / 200 in 114ms (next.js: 25ms, application-code: 89ms)
+ GET / 200 in 133ms (next.js: 46ms, application-code: 87ms)
+ GET / 200 in 130ms (next.js: 3ms, application-code: 127ms)
+ GET / 200 in 133ms (next.js: 3ms, application-code: 130ms)
+ GET / 200 in 114ms (next.js: 4ms, application-code: 110ms)
+ GET / 200 in 114ms (next.js: 2ms, application-code: 112ms)
+ GET / 200 in 115ms (next.js: 18ms, application-code: 97ms)
+ GET / 200 in 99ms (next.js: 3ms, application-code: 96ms)
+ GET / 200 in 170ms (next.js: 3ms, application-code: 168ms)
+ GET / 200 in 169ms (next.js: 2ms, application-code: 166ms)
+ GET / 200 in 146ms (next.js: 4ms, application-code: 142ms)
+ GET / 200 in 144ms (next.js: 3ms, application-code: 141ms)
+ GET / 200 in 144ms (next.js: 19ms, application-code: 125ms)
+ GET / 200 in 123ms (next.js: 4ms, application-code: 119ms)
+ GET / 200 in 129ms (next.js: 3ms, application-code: 126ms)
+ GET / 200 in 125ms (next.js: 3ms, application-code: 122ms)
+ GET / 200 in 106ms (next.js: 3ms, application-code: 102ms)
+ GET / 200 in 105ms (next.js: 3ms, application-code: 102ms)
+ GET / 200 in 123ms (next.js: 17ms, application-code: 106ms)
+ GET / 200 in 94ms (next.js: 3ms, application-code: 92ms)
+ GET / 200 in 120ms (next.js: 3ms, application-code: 117ms)
+ GET / 200 in 122ms (next.js: 3ms, application-code: 119ms)
+ GET / 200 in 100ms (next.js: 3ms, application-code: 98ms)
+ GET / 200 in 97ms (next.js: 3ms, application-code: 94ms)
+ GET / 200 in 96ms (next.js: 19ms, application-code: 77ms)
+ GET / 200 in 64ms (next.js: 3ms, application-code: 61ms)
+ GET / 200 in 43ms (next.js: 2ms, application-code: 40ms)
+ GET / 200 in 20ms (next.js: 3ms, application-code: 17ms)
+ GET / 200 in 74ms (next.js: 41ms, application-code: 34ms)
+ GET / 200 in 48ms (next.js: 8ms, application-code: 40ms)
+ GET / 200 in 130ms (next.js: 5ms, application-code: 125ms)
+ GET / 200 in 134ms (next.js: 3ms, application-code: 131ms)
+ GET / 200 in 115ms (next.js: 3ms, application-code: 112ms)
+ GET / 200 in 115ms (next.js: 24ms, application-code: 91ms)
+ GET / 200 in 115ms (next.js: 46ms, application-code: 69ms)
+ GET / 200 in 115ms (next.js: 64ms, application-code: 52ms)
+ GET / 200 in 142ms (next.js: 2ms, application-code: 139ms)
+ GET / 200 in 142ms (next.js: 4ms, application-code: 138ms)
+ GET / 200 in 119ms (next.js: 71ms, application-code: 48ms)
+ GET / 200 in 121ms (next.js: 3ms, application-code: 118ms)
+ GET / 200 in 121ms (next.js: 27ms, application-code: 94ms)
+ GET / 200 in 121ms (next.js: 54ms, application-code: 66ms)
+ GET / 200 in 127ms (next.js: 2ms, application-code: 125ms)
+ GET / 200 in 123ms (next.js: 4ms, application-code: 119ms)
+ GET / 200 in 98ms (next.js: 18ms, application-code: 79ms)
+ GET / 200 in 98ms (next.js: 33ms, application-code: 65ms)
+ GET / 200 in 100ms (next.js: 4ms, application-code: 96ms)
+ GET / 200 in 99ms (next.js: 53ms, application-code: 46ms)
+ GET / 200 in 133ms (next.js: 2ms, application-code: 131ms)
+ GET / 200 in 118ms (next.js: 3ms, application-code: 115ms)
+ GET / 200 in 152ms (next.js: 6ms, application-code: 145ms)
+ GET / 200 in 151ms (next.js: 43ms, application-code: 109ms)
+ GET / 200 in 152ms (next.js: 58ms, application-code: 93ms)
+ GET / 200 in 154ms (next.js: 22ms, application-code: 132ms)
+ GET / 200 in 164ms (next.js: 6ms, application-code: 158ms)
+ GET / 200 in 106ms (next.js: 4ms, application-code: 102ms)
+ GET / 200 in 105ms (next.js: 25ms, application-code: 80ms)
+ GET / 200 in 107ms (next.js: 5ms, application-code: 102ms)
+ GET / 200 in 106ms (next.js: 43ms, application-code: 63ms)
+ GET / 200 in 106ms (next.js: 57ms, application-code: 48ms)
+ GET / 200 in 132ms (next.js: 3ms, application-code: 129ms)
+ GET / 200 in 110ms (next.js: 5ms, application-code: 105ms)
+ GET / 200 in 112ms (next.js: 3ms, application-code: 109ms)
+ GET / 200 in 111ms (next.js: 42ms, application-code: 69ms)
+ GET / 200 in 113ms (next.js: 22ms, application-code: 91ms)
+ GET / 200 in 112ms (next.js: 65ms, application-code: 47ms)
+ GET / 200 in 46ms (next.js: 4ms, application-code: 43ms)
+ GET / 200 in 24ms (next.js: 5ms, application-code: 20ms)
+✓ Compiled in 78ms
+ GET / 200 in 70ms (next.js: 37ms, application-code: 34ms)
+ GET / 200 in 134ms (next.js: 14ms, application-code: 119ms)
+ GET / 200 in 91ms (next.js: 3ms, application-code: 88ms)
+ GET / 200 in 91ms (next.js: 32ms, application-code: 59ms)
+ GET / 200 in 92ms (next.js: 2ms, application-code: 90ms)
+ GET / 200 in 92ms (next.js: 17ms, application-code: 75ms)
+ GET / 200 in 115ms (next.js: 1806µs, application-code: 113ms)
+ GET / 200 in 115ms (next.js: 3ms, application-code: 112ms)
+ GET / 200 in 93ms (next.js: 4ms, application-code: 90ms)
+ GET / 200 in 94ms (next.js: 19ms, application-code: 74ms)
+ GET / 200 in 94ms (next.js: 2ms, application-code: 92ms)
+ GET / 200 in 112ms (next.js: 39ms, application-code: 73ms)
+ GET / 200 in 103ms (next.js: 1828µs, application-code: 101ms)
+ GET / 200 in 107ms (next.js: 2ms, application-code: 104ms)
+ GET / 200 in 90ms (next.js: 3ms, application-code: 87ms)
+ GET / 200 in 88ms (next.js: 16ms, application-code: 73ms)
+ GET / 200 in 89ms (next.js: 2ms, application-code: 87ms)
+ GET / 200 in 106ms (next.js: 29ms, application-code: 77ms)
+ GET / 200 in 144ms (next.js: 2ms, application-code: 142ms)
+ GET / 200 in 142ms (next.js: 3ms, application-code: 140ms)
+ GET / 200 in 123ms (next.js: 3ms, application-code: 120ms)
+ GET / 200 in 120ms (next.js: 2ms, application-code: 118ms)
+ GET / 200 in 120ms (next.js: 17ms, application-code: 104ms)
+ GET / 200 in 122ms (next.js: 24ms, application-code: 97ms)
+ GET / 200 in 109ms (next.js: 1670µs, application-code: 108ms)
+ GET / 200 in 110ms (next.js: 3ms, application-code: 107ms)
+ GET / 200 in 94ms (next.js: 2ms, application-code: 92ms)
+ GET / 200 in 100ms (next.js: 3ms, application-code: 97ms)
+ GET / 200 in 101ms (next.js: 17ms, application-code: 84ms)
+ GET / 200 in 83ms (next.js: 3ms, application-code: 80ms)
+ GET / 200 in 116ms (next.js: 2ms, application-code: 113ms)
+ GET / 200 in 111ms (next.js: 2ms, application-code: 109ms)
+ GET / 200 in 90ms (next.js: 2ms, application-code: 88ms)
+ GET / 200 in 88ms (next.js: 3ms, application-code: 85ms)
+ GET / 200 in 88ms (next.js: 17ms, application-code: 71ms)
+ GET / 200 in 75ms (next.js: 3ms, application-code: 72ms)
+ GET / 200 in 108ms (next.js: 1885µs, application-code: 106ms)
+ GET / 200 in 92ms (next.js: 2ms, application-code: 89ms)
+ GET / 200 in 74ms (next.js: 3ms, application-code: 71ms)
+ GET / 200 in 49ms (next.js: 3ms, application-code: 46ms)
+ GET / 200 in 48ms (next.js: 16ms, application-code: 31ms)
+ GET / 200 in 19ms (next.js: 1838µs, application-code: 17ms)
+✓ Compiled in 85ms
+ GET / 200 in 172ms (next.js: 35ms, application-code: 137ms)
+ GET / 200 in 129ms (next.js: 4ms, application-code: 125ms)
+ GET / 200 in 90ms (next.js: 3ms, application-code: 87ms)
+ GET / 200 in 90ms (next.js: 33ms, application-code: 57ms)
+ GET / 200 in 91ms (next.js: 19ms, application-code: 72ms)
+ GET / 200 in 111ms (next.js: 2ms, application-code: 109ms)
+ GET / 200 in 92ms (next.js: 1795µs, application-code: 90ms)
+ GET / 200 in 114ms (next.js: 3ms, application-code: 111ms)
+ GET / 200 in 89ms (next.js: 2ms, application-code: 87ms)
+ GET / 200 in 90ms (next.js: 18ms, application-code: 72ms)
+ GET / 200 in 75ms (next.js: 16ms, application-code: 59ms)
+ GET / 200 in 109ms (next.js: 2ms, application-code: 106ms)
+ GET / 200 in 88ms (next.js: 3ms, application-code: 86ms)
+ GET / 200 in 110ms (next.js: 3ms, application-code: 107ms)
+ GET / 200 in 94ms (next.js: 3ms, application-code: 91ms)
+ GET / 200 in 94ms (next.js: 17ms, application-code: 77ms)
+ GET / 200 in 62ms (next.js: 2ms, application-code: 60ms)
+ GET / 200 in 116ms (next.js: 2ms, application-code: 114ms)
+ GET / 200 in 101ms (next.js: 2ms, application-code: 99ms)
+ GET / 200 in 105ms (next.js: 3ms, application-code: 102ms)
+ GET / 200 in 105ms (next.js: 18ms, application-code: 87ms)
+ GET / 200 in 75ms (next.js: 16ms, application-code: 59ms)
+ GET / 200 in 76ms (next.js: 2ms, application-code: 74ms)
+ GET / 200 in 102ms (next.js: 2ms, application-code: 100ms)
+ GET / 200 in 103ms (next.js: 17ms, application-code: 86ms)
+ GET / 200 in 145ms (next.js: 2ms, application-code: 143ms)
+ GET / 200 in 130ms (next.js: 3ms, application-code: 127ms)
+ GET / 200 in 129ms (next.js: 16ms, application-code: 113ms)
+ GET / 200 in 129ms (next.js: 31ms, application-code: 99ms)
+ GET / 200 in 137ms (next.js: 4ms, application-code: 133ms)
+ GET / 200 in 137ms (next.js: 32ms, application-code: 105ms)
+ GET / 200 in 103ms (next.js: 4ms, application-code: 99ms)
+ GET / 200 in 85ms (next.js: 1997µs, application-code: 83ms)
+ GET / 200 in 85ms (next.js: 15ms, application-code: 70ms)
+ GET / 200 in 85ms (next.js: 29ms, application-code: 56ms)
+ GET / 200 in 109ms (next.js: 2ms, application-code: 107ms)
+ GET / 200 in 92ms (next.js: 3ms, application-code: 89ms)
+ GET / 200 in 102ms (next.js: 3ms, application-code: 99ms)
+ GET / 200 in 101ms (next.js: 17ms, application-code: 84ms)
+ GET / 200 in 86ms (next.js: 18ms, application-code: 68ms)
+ GET / 200 in 87ms (next.js: 33ms, application-code: 54ms)
+ GET / 200 in 52ms (next.js: 1907µs, application-code: 50ms)
+ GET / 200 in 36ms (next.js: 1834µs, application-code: 35ms)
+ GET / 200 in 19ms (next.js: 1719µs, application-code: 17ms)
+✓ Compiled in 70ms
+ GET / 200 in 209ms (next.js: 60ms, application-code: 149ms)
+ GET / 200 in 143ms (next.js: 3ms, application-code: 140ms)
+ GET / 200 in 121ms (next.js: 4ms, application-code: 116ms)
+ GET / 200 in 121ms (next.js: 40ms, application-code: 81ms)
+ GET / 200 in 135ms (next.js: 54ms, application-code: 81ms)
+ GET / 200 in 119ms (next.js: 2ms, application-code: 117ms)
+ GET / 200 in 100ms (next.js: 1941µs, application-code: 98ms)
+ GET / 200 in 115ms (next.js: 3ms, application-code: 113ms)
+ GET / 200 in 99ms (next.js: 2ms, application-code: 97ms)
+ GET / 200 in 99ms (next.js: 3ms, application-code: 96ms)
+ GET / 200 in 101ms (next.js: 20ms, application-code: 81ms)
+ GET / 200 in 105ms (next.js: 2ms, application-code: 103ms)
+ GET / 200 in 88ms (next.js: 1847µs, application-code: 86ms)
+ GET / 200 in 84ms (next.js: 2ms, application-code: 82ms)
+ GET / 200 in 79ms (next.js: 2ms, application-code: 77ms)
+ GET / 200 in 82ms (next.js: 2ms, application-code: 80ms)
+ GET / 200 in 83ms (next.js: 16ms, application-code: 68ms)
+ GET / 200 in 104ms (next.js: 1979µs, application-code: 103ms)
+ GET / 200 in 89ms (next.js: 2ms, application-code: 87ms)
+ GET / 200 in 107ms (next.js: 3ms, application-code: 104ms)
+ GET / 200 in 90ms (next.js: 2ms, application-code: 87ms)
+ GET / 200 in 108ms (next.js: 16ms, application-code: 92ms)
+ GET / 200 in 76ms (next.js: 1947µs, application-code: 74ms)
+ GET / 200 in 115ms (next.js: 3ms, application-code: 112ms)
+ GET / 200 in 98ms (next.js: 2ms, application-code: 96ms)
+ GET / 200 in 100ms (next.js: 3ms, application-code: 97ms)
+ GET / 200 in 98ms (next.js: 3ms, application-code: 95ms)
+ GET / 200 in 97ms (next.js: 1968µs, application-code: 95ms)
+ GET / 200 in 97ms (next.js: 2ms, application-code: 95ms)
+ GET / 200 in 111ms (next.js: 2ms, application-code: 108ms)
+ GET / 200 in 95ms (next.js: 3ms, application-code: 93ms)
+ GET / 200 in 137ms (next.js: 3ms, application-code: 134ms)
+ GET / 200 in 138ms (next.js: 2ms, application-code: 136ms)
+ GET / 200 in 137ms (next.js: 1978µs, application-code: 135ms)
+ GET / 200 in 122ms (next.js: 2ms, application-code: 120ms)
+ GET / 200 in 148ms (next.js: 4ms, application-code: 144ms)
+ GET / 200 in 105ms (next.js: 2ms, application-code: 102ms)
+ GET / 200 in 86ms (next.js: 3ms, application-code: 84ms)
+ GET / 200 in 86ms (next.js: 3ms, application-code: 84ms)
+ GET / 200 in 92ms (next.js: 2ms, application-code: 90ms)
+ GET / 200 in 93ms (next.js: 1856µs, application-code: 91ms)
+ GET / 200 in 95ms (next.js: 3ms, application-code: 93ms)
+ GET / 200 in 78ms (next.js: 3ms, application-code: 75ms)
+ GET / 200 in 63ms (next.js: 3ms, application-code: 60ms)
+ GET / 200 in 42ms (next.js: 3ms, application-code: 39ms)
+ GET / 200 in 24ms (next.js: 1842µs, application-code: 22ms)
+✓ Compiled in 63ms
+ GET / 200 in 180ms (next.js: 71ms, application-code: 109ms)
+ GET / 200 in 148ms (next.js: 1874µs, application-code: 146ms)
+ GET / 200 in 129ms (next.js: 43ms, application-code: 86ms)
+ GET / 200 in 131ms (next.js: 2ms, application-code: 128ms)
+ GET / 200 in 131ms (next.js: 21ms, application-code: 110ms)
+ GET / 200 in 139ms (next.js: 27ms, application-code: 111ms)
+ GET / 200 in 140ms (next.js: 3ms, application-code: 137ms)
+ GET / 200 in 115ms (next.js: 5ms, application-code: 111ms)
+ GET / 200 in 97ms (next.js: 18ms, application-code: 78ms)
+ GET / 200 in 98ms (next.js: 3ms, application-code: 95ms)
+ GET / 200 in 97ms (next.js: 33ms, application-code: 64ms)
+ GET / 200 in 111ms (next.js: 3ms, application-code: 108ms)
+ GET / 200 in 111ms (next.js: 20ms, application-code: 91ms)
+ GET / 200 in 112ms (next.js: 3ms, application-code: 108ms)
+ GET / 200 in 92ms (next.js: 1956µs, application-code: 90ms)
+ GET / 200 in 92ms (next.js: 17ms, application-code: 75ms)
+ GET / 200 in 92ms (next.js: 33ms, application-code: 60ms)
+ GET / 200 in 123ms (next.js: 2ms, application-code: 120ms)
+ GET / 200 in 123ms (next.js: 19ms, application-code: 104ms)
+ GET / 200 in 117ms (next.js: 4ms, application-code: 114ms)
+ GET / 200 in 98ms (next.js: 3ms, application-code: 95ms)
+ GET / 200 in 98ms (next.js: 18ms, application-code: 79ms)
+ GET / 200 in 98ms (next.js: 42ms, application-code: 55ms)
+ GET / 200 in 108ms (next.js: 2ms, application-code: 106ms)
+ GET / 200 in 110ms (next.js: 16ms, application-code: 93ms)
+ GET / 200 in 108ms (next.js: 3ms, application-code: 105ms)
+ GET / 200 in 93ms (next.js: 3ms, application-code: 90ms)
+ GET / 200 in 93ms (next.js: 17ms, application-code: 76ms)
+ GET / 200 in 92ms (next.js: 34ms, application-code: 58ms)
+ GET / 200 in 108ms (next.js: 3ms, application-code: 106ms)
+ GET / 200 in 109ms (next.js: 19ms, application-code: 90ms)
+ GET / 200 in 108ms (next.js: 3ms, application-code: 105ms)
+ GET / 200 in 107ms (next.js: 17ms, application-code: 90ms)
+ GET / 200 in 94ms (next.js: 22ms, application-code: 72ms)
+ GET / 200 in 74ms (next.js: 16ms, application-code: 58ms)
+ GET / 200 in 110ms (next.js: 2ms, application-code: 108ms)
+ GET / 200 in 93ms (next.js: 2ms, application-code: 91ms)
+ GET / 200 in 107ms (next.js: 4ms, application-code: 104ms)
+ GET / 200 in 107ms (next.js: 17ms, application-code: 90ms)
+ GET / 200 in 93ms (next.js: 19ms, application-code: 74ms)
+ GET / 200 in 78ms (next.js: 17ms, application-code: 61ms)
+ GET / 200 in 109ms (next.js: 2ms, application-code: 107ms)
+ GET / 200 in 110ms (next.js: 17ms, application-code: 93ms)
+ GET / 200 in 94ms (next.js: 4ms, application-code: 90ms)
+ GET / 200 in 78ms (next.js: 2ms, application-code: 75ms)
+ GET / 200 in 77ms (next.js: 31ms, application-code: 47ms)
+ GET / 200 in 78ms (next.js: 16ms, application-code: 62ms)
+ GET / 200 in 23ms (next.js: 3ms, application-code: 20ms)
+ GET / 200 in 207ms (next.js: 35ms, application-code: 172ms)
+ GET / 200 in 148ms (next.js: 3ms, application-code: 145ms)
+ GET / 200 in 158ms (next.js: 4ms, application-code: 154ms)
+ GET / 200 in 158ms (next.js: 29ms, application-code: 128ms)
+ GET / 200 in 157ms (next.js: 85ms, application-code: 73ms)
+ GET / 200 in 157ms (next.js: 98ms, application-code: 59ms)
+ GET / 200 in 110ms (next.js: 3ms, application-code: 107ms)
+ GET / 200 in 87ms (next.js: 1941µs, application-code: 85ms)
+ GET / 200 in 109ms (next.js: 3ms, application-code: 107ms)
+ GET / 200 in 109ms (next.js: 50ms, application-code: 59ms)
+ GET / 200 in 109ms (next.js: 34ms, application-code: 75ms)
+ GET / 200 in 110ms (next.js: 19ms, application-code: 91ms)
+ GET / 200 in 108ms (next.js: 3ms, application-code: 106ms)
+ GET / 200 in 89ms (next.js: 2ms, application-code: 87ms)
+ GET / 200 in 92ms (next.js: 2ms, application-code: 90ms)
+ GET / 200 in 91ms (next.js: 46ms, application-code: 46ms)
+ GET / 200 in 109ms (next.js: 30ms, application-code: 78ms)
+ GET / 200 in 110ms (next.js: 16ms, application-code: 93ms)
+ GET / 200 in 109ms (next.js: 3ms, application-code: 106ms)
+ GET / 200 in 91ms (next.js: 8ms, application-code: 83ms)
+ GET / 200 in 83ms (next.js: 3ms, application-code: 80ms)
+ GET / 200 in 83ms (next.js: 18ms, application-code: 65ms)
+ GET / 200 in 83ms (next.js: 31ms, application-code: 52ms)
+ GET / 200 in 83ms (next.js: 44ms, application-code: 39ms)
+ GET / 200 in 104ms (next.js: 1982µs, application-code: 102ms)
+ GET / 200 in 90ms (next.js: 4ms, application-code: 86ms)
+ GET / 200 in 90ms (next.js: 3ms, application-code: 87ms)
+ GET / 200 in 89ms (next.js: 19ms, application-code: 70ms)
+ GET / 200 in 90ms (next.js: 33ms, application-code: 57ms)
+ GET / 200 in 107ms (next.js: 47ms, application-code: 60ms)
+ GET / 200 in 165ms (next.js: 2ms, application-code: 162ms)
+ GET / 200 in 146ms (next.js: 4ms, application-code: 142ms)
+ GET / 200 in 119ms (next.js: 4ms, application-code: 115ms)
+ GET / 200 in 119ms (next.js: 28ms, application-code: 91ms)
+ GET / 200 in 143ms (next.js: 78ms, application-code: 64ms)
+ GET / 200 in 67ms (next.js: 20ms, application-code: 47ms)
+ GET / 200 in 116ms (next.js: 4ms, application-code: 112ms)
+ GET / 200 in 115ms (next.js: 27ms, application-code: 88ms)
+ GET / 200 in 75ms (next.js: 3ms, application-code: 71ms)
+ GET / 200 in 89ms (next.js: 21ms, application-code: 67ms)
+ GET / 200 in 85ms (next.js: 18ms, application-code: 67ms)
+ GET / 200 in 71ms (next.js: 19ms, application-code: 52ms)
+ GET / 200 in 98ms (next.js: 3ms, application-code: 95ms)
+ GET / 200 in 98ms (next.js: 17ms, application-code: 81ms)
+ GET / 200 in 104ms (next.js: 1937µs, application-code: 103ms)
+ GET / 200 in 94ms (next.js: 2ms, application-code: 92ms)
+ GET / 200 in 94ms (next.js: 16ms, application-code: 78ms)
+ GET / 200 in 94ms (next.js: 31ms, application-code: 62ms)
+ GET / 200 in 46ms (next.js: 2ms, application-code: 44ms)
+ GET / 200 in 46ms (next.js: 21ms, application-code: 26ms)
+ GET / 200 in 166ms (next.js: 32ms, application-code: 134ms)
+ GET / 200 in 117ms (next.js: 1478µs, application-code: 116ms)
+ GET / 200 in 171ms (next.js: 4ms, application-code: 167ms)
+ GET / 200 in 171ms (next.js: 46ms, application-code: 125ms)
+ GET / 200 in 171ms (next.js: 69ms, application-code: 102ms)
+ GET / 200 in 173ms (next.js: 23ms, application-code: 150ms)
+ GET / 200 in 151ms (next.js: 4ms, application-code: 147ms)
+ GET / 200 in 102ms (next.js: 3ms, application-code: 100ms)
+ GET / 200 in 90ms (next.js: 22ms, application-code: 68ms)
+ GET / 200 in 103ms (next.js: 37ms, application-code: 66ms)
+ GET / 200 in 105ms (next.js: 4ms, application-code: 101ms)
+ GET / 200 in 104ms (next.js: 52ms, application-code: 52ms)
+ GET / 200 in 97ms (next.js: 3ms, application-code: 94ms)
+ GET / 200 in 82ms (next.js: 2ms, application-code: 80ms)
+ GET / 200 in 85ms (next.js: 17ms, application-code: 68ms)
+ GET / 200 in 86ms (next.js: 34ms, application-code: 52ms)
+ GET / 200 in 101ms (next.js: 47ms, application-code: 54ms)
+ GET / 200 in 102ms (next.js: 3ms, application-code: 100ms)
+ GET / 200 in 103ms (next.js: 3ms, application-code: 100ms)
+ GET / 200 in 86ms (next.js: 6ms, application-code: 80ms)
+ GET / 200 in 81ms (next.js: 3ms, application-code: 78ms)
+ GET / 200 in 95ms (next.js: 17ms, application-code: 78ms)
+ GET / 200 in 95ms (next.js: 44ms, application-code: 51ms)
+ GET / 200 in 96ms (next.js: 30ms, application-code: 66ms)
+ GET / 200 in 104ms (next.js: 1807µs, application-code: 102ms)
+ GET / 200 in 90ms (next.js: 3ms, application-code: 87ms)
+ GET / 200 in 75ms (next.js: 2ms, application-code: 73ms)
+ GET / 200 in 75ms (next.js: 49ms, application-code: 25ms)
+ GET / 200 in 75ms (next.js: 18ms, application-code: 58ms)
+ GET / 200 in 76ms (next.js: 35ms, application-code: 41ms)
+ GET / 200 in 96ms (next.js: 4ms, application-code: 92ms)
+ GET / 200 in 96ms (next.js: 18ms, application-code: 78ms)
+ GET / 200 in 64ms (next.js: 46ms, application-code: 18ms)
+ GET / 200 in 66ms (next.js: 3ms, application-code: 63ms)
+ GET / 200 in 66ms (next.js: 17ms, application-code: 48ms)
+ GET / 200 in 66ms (next.js: 33ms, application-code: 33ms)
+ GET / 200 in 103ms (next.js: 22ms, application-code: 81ms)
+ GET / 200 in 104ms (next.js: 7ms, application-code: 97ms)
+ GET / 200 in 66ms (next.js: 15ms, application-code: 52ms)
+ GET / 200 in 67ms (next.js: 45ms, application-code: 22ms)
+ GET / 200 in 68ms (next.js: 2ms, application-code: 66ms)
+ GET / 200 in 68ms (next.js: 28ms, application-code: 40ms)
+ GET / 200 in 97ms (next.js: 4ms, application-code: 93ms)
+ GET / 200 in 96ms (next.js: 18ms, application-code: 78ms)
+ GET / 200 in 60ms (next.js: 29ms, application-code: 31ms)
+ GET / 200 in 61ms (next.js: 43ms, application-code: 18ms)
+ GET / 200 in 61ms (next.js: 16ms, application-code: 46ms)
+ GET / 200 in 62ms (next.js: 2ms, application-code: 60ms)
+ GET / 200 in 70ms (next.js: 20ms, application-code: 51ms)
+ GET / 200 in 73ms (next.js: 4ms, application-code: 69ms)
+ GET / 200 in 38ms (next.js: 16ms, application-code: 23ms)
+ GET / 200 in 39ms (next.js: 1754µs, application-code: 38ms)
+✓ Compiled in 81ms
+ GET / 200 in 151ms (next.js: 29ms, application-code: 122ms)
+ GET / 200 in 158ms (next.js: 2ms, application-code: 156ms)
+ GET / 200 in 141ms (next.js: 3ms, application-code: 138ms)
+ GET / 200 in 142ms (next.js: 18ms, application-code: 124ms)
+ GET / 200 in 142ms (next.js: 32ms, application-code: 111ms)
+ GET / 200 in 146ms (next.js: 3ms, application-code: 143ms)
+ GET / 200 in 134ms (next.js: 3ms, application-code: 131ms)
+ GET / 200 in 79ms (next.js: 3ms, application-code: 76ms)
+ GET / 200 in 77ms (next.js: 1847µs, application-code: 75ms)
+ GET / 200 in 77ms (next.js: 15ms, application-code: 62ms)
+ GET / 200 in 80ms (next.js: 16ms, application-code: 65ms)
+ GET / 200 in 96ms (next.js: 1981µs, application-code: 94ms)
+ GET / 200 in 97ms (next.js: 1957µs, application-code: 95ms)
+ GET / 200 in 81ms (next.js: 3ms, application-code: 78ms)
+ GET / 200 in 80ms (next.js: 16ms, application-code: 64ms)
+ GET / 200 in 81ms (next.js: 3ms, application-code: 78ms)
+ GET / 200 in 70ms (next.js: 1577µs, application-code: 68ms)
+ GET / 200 in 106ms (next.js: 3ms, application-code: 104ms)
+ GET / 200 in 104ms (next.js: 1725µs, application-code: 103ms)
+ GET / 200 in 90ms (next.js: 3ms, application-code: 87ms)
+ GET / 200 in 89ms (next.js: 2ms, application-code: 87ms)
+ GET / 200 in 103ms (next.js: 18ms, application-code: 85ms)
+ GET / 200 in 75ms (next.js: 7ms, application-code: 68ms)
+ GET / 200 in 98ms (next.js: 1760µs, application-code: 97ms)
+ GET / 200 in 98ms (next.js: 3ms, application-code: 95ms)
+ GET / 200 in 97ms (next.js: 17ms, application-code: 80ms)
+ GET / 200 in 99ms (next.js: 2ms, application-code: 97ms)
+ GET / 200 in 99ms (next.js: 17ms, application-code: 82ms)
+ GET / 200 in 70ms (next.js: 1767µs, application-code: 68ms)
+ GET / 200 in 107ms (next.js: 2ms, application-code: 104ms)
+ GET / 200 in 109ms (next.js: 2ms, application-code: 107ms)
+ GET / 200 in 109ms (next.js: 17ms, application-code: 92ms)
+ GET / 200 in 107ms (next.js: 3ms, application-code: 104ms)
+ GET / 200 in 107ms (next.js: 17ms, application-code: 90ms)
+ GET / 200 in 79ms (next.js: 1552µs, application-code: 77ms)
+ GET / 200 in 102ms (next.js: 1729µs, application-code: 101ms)
+ GET / 200 in 106ms (next.js: 2ms, application-code: 104ms)
+ GET / 200 in 106ms (next.js: 16ms, application-code: 90ms)
+ GET / 200 in 105ms (next.js: 3ms, application-code: 102ms)
+ GET / 200 in 105ms (next.js: 17ms, application-code: 87ms)
+ GET / 200 in 73ms (next.js: 1715µs, application-code: 71ms)
+ GET / 200 in 104ms (next.js: 2ms, application-code: 102ms)
+ GET / 200 in 96ms (next.js: 16ms, application-code: 80ms)
+ GET / 200 in 97ms (next.js: 2ms, application-code: 95ms)
+ GET / 200 in 107ms (next.js: 16ms, application-code: 91ms)
+ GET / 200 in 108ms (next.js: 3ms, application-code: 105ms)
+ GET / 200 in 78ms (next.js: 1918µs, application-code: 76ms)
+ GET / 200 in 105ms (next.js: 2ms, application-code: 102ms)
+ GET / 200 in 81ms (next.js: 2ms, application-code: 79ms)
+ GET / 200 in 81ms (next.js: 19ms, application-code: 63ms)
+ GET / 200 in 63ms (next.js: 2ms, application-code: 60ms)
+ GET / 200 in 62ms (next.js: 15ms, application-code: 48ms)
+ GET / 200 in 35ms (next.js: 1848µs, application-code: 33ms)
+ GET / 200 in 18ms (next.js: 3ms, application-code: 16ms)
+✓ Compiled in 83ms
+ GET / 200 in 143ms (next.js: 31ms, application-code: 112ms)
+ GET / 200 in 121ms (next.js: 2ms, application-code: 119ms)
+ GET / 200 in 104ms (next.js: 2ms, application-code: 102ms)
+ GET / 200 in 150ms (next.js: 34ms, application-code: 116ms)
+ GET / 200 in 151ms (next.js: 18ms, application-code: 133ms)
+ GET / 200 in 108ms (next.js: 2ms, application-code: 106ms)
+ GET / 200 in 157ms (next.js: 2ms, application-code: 155ms)
+ GET / 200 in 127ms (next.js: 3ms, application-code: 124ms)
+ GET / 200 in 110ms (next.js: 4ms, application-code: 106ms)
+ GET / 200 in 112ms (next.js: 21ms, application-code: 90ms)
+ GET / 200 in 111ms (next.js: 37ms, application-code: 74ms)
+ GET / 200 in 97ms (next.js: 2ms, application-code: 94ms)
+ GET / 200 in 108ms (next.js: 2ms, application-code: 106ms)
+ GET / 200 in 92ms (next.js: 2ms, application-code: 89ms)
+ GET / 200 in 104ms (next.js: 18ms, application-code: 86ms)
+ GET / 200 in 106ms (next.js: 3ms, application-code: 103ms)
+ GET / 200 in 105ms (next.js: 36ms, application-code: 69ms)
+ GET / 200 in 118ms (next.js: 2ms, application-code: 115ms)
+ GET / 200 in 118ms (next.js: 3ms, application-code: 116ms)
+ GET / 200 in 101ms (next.js: 2ms, application-code: 98ms)
+ GET / 200 in 117ms (next.js: 40ms, application-code: 78ms)
+ GET / 200 in 118ms (next.js: 21ms, application-code: 98ms)
+ GET / 200 in 120ms (next.js: 2ms, application-code: 117ms)
+ GET / 200 in 104ms (next.js: 2ms, application-code: 102ms)
+ GET / 200 in 109ms (next.js: 2ms, application-code: 107ms)
+ GET / 200 in 93ms (next.js: 2ms, application-code: 91ms)
+ GET / 200 in 106ms (next.js: 2ms, application-code: 104ms)
+ GET / 200 in 107ms (next.js: 19ms, application-code: 88ms)
+ GET / 200 in 92ms (next.js: 15ms, application-code: 76ms)
+ GET / 200 in 114ms (next.js: 2ms, application-code: 112ms)
+ GET / 200 in 110ms (next.js: 2ms, application-code: 108ms)
+ GET / 200 in 91ms (next.js: 1966µs, application-code: 89ms)
+ GET / 200 in 91ms (next.js: 2ms, application-code: 89ms)
+ GET / 200 in 93ms (next.js: 5ms, application-code: 87ms)
+ GET / 200 in 89ms (next.js: 17ms, application-code: 72ms)
+ GET / 200 in 111ms (next.js: 2ms, application-code: 109ms)
+ GET / 200 in 118ms (next.js: 3ms, application-code: 115ms)
+ GET / 200 in 101ms (next.js: 3ms, application-code: 99ms)
+ GET / 200 in 100ms (next.js: 3ms, application-code: 97ms)
+ GET / 200 in 98ms (next.js: 2ms, application-code: 96ms)
+ GET / 200 in 98ms (next.js: 16ms, application-code: 82ms)
+ GET / 200 in 117ms (next.js: 3ms, application-code: 114ms)
+ GET / 200 in 112ms (next.js: 2ms, application-code: 110ms)
+ GET / 200 in 96ms (next.js: 3ms, application-code: 93ms)
+ GET / 200 in 97ms (next.js: 3ms, application-code: 95ms)
+ GET / 200 in 93ms (next.js: 18ms, application-code: 75ms)
+ GET / 200 in 94ms (next.js: 3ms, application-code: 92ms)
+ GET / 200 in 107ms (next.js: 6ms, application-code: 101ms)
+ GET / 200 in 110ms (next.js: 3ms, application-code: 107ms)
+ GET / 200 in 93ms (next.js: 3ms, application-code: 90ms)
+ GET / 200 in 90ms (next.js: 2ms, application-code: 88ms)
+ GET / 200 in 76ms (next.js: 3ms, application-code: 74ms)
+ GET / 200 in 91ms (next.js: 17ms, application-code: 74ms)
+ GET / 200 in 60ms (next.js: 2ms, application-code: 57ms)
+ GET / 200 in 36ms (next.js: 3ms, application-code: 34ms)
+ GET / 200 in 19ms (next.js: 2ms, application-code: 17ms)
+✓ Compiled in 1217ms
+ GET / 200 in 1191ms (next.js: 495ms, application-code: 696ms)
+ GET / 200 in 146ms (next.js: 21ms, application-code: 125ms)
+ GET / 200 in 103ms (next.js: 3ms, application-code: 101ms)
+ GET / 200 in 103ms (next.js: 36ms, application-code: 68ms)
+ GET / 200 in 104ms (next.js: 19ms, application-code: 85ms)
+ GET / 200 in 138ms (next.js: 2ms, application-code: 135ms)
+ GET / 200 in 137ms (next.js: 1622µs, application-code: 135ms)
+ GET / 200 in 140ms (next.js: 3ms, application-code: 137ms)
+ GET / 200 in 113ms (next.js: 7ms, application-code: 105ms)
+ GET / 200 in 113ms (next.js: 27ms, application-code: 86ms)
+ GET / 200 in 108ms (next.js: 40ms, application-code: 69ms)
+ GET / 200 in 142ms (next.js: 1849µs, application-code: 140ms)
+ GET / 200 in 146ms (next.js: 2ms, application-code: 144ms)
+ GET / 200 in 137ms (next.js: 2ms, application-code: 135ms)
+ GET / 200 in 137ms (next.js: 24ms, application-code: 113ms)
+ GET / 200 in 95ms (next.js: 23ms, application-code: 73ms)
+ GET / 200 in 116ms (next.js: 22ms, application-code: 94ms)
+ GET / 200 in 132ms (next.js: 1947µs, application-code: 130ms)
+ GET / 200 in 127ms (next.js: 1510µs, application-code: 125ms)
+ GET / 200 in 130ms (next.js: 2ms, application-code: 128ms)
+ GET / 200 in 130ms (next.js: 25ms, application-code: 105ms)
+ GET / 200 in 90ms (next.js: 2ms, application-code: 88ms)
+ GET / 200 in 90ms (next.js: 22ms, application-code: 68ms)
+ GET / 200 in 121ms (next.js: 3ms, application-code: 119ms)
+ GET / 200 in 102ms (next.js: 1804µs, application-code: 100ms)
+ GET / 200 in 79ms (next.js: 27ms, application-code: 52ms)
+ GET / 200 in 80ms (next.js: 3ms, application-code: 78ms)
+ GET / 200 in 28ms (next.js: 1936µs, application-code: 26ms)
+ GET / 200 in 210ms (next.js: 2ms, application-code: 208ms)
+⨯ ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  [90m2 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m'@/components/footer'[0m;
+  [90m3 |[0m [36mimport[0m { [33mPageHeader[0m } [36mfrom[0m [32m'@/components/page-header'[0m;
+[31m[1m>[0m [90m4 |[0m [36mimport[0m { [33mCode2[0m, [33mCoffee[0m, [33mMapPin[0m, [33mGithub[0m } [36mfrom[0m [32m'lucide-react'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m [36mimport[0m [33mLink[0m [36mfrom[0m [32m'next/link'[0m;
+  [90m6 |[0m
+  [90m7 |[0m [36mexport[0m [36mconst[0m metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+
+ GET /about 500 in 2.2s (next.js: 2.1s, application-code: 101ms)
+ GET /process 500 in 394ms (next.js: 388ms, application-code: 6ms)
+ GET /pricing 500 in 405ms (next.js: 400ms, application-code: 6ms)
+ GET /services 500 in 341ms (next.js: 335ms, application-code: 6ms)
+ GET /services/automation 500 in 235ms (next.js: 230ms, application-code: 5ms)
+ GET /services/website 500 in 240ms (next.js: 234ms, application-code: 5ms)
+ GET /services/portfolio 500 in 245ms (next.js: 239ms, application-code: 6ms)
+ GET /cases 500 in 249ms (next.js: 244ms, application-code: 6ms)
+ GET /cases/shopee-seller-gen-anh 500 in 268ms (next.js: 263ms, application-code: 5ms)
+ GET /contact 500 in 372ms (next.js: 366ms, application-code: 6ms)
+ GET /thanks 500 in 252ms (next.js: 246ms, application-code: 6ms)
+ GET /login 500 in 256ms (next.js: 250ms, application-code: 6ms)
+ GET /signup 500 in 261ms (next.js: 253ms, application-code: 7ms)
+ GET /dashboard 500 in 252ms (next.js: 246ms, application-code: 6ms)
+ GET /legal/privacy 500 in 262ms (next.js: 256ms, application-code: 6ms)
+ GET /legal/terms 500 in 249ms (next.js: 243ms, application-code: 6ms)
+ GET /something-doesnt-exist 500 in 234ms (next.js: 228ms, application-code: 6ms)
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+⨯ ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  [90m2 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m'@/components/footer'[0m;
+  [90m3 |[0m [36mimport[0m { [33mPageHeader[0m } [36mfrom[0m [32m'@/components/page-header'[0m;
+[31m[1m>[0m [90m4 |[0m [36mimport[0m { [33mCode2[0m, [33mCoffee[0m, [33mMapPin[0m, [33mGithub[0m } [36mfrom[0m [32m'lucide-react'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m [36mimport[0m [33mLink[0m [36mfrom[0m [32m'next/link'[0m;
+  [90m6 |[0m
+  [90m7 |[0m [36mexport[0m [36mconst[0m metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+
+ GET /about 500 in 11ms (next.js: 5ms, application-code: 6ms)
+ GET /process 500 in 9ms (next.js: 4ms, application-code: 5ms)
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+ GET /pricing 500 in 7ms (next.js: 3ms, application-code: 4ms)
+ GET /services 500 in 9ms (next.js: 4ms, application-code: 5ms)
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+ GET /services/automation 500 in 10ms (next.js: 5ms, application-code: 5ms)
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+ GET /services/website 500 in 10ms (next.js: 6ms, application-code: 4ms)
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+ GET /services/portfolio 500 in 8ms (next.js: 3ms, application-code: 4ms)
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+ GET /cases 500 in 8ms (next.js: 4ms, application-code: 4ms)
+ GET /cases/shopee-seller-gen-anh 500 in 10ms (next.js: 4ms, application-code: 6ms)
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+ GET /contact 500 in 8ms (next.js: 4ms, application-code: 4ms)
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+ GET /thanks 500 in 10ms (next.js: 6ms, application-code: 5ms)
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+ GET /login 500 in 9ms (next.js: 3ms, application-code: 6ms)
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+ GET /signup 500 in 8ms (next.js: 4ms, application-code: 4ms)
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+ GET /dashboard 500 in 7ms (next.js: 3ms, application-code: 4ms)
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+ GET /legal/privacy 500 in 10ms (next.js: 5ms, application-code: 5ms)
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+ GET /legal/terms 500 in 7ms (next.js: 3ms, application-code: 4ms)
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+ GET /not-real-page 500 in 9ms (next.js: 5ms, application-code: 4ms)
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+⨯ ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  [90m2 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m'@/components/footer'[0m;
+  [90m3 |[0m [36mimport[0m { [33mPageHeader[0m } [36mfrom[0m [32m'@/components/page-header'[0m;
+[31m[1m>[0m [90m4 |[0m [36mimport[0m { [33mCode2[0m, [33mCoffee[0m, [33mMapPin[0m, [33mGithub[0m } [36mfrom[0m [32m'lucide-react'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m [36mimport[0m [33mLink[0m [36mfrom[0m [32m'next/link'[0m;
+  [90m6 |[0m
+  [90m7 |[0m [36mexport[0m [36mconst[0m metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+
+ GET /about 500 in 11ms (next.js: 7ms, application-code: 4ms)
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+[browser] ./src/app/about/page.tsx:4:1
+Export Github doesn't exist in target module
+  2 | import { Footer } from '@/components/footer';
+  3 | import { PageHeader } from '@/components/page-header';
+> 4 | import { Code2, Coffee, MapPin, Github } from 'lucide-react';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import Link from 'next/link';
+  6 |
+  7 | export const metadata = {
+
+The export Github was not found in module [project]/node_modules/lucide-react/dist/esm/lucide-react.mjs [app-rsc] (ecmascript).
+Did you mean to import Gift?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist. 
+✓ Compiled in 109ms
+ GET / 200 in 439ms (next.js: 2ms, application-code: 437ms)
+ GET / 200 in 170ms (next.js: 23ms, application-code: 147ms)
+ GET / 200 in 171ms (next.js: 44ms, application-code: 127ms)
+ GET / 200 in 171ms (next.js: 61ms, application-code: 111ms)
+ GET / 200 in 173ms (next.js: 3ms, application-code: 170ms)
+ GET / 200 in 173ms (next.js: 22ms, application-code: 150ms)
+ GET / 200 in 105ms (next.js: 3ms, application-code: 103ms)
+ GET / 200 in 70ms (next.js: 27ms, application-code: 42ms)
+ GET / 200 in 21ms (next.js: 2ms, application-code: 19ms)
+✓ Compiled in 48ms
+ GET / 200 in 106ms (next.js: 21ms, application-code: 85ms)
+ GET / 200 in 66ms (next.js: 1672µs, application-code: 65ms)
+ GET / 200 in 43ms (next.js: 1659µs, application-code: 42ms)
+ GET / 200 in 43ms (next.js: 19ms, application-code: 24ms)
+ GET /about 200 in 141ms (next.js: 34ms, application-code: 108ms)
+ GET /process 200 in 103ms (next.js: 9ms, application-code: 93ms)
+ GET /pricing 200 in 70ms (next.js: 13ms, application-code: 56ms)
+ GET /services 200 in 73ms (next.js: 9ms, application-code: 64ms)
+ GET /services/automation 200 in 96ms (next.js: 9ms, application-code: 86ms)
+ GET /services/website 200 in 98ms (next.js: 11ms, application-code: 87ms)
+ GET /services/portfolio 200 in 82ms (next.js: 10ms, application-code: 72ms)
+ GET /cases 200 in 84ms (next.js: 9ms, application-code: 75ms)
+ GET /cases/shopee-seller-gen-anh 200 in 492ms (next.js: 410ms, generate-params: 398ms, application-code: 82ms)
+ GET /contact 200 in 72ms (next.js: 9ms, application-code: 63ms)
+ GET /thanks 200 in 59ms (next.js: 10ms, application-code: 49ms)
+ GET /login 200 in 67ms (next.js: 9ms, application-code: 58ms)
+ GET /signup 200 in 52ms (next.js: 8ms, application-code: 43ms)
+ GET /dashboard 200 in 78ms (next.js: 9ms, application-code: 69ms)
+ GET /legal/privacy 200 in 59ms (next.js: 8ms, application-code: 50ms)
+ GET /legal/terms 200 in 63ms (next.js: 10ms, application-code: 52ms)
+ GET /not-real-page 404 in 57ms (next.js: 10ms, application-code: 48ms)
+ GET / 200 in 110ms (next.js: 2ms, application-code: 107ms)
+ GET / 200 in 6ms (next.js: 1638µs, application-code: 5ms)
+ GET / 200 in 5ms (next.js: 1868µs, application-code: 3ms)
+ GET / 200 in 5ms (next.js: 1891µs, application-code: 3ms)
+ GET / 200 in 7ms (next.js: 1651µs, application-code: 5ms)
+ GET / 200 in 6ms (next.js: 2ms, application-code: 3ms)
+ GET / 200 in 6ms (next.js: 2ms, application-code: 4ms)
+ GET / 200 in 5ms (next.js: 1963µs, application-code: 3ms)
+ GET / 200 in 7ms (next.js: 1949µs, application-code: 5ms)
+ GET / 200 in 5ms (next.js: 1586µs, application-code: 3ms)
+ GET / 200 in 8ms (next.js: 1813µs, application-code: 7ms)
+ GET /cases/shopee-seller-gen-anh 200 in 33ms (next.js: 6ms, generate-params: 4ms, application-code: 27ms)
+ GET /cases/agency-tom-tat-email 200 in 32ms (next.js: 7ms, generate-params: 5ms, application-code: 25ms)
+ GET /cases 200 in 32ms (next.js: 2ms, application-code: 30ms)
+ GET /cases 200 in 27ms (next.js: 1772µs, application-code: 25ms)
+ GET /pricing 200 in 20ms (next.js: 3ms, application-code: 17ms)
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+✓ Compiled in 200ms
+⨯ ./src/app/services/automation/page.tsx:6:1
+Module not found: Can't resolve '@/lib/cases-data'
+  [90m4 |[0m [36mimport[0m { [33mBot[0m, [33mCheck[0m, [33mClock[0m, [33mZap[0m, [33mWorkflow[0m } [36mfrom[0m [32m'lucide-react'[0m;
+  [90m5 |[0m [36mimport[0m [33mLink[0m [36mfrom[0m [32m'next/link'[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mCASES[0m } [36mfrom[0m [32m'@/lib/cases-data'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mArrowUpRight[0m } [36mfrom[0m [32m'lucide-react'[0m;
+  [90m8 |[0m
+  [90m9 |[0m [36mexport[0m [36mconst[0m metadata = {
+
+Import map: aliased to relative './src/lib/cases-data' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/app/services/automation/page.tsx:6:1
+Module not found: Can't resolve '@/lib/cases-data'
+  [90m4 |[0m [36mimport[0m { [33mBot[0m, [33mCheck[0m, [33mClock[0m, [33mZap[0m, [33mWorkflow[0m } [36mfrom[0m [32m'lucide-react'[0m;
+  [90m5 |[0m [36mimport[0m [33mLink[0m [36mfrom[0m [32m'next/link'[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mCASES[0m } [36mfrom[0m [32m'@/lib/cases-data'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mArrowUpRight[0m } [36mfrom[0m [32m'lucide-react'[0m;
+  [90m8 |[0m
+  [90m9 |[0m [36mexport[0m [36mconst[0m metadata = {
+
+Import map: aliased to relative './src/lib/cases-data' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/app/services/website/page.tsx:6:1
+Module not found: Can't resolve '@/lib/cases-data'
+  [90m4 |[0m [36mimport[0m { [33mGlobe[0m, [33mCheck[0m, [33mGauge[0m, [33mSearch[0m, [33mShoppingCart[0m } [36mfrom[0m [32m'lucide-react'[0m;
+  [90m5 |[0m [36mimport[0m [33mLink[0m [36mfrom[0m [32m'next/link'[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mCASES[0m } [36mfrom[0m [32m'@/lib/cases-data'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mArrowUpRight[0m } [36mfrom[0m [32m'lucide-react'[0m;
+  [90m8 |[0m
+  [90m9 |[0m [36mexport[0m [36mconst[0m metadata = {
+
+Import map: aliased to relative './src/lib/cases-data' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/app/services/website/page.tsx:6:1
+Module not found: Can't resolve '@/lib/cases-data'
+  [90m4 |[0m [36mimport[0m { [33mGlobe[0m, [33mCheck[0m, [33mGauge[0m, [33mSearch[0m, [33mShoppingCart[0m } [36mfrom[0m [32m'lucide-react'[0m;
+  [90m5 |[0m [36mimport[0m [33mLink[0m [36mfrom[0m [32m'next/link'[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mCASES[0m } [36mfrom[0m [32m'@/lib/cases-data'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mArrowUpRight[0m } [36mfrom[0m [32m'lucide-react'[0m;
+  [90m8 |[0m
+  [90m9 |[0m [36mexport[0m [36mconst[0m metadata = {
+
+Import map: aliased to relative './src/lib/cases-data' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/app/services/portfolio/page.tsx:6:1
+Module not found: Can't resolve '@/lib/cases-data'
+  [90m4 |[0m [36mimport[0m { [33mBriefcase[0m, [33mCheck[0m, [33mPalette[0m, [33mSmartphone[0m, [33mCamera[0m } [36mfrom[0m [32m'lucide-react'[0m;
+  [90m5 |[0m [36mimport[0m [33mLink[0m [36mfrom[0m [32m'next/link'[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mCASES[0m } [36mfrom[0m [32m'@/lib/cases-data'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mArrowUpRight[0m } [36mfrom[0m [32m'lucide-react'[0m;
+  [90m8 |[0m
+  [90m9 |[0m [36mexport[0m [36mconst[0m metadata = {
+
+Import map: aliased to relative './src/lib/cases-data' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/app/services/portfolio/page.tsx:6:1
+Module not found: Can't resolve '@/lib/cases-data'
+  [90m4 |[0m [36mimport[0m { [33mBriefcase[0m, [33mCheck[0m, [33mPalette[0m, [33mSmartphone[0m, [33mCamera[0m } [36mfrom[0m [32m'lucide-react'[0m;
+  [90m5 |[0m [36mimport[0m [33mLink[0m [36mfrom[0m [32m'next/link'[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mCASES[0m } [36mfrom[0m [32m'@/lib/cases-data'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mArrowUpRight[0m } [36mfrom[0m [32m'lucide-react'[0m;
+  [90m8 |[0m
+  [90m9 |[0m [36mexport[0m [36mconst[0m metadata = {
+
+Import map: aliased to relative './src/lib/cases-data' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/components/portfolio-preview.tsx:6:1
+Module not found: Can't resolve '@/lib/cases-data'
+  [90m4 |[0m [36mimport[0m { motion } [36mfrom[0m [32m'motion/react'[0m;
+  [90m5 |[0m [36mimport[0m { [33mArrowUpRight[0m } [36mfrom[0m [32m'lucide-react'[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mCASES[0m } [36mfrom[0m [32m'@/lib/cases-data'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m
+  [90m8 |[0m [36mconst[0m [33mACCENT[0m: [33mRecord[0m<[32m'red'[0m | [32m'orange'[0m | [32m'amber'[0m, string> = {
+  [90m9 |[0m   red: [32m'from-brand-red/70 to-brand-orange/40'[0m,
+
+Import map: aliased to relative './src/lib/cases-data' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./src/components/portfolio-preview.tsx
+    ./src/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/components/portfolio-preview.tsx:6:1
+Module not found: Can't resolve '@/lib/cases-data'
+  [90m4 |[0m [36mimport[0m { motion } [36mfrom[0m [32m'motion/react'[0m;
+  [90m5 |[0m [36mimport[0m { [33mArrowUpRight[0m } [36mfrom[0m [32m'lucide-react'[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mCASES[0m } [36mfrom[0m [32m'@/lib/cases-data'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m
+  [90m8 |[0m [36mconst[0m [33mACCENT[0m: [33mRecord[0m<[32m'red'[0m | [32m'orange'[0m | [32m'amber'[0m, string> = {
+  [90m9 |[0m   red: [32m'from-brand-red/70 to-brand-orange/40'[0m,
+
+Import map: aliased to relative './src/lib/cases-data' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./src/components/portfolio-preview.tsx
+    ./src/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/components/portfolio-preview.tsx:6:1
+Module not found: Can't resolve '@/lib/cases-data'
+  [90m4 |[0m [36mimport[0m { motion } [36mfrom[0m [32m'motion/react'[0m;
+  [90m5 |[0m [36mimport[0m { [33mArrowUpRight[0m } [36mfrom[0m [32m'lucide-react'[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mCASES[0m } [36mfrom[0m [32m'@/lib/cases-data'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m
+  [90m8 |[0m [36mconst[0m [33mACCENT[0m: [33mRecord[0m<[32m'red'[0m | [32m'orange'[0m | [32m'amber'[0m, string> = {
+  [90m9 |[0m   red: [32m'from-brand-red/70 to-brand-orange/40'[0m,
+
+Import map: aliased to relative './src/lib/cases-data' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./src/components/portfolio-preview.tsx
+    ./src/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./src/components/portfolio-preview.tsx:6:1
+Module not found: Can't resolve '@/lib/cases-data'
+  [90m4 |[0m [36mimport[0m { motion } [36mfrom[0m [32m'motion/react'[0m;
+  [90m5 |[0m [36mimport[0m { [33mArrowUpRight[0m } [36mfrom[0m [32m'lucide-react'[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mCASES[0m } [36mfrom[0m [32m'@/lib/cases-data'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m
+  [90m8 |[0m [36mconst[0m [33mACCENT[0m: [33mRecord[0m<[32m'red'[0m | [32m'orange'[0m | [32m'amber'[0m, string> = {
+  [90m9 |[0m   red: [32m'from-brand-red/70 to-brand-orange/40'[0m,
+
+Import map: aliased to relative './src/lib/cases-data' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./src/components/portfolio-preview.tsx
+    ./src/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+✓ Compiled in 79ms
+✓ Compiled in 51ms
+✓ Compiled in 41ms
+✓ Compiled in 29ms
+✓ Compiled in 26ms
+✓ Compiled in 25ms
+✓ Compiled in 26ms
+✓ Compiled in 71ms
+✓ Compiled in 107ms
+✓ Compiled in 36ms
+✓ Compiled in 151ms
+✓ Compiled in 53ms
+✓ Compiled in 61ms
+✓ Compiled in 138ms
+Persisting failed: Unable to write SST file 00001769.sst
+
+Caused by:
+    The system cannot find the path specified. (os error 3)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+✓ Compiled in 55ms
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+
+thread 'tokio-runtime-worker' (21420) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Data for batch of 2 tasks
+
+Caused by:
+    0: Looking up typed data for 2 tasks from database failed
+    1: Unable to open static sorted file referenced from 00001767.meta
+    2: Unable to open static sorted file 00001765.sst
+    3: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00001765.sst
+    4: The system cannot find the path specified. (os error 3)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'tokio-runtime-worker' (5336) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Data for batch of 2 tasks
+
+Caused by:
+    0: Looking up typed data for 2 tasks from database failed
+    1: Unable to open static sorted file referenced from 00001767.meta
+    2: Unable to open static sorted file 00001766.sst
+    3: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00001766.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (17476) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Data for batch of 2 tasks
+
+Caused by:
+    0: Looking up typed data for 2 tasks from database failed
+    1: Unable to open static sorted file referenced from 00001767.meta
+    2: Unable to open static sorted file 00001765.sst
+    3: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00001765.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (200) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Data for batch of 3 tasks
+
+Caused by:
+    0: Looking up typed data for 3 tasks from database failed
+    1: Unable to open static sorted file referenced from 00001767.meta
+    2: Unable to open static sorted file 00001765.sst
+    3: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00001765.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (18636) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Data for batch of 3 tasks
+
+Caused by:
+    0: Looking up typed data for 3 tasks from database failed
+    1: Unable to open static sorted file referenced from 00001767.meta
+    2: Unable to open static sorted file 00001766.sst
+    3: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00001766.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (18636) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:197:17:
+Failed to restore task data (corrupted database or bug): Data for TaskId 249936)
+
+Caused by:
+    0: Looking up task storage for TaskId 249936 from database failed
+    1: Unable to open static sorted file referenced from 00001767.meta
+    2: Unable to open static sorted file 00001765.sst
+    3: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00001765.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (200) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:197:17:
+Failed to restore task data (corrupted database or bug): Data for TaskId 249918)
+
+Caused by:
+    0: Looking up task storage for TaskId 249918 from database failed
+    1: Unable to open static sorted file referenced from 00001767.meta
+    2: Unable to open static sorted file 00001766.sst
+    3: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00001766.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (17476) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:197:17:
+Failed to restore task data (corrupted database or bug): Data for TaskId 248790)
+
+Caused by:
+    0: Looking up task storage for TaskId 248790 from database failed
+    1: Unable to open static sorted file referenced from 00001757.meta
+    2: Unable to open static sorted file 00001756.sst
+    3: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00001756.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (5336) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:197:17:
+Failed to restore task data (corrupted database or bug): Data for TaskId 249056)
+
+Caused by:
+    0: Looking up task storage for TaskId 249056 from database failed
+    1: Unable to open static sorted file referenced from 00001121.meta
+    2: Unable to open static sorted file 00001118.sst
+    3: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00001118.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (5336) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Data for batch of 2 tasks
+
+Caused by:
+    0: Looking up typed data for 2 tasks from database failed
+    1: Unable to open static sorted file referenced from 00001767.meta
+    2: Unable to open static sorted file 00001765.sst
+    3: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00001765.sst
+    4: The system cannot find the path specified. (os error 3)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+
+thread 'tokio-runtime-worker' (8636) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::read", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::read", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "src/lib/product-types.ts" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000874.meta
+    1: Unable to open static sorted file 00000870.sst
+    2: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00000870.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (8636) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::read", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::read", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "src/lib/product-types.ts" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000874.meta
+    1: Unable to open static sorted file 00000870.sst
+    2: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00000870.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (17476) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<ModuleAssetContext as AssetContext>::process_resolve_result", global_name: "<turbopack::ModuleAssetContext as dyn turbopack_core::context::AssetContext>::process_resolve_result", .. }, this: Some(RawVc::TaskCell(598, "turbopack::ModuleAssetContext#0")), arg: (Vc(RawVc::TaskCell(940482, "turbopack_core::resolve::ResolveResult#0")), EcmaScriptModules(ImportPart(Export("extractYouTubeId")))) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000980.meta
+    1: Unable to open static sorted file 00000977.sst
+    2: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00000977.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (21420) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<ModuleAssetContext as AssetContext>::process_resolve_result", global_name: "<turbopack::ModuleAssetContext as dyn turbopack_core::context::AssetContext>::process_resolve_result", .. }, this: Some(RawVc::TaskCell(598, "turbopack::ModuleAssetContext#0")), arg: (Vc(RawVc::TaskCell(940482, "turbopack_core::resolve::ResolveResult#0")), EcmaScriptModules(ImportPart(Export("formatPriceVnd")))) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00001691.meta
+    1: Unable to open static sorted file 00001688.sst
+    2: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00001688.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (14596) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "ReferencedAsset::from_resolve_result", global_name: "turbopack_ecmascript::references::esm::base::ReferencedAsset::from_resolve_result", .. }, this: None, arg: (Vc(RawVc::TaskCell(950287, "turbopack_core::resolve::ModuleResolveResult#0")),) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000194.meta
+    1: Unable to open static sorted file 00000191.sst
+    2: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00000191.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (8636) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "ModuleResolveResult::primary_modules", global_name: "turbopack_core::resolve::ModuleResolveResult::primary_modules", .. }, this: Some(RawVc::TaskCell(940460, "turbopack_core::resolve::ModuleResolveResult#0")), arg: () } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000259.meta
+    1: Unable to open static sorted file 00000255.sst
+    2: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00000255.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (17476) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "ReferencedAsset::from_resolve_result", global_name: "turbopack_ecmascript::references::esm::base::ReferencedAsset::from_resolve_result", .. }, this: None, arg: (Vc(RawVc::TaskCell(950287, "turbopack_core::resolve::ModuleResolveResult#0")),) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000194.meta
+    1: Unable to open static sorted file 00000191.sst
+    2: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00000191.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (20580) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:197:17:
+Failed to restore task data (corrupted database or bug): Meta for TaskId 122819)
+
+Caused by:
+    0: Looking up task storage for TaskId 122819 from database failed
+    1: Unable to open static sorted file referenced from 00001674.meta
+    2: Unable to open static sorted file 00001672.sst
+    3: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00001672.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (17476) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "AppEndpoint::output", global_name: "next_api::app::AppEndpoint::output", .. }, this: Some(RawVc::TaskCell(141, "next_api::app::AppEndpoint#1")), arg: () } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000019.meta
+    1: Unable to open static sorted file 00000015.sst
+    2: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00000015.sst
+    3: The system cannot find the path specified. (os error 3)
+
+-----
+[1m[31mFATAL[39m[0m: An unexpected Turbopack error occurred. A panic log has been written to C:\Users\Admin\AppData\Local\Temp\next-panic-ed9985f724d338a7529c771cef9a7b02.log.
+
+To help make Turbopack better, report this error by clicking here: https://bugs.nextjs.org/search?category=turbopack-error-report&title=Turbopack%20Error%3A%20Failed%20to%20lookup%20task%20ids%3A%20Looking%20up%20task%20id%20for%20CachedTaskType%20%7B%20native_fn%3A%20NativeFunction%20%7B%20name%3A%20%22AppEndpoint%3A%3Aoutput%22%2C%20global_name%3A%20%22next_api%3A%3Aapp%3A%3AAppEndpoint%3A%3Aoutput%22%2C%20..%20%7D%2C%20this%3A%20Some%28RawVc%3A%3ATaskCell%28141%2C%20%22next_api%3A%3Aapp%3A%3AAppEndpoint%231%22%29%29%2C%20arg%3A%20%28%29%20%7D%20from%20database%20failed&body=Turbopack%20version%3A%20%602d08397b%60%0ANext.js%20version%3A%20%600.0.0%60%0A%0AError%20message%3A%0A%60%60%60%0AFailed%20to%20lookup%20task%20ids%3A%20Looking%20up%20task%20id%20for%20CachedTaskType%20%7B%20native_fn%3A%20NativeFunction%20%7B%20name%3A%20%22AppEndpoint%3A%3Aoutput%22%2C%20global_name%3A%20%22next_api%3A%3Aapp%3A%3AAppEndpoint%3A%3Aoutput%22%2C%20..%20%7D%2C%20this%3A%20Some%28RawVc%3A%3ATaskCell%28141%2C%20%22next_api%3A%3Aapp%3A%3AAppEndpoint%231%22%29%29%2C%20arg%3A%20%28%29%20%7D%20from%20database%20failed%0A%0ADebug%20info%3A%0A-%20Execution%20of%20subscribe_issues_and_diags_operation%20failed%0A-%20Execution%20of%20%3CAppEndpoint%20as%20Endpoint%3E%3A%3Aserver_changed%20failed%0A-%20Failed%20to%20lookup%20task%20ids%3A%20Looking%20up%20task%20id%20for%20CachedTaskType%20%7B%20native_fn%3A%20NativeFunction%20%7B%20name%3A%20%22AppEndpoint%3A%3Aoutput%22%2C%20global_name%3A%20%22next_api%3A%3Aapp%3A%3AAppEndpoint%3A%3Aoutput%22%2C%20..%20%7D%2C%20this%3A%20Some%28RawVc%3A%3ATaskCell%28141%2C%20%22next_api%3A%3Aapp%3A%3AAppEndpoint%231%22%29%29%2C%20arg%3A%20%28%29%20%7D%20from%20database%20failed%0A%20%20%0A%20%20Caused%20by%3A%0A%20%20%20%20%20%200%3A%20Unable%20to%20open%20static%20sorted%20file%20referenced%20from%2000000019.meta%0A%20%20%20%20%20%201%3A%20Unable%20to%20open%20static%20sorted%20file%2000000015.sst%0A%20%20%20%20%20%202%3A%20Failed%20to%20open%20SST%20file%20C%3A%5CUsers%5CAdmin%5CProjects%5Cskill-concierge%5C.next%5Cdev%5Ccache%2Fturbopack%5C2d08397b%5C00000015.sst%0A%20%20%20%20%20%203%3A%20The%20system%20cannot%20find%20the%20path%20specified.%20%28os%20error%203%29%0A%60%60%60&labels=Turbopack,Turbopack%20Panic%20Backtrace
+-----
+
+
+thread 'tokio-runtime-worker' (8636) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Data for batch of 2 tasks
+
+Caused by:
+    0: Looking up typed data for 2 tasks from database failed
+    1: Unable to open static sorted file referenced from 00001767.meta
+    2: Unable to open static sorted file 00001765.sst
+    3: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00001765.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (5336) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Data for batch of 2 tasks
+
+Caused by:
+    0: Looking up typed data for 2 tasks from database failed
+    1: Unable to open static sorted file referenced from 00001767.meta
+    2: Unable to open static sorted file 00001765.sst
+    3: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00001765.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (20580) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Data for batch of 2 tasks
+
+Caused by:
+    0: Looking up typed data for 2 tasks from database failed
+    1: Unable to open static sorted file referenced from 00001767.meta
+    2: Unable to open static sorted file 00001765.sst
+    3: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00001765.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (14596) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<ModuleAssetContext as AssetContext>::process_resolve_result", global_name: "<turbopack::ModuleAssetContext as dyn turbopack_core::context::AssetContext>::process_resolve_result", .. }, this: Some(RawVc::TaskCell(598, "turbopack::ModuleAssetContext#0")), arg: (Vc(RawVc::TaskCell(940341, "turbopack_core::resolve::ResolveResult#0")), EcmaScriptModules(ImportPart(Export("ToolCard")))) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00001020.meta
+    1: Unable to open static sorted file 00001016.sst
+    2: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00001016.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (14596) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<ModuleAssetContext as AssetContext>::process_resolve_result", global_name: "<turbopack::ModuleAssetContext as dyn turbopack_core::context::AssetContext>::process_resolve_result", .. }, this: Some(RawVc::TaskCell(598, "turbopack::ModuleAssetContext#0")), arg: (Vc(RawVc::TaskCell(940341, "turbopack_core::resolve::ResolveResult#0")), EcmaScriptModules(ImportPart(Evaluation))) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00001543.meta
+    1: Unable to open static sorted file 00001540.sst
+    2: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00001540.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (18636) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "ReferencedAsset::from_resolve_result", global_name: "turbopack_ecmascript::references::esm::base::ReferencedAsset::from_resolve_result", .. }, this: None, arg: (Vc(RawVc::TaskCell(940314, "turbopack_core::resolve::ModuleResolveResult#0")),) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000998.meta
+    1: Unable to open static sorted file 00000994.sst
+    2: Failed to open SST file C:\Users\Admin\Projects\skill-concierge\.next\dev\cache/turbopack\2d08397b\00000994.sst
+    3: The system cannot find the path specified. (os error 3)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+  Reload env: .env.local
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Error: Both middleware file "./src\middleware.ts" and proxy file "./src\proxy.ts" are detected. Please use "./src\proxy.ts" only. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+    at ignore-listed frames
+⨯ unhandledRejection: Error: Both middleware file "./src\middleware.ts" and proxy file "./src\proxy.ts" are detected. Please use "./src\proxy.ts" only. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+    at ignore-listed frames
+⨯ unhandledRejection:  Error: Both middleware file "./src\middleware.ts" and proxy file "./src\proxy.ts" are detected. Please use "./src\proxy.ts" only. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+    at ignore-listed frames

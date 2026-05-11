@@ -1,26 +1,101 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0b;
+  --foreground: #f5f5f5;
+  --muted: #18181a;
+  --muted-foreground: #9a9a9e;
+  --border: #1f1f22;
+  --brand-red: #ea384c;
+  --brand-orange: #f97316;
+  --brand-amber: #fbbf24;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-brand-red: var(--brand-red);
+  --color-brand-orange: var(--brand-orange);
+  --color-brand-amber: var(--brand-amber);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--background);
+  color: var(--foreground);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--brand-red);
+  color: white;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black 40%, transparent 100%);
+}
+
+.bg-brand-gradient {
+  background: linear-gradient(135deg, var(--brand-red) 0%, var(--brand-orange) 60%, var(--brand-amber) 100%);
+}
+
+.text-brand-gradient {
+  background: linear-gradient(135deg, #ff6b7a 0%, #ff9b5a 50%, #fbbf24 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.glass {
+  background: rgba(20, 20, 22, 0.6);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-solid {
+  background: rgba(14, 14, 16, 0.96);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 24px 60px -20px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.glow-red {
+  box-shadow:
+    0 0 60px -10px rgba(234, 56, 76, 0.5),
+    0 0 100px -20px rgba(249, 115, 22, 0.3);
 }
