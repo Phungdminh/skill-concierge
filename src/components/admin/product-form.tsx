@@ -514,7 +514,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
             <span className="text-foreground/55">— ưu tiên ở landing</span>
           </span>
         </label>
-        <FormField label="Sort order" htmlFor="sort_order" hint="Số nhỏ hiện trước. Mặc định 0.">
+        <FormField label="Sort order" htmlFor="sort_order" hint="Số lớn hiện trước. Mặc định 0.">
           <input
             id="sort_order"
             type="number"

@@ -14,9 +14,19 @@ function LoginForm() {
   const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
+  function validateEmail() {
+    if (/^\S+@\S+\.\S+$/.test(email.trim())) {
+      setErrorMsg(null);
+      return true;
+    }
+    setErrorMsg('Nhập email hợp lệ, ví dụ ban@example.com.');
+    return false;
+  }
+
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!email.includes('@') || state === 'sending') return;
+    if (state === 'sending') return;
+    if (!validateEmail()) return;
     setState('sending');
     setErrorMsg(null);
     try {
@@ -86,27 +96,31 @@ function LoginForm() {
                   autoComplete="email"
                   required
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (errorMsg) setErrorMsg(null);
+                  }}
+                  onBlur={validateEmail}
                   placeholder="ban@example.com"
+                  aria-invalid={Boolean(errorMsg)}
+                  aria-describedby={errorMsg ? 'login-email-error' : undefined}
                   className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
                 />
               </div>
             </div>
 
             {errorMsg ? (
-              <p className="rounded-lg bg-red-500/10 px-3 py-2 text-xs text-red-300 ring-1 ring-red-500/30">
+              <p id="login-email-error" role="alert" className="rounded-lg bg-red-500/10 px-3 py-2 text-xs text-red-300 ring-1 ring-red-500/30">
                 {errorMsg}
               </p>
             ) : null}
 
             <button
               type="submit"
-              disabled={state === 'sending' || !email.includes('@')}
+              disabled={state === 'sending'}
               className={cn(
-                'group inline-flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-medium transition',
-                state !== 'sending' && email.includes('@')
-                  ? 'bg-brand-gradient glow-red text-black'
-                  : 'cursor-not-allowed bg-white/5 text-muted-foreground',
+                'bg-brand-gradient glow-red group inline-flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-medium text-black transition',
+                state === 'sending' && 'cursor-wait opacity-70',
               )}
             >
               {state === 'sending' ? (

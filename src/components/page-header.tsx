@@ -26,7 +26,7 @@ export function PageHeader({
       {crumbs && crumbs.length > 0 && (
         <nav
           aria-label="Breadcrumb"
-          className={`mb-5 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground ${
+          className={`mb-5 flex flex-wrap items-center gap-2 text-sm text-muted-foreground md:text-base ${
             isCenter ? 'justify-center' : ''
           }`}
         >
@@ -41,7 +41,7 @@ export function PageHeader({
                 ) : (
                   <span className={isLast ? 'text-foreground/80' : ''}>{c.label}</span>
                 )}
-                {!isLast && <ChevronRight className="h-3 w-3 opacity-50" />}
+                {!isLast && <ChevronRight className="h-4 w-4 opacity-50" />}
               </span>
             );
           })}
@@ -49,7 +49,7 @@ export function PageHeader({
       )}
 
       {eyebrow && (
-        <p className="mb-3 text-xs uppercase tracking-widest text-muted-foreground">{eyebrow}</p>
+        <p className="mb-3 text-sm uppercase tracking-widest text-muted-foreground md:text-base">{eyebrow}</p>
       )}
       <h1 className="text-balance text-4xl font-semibold leading-[1.05] tracking-tight md:text-6xl">
         {title}

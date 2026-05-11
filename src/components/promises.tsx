@@ -21,8 +21,8 @@ const PROMISES = [
   },
   {
     icon: Lock,
-    title: 'Chạy local, không gửi data đi đâu',
-    body: 'Tool chạy hoàn toàn trên máy bạn. Không cloud, không subscription, không gửi telemetry. Data của bạn ở yên trên máy bạn.',
+    title: 'Không can thiệp app local nội bộ',
+    body: 'Mình chỉ làm automation cho các ứng dụng web như ChatGPT, Google Docs, Excel Online, Google Sheets, Gmail, CRM web. Không chạy hoặc truy cập phần mềm local/nội bộ của công ty bạn.',
   },
 ];
 

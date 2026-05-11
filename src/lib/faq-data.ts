@@ -23,7 +23,7 @@ export const FAQ_GENERAL: FaqItem[] = [
   },
   {
     q: 'Tool có thu thập dữ liệu không?',
-    a: 'Không. Tool chạy 100% local trên máy bạn, không gửi telemetry, không cloud, không subscription. Source code mình tự viết — không có backdoor.',
+    a: 'Không. Tool chạy trên máy bạn, không gửi telemetry, không cloud, không subscription. Lưu ý: mình không chạy hoặc can thiệp vào phần mềm local/nội bộ của công ty bạn. Use case phù hợp là thao tác trên các ứng dụng web như ChatGPT, Google Docs, Excel Online, Google Sheets, Gmail, CRM web, v.v.',
   },
   {
     q: 'Có thể đặt tool riêng theo nhu cầu không?',

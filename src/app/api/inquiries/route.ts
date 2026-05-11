@@ -51,8 +51,14 @@ export async function POST(req: Request) {
     product_kind: parsed.data.product_kind ?? null,
   });
   if (error) {
+    console.error('Failed to create inquiry', { code: error.code, message: error.message });
     return NextResponse.json(
-      { error: { code: 'db_error', message: error.message } },
+      {
+        error: {
+          code: 'db_error',
+          message: 'Không gửi được yêu cầu. Bạn thử lại sau nhé.',
+        },
+      },
       { status: 500 },
     );
   }

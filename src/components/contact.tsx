@@ -1,29 +1,29 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { MessageCircle, Mail, Send } from 'lucide-react';
+import { BrandIcon } from '@/components/brand-icon';
 
 const CHANNELS = [
   {
-    icon: MessageCircle,
+    brand: 'zalo' as const,
     label: 'Zalo',
-    value: '0xx xxx xxxx',
+    value: '0973309676',
     hint: 'Phản hồi trong giờ hành chính',
-    href: 'https://zalo.me/0000000000',
+    href: 'https://zalo.me/0973309676',
   },
   {
-    icon: Send,
+    brand: 'telegram' as const,
     label: 'Telegram',
-    value: '@yourhandle',
+    value: '@ducminh299',
     hint: 'Cho khách quốc tế',
-    href: 'https://t.me/yourhandle',
+    href: 'https://t.me/ducminh299',
   },
   {
-    icon: Mail,
-    label: 'Email',
-    value: 'hello@your-domain.vn',
+    brand: 'gmail' as const,
+    label: 'Gmail',
+    value: 'phungducminh2992003@gmail.com',
     hint: 'Brief dài, file đính kèm',
-    href: 'mailto:hello@your-domain.vn',
+    href: 'mailto:phungducminh2992003@gmail.com',
   },
 ];
 
@@ -56,7 +56,6 @@ export function Contact() {
 
           <ul className="space-y-3 md:col-span-6">
             {CHANNELS.map((c) => {
-              const Icon = c.icon;
               return (
                 <li key={c.label}>
                   <a
@@ -65,8 +64,8 @@ export function Contact() {
                     rel="noreferrer"
                     className="group flex items-center gap-4 rounded-2xl border border-white/5 bg-white/[0.02] p-4 transition hover:border-white/15 hover:bg-white/[0.04]"
                   >
-                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-white/[0.04] text-brand-orange ring-1 ring-white/8">
-                      <Icon className="h-5 w-5" strokeWidth={1.75} />
+                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-white/[0.04] ring-1 ring-white/8">
+                      <BrandIcon brand={c.brand} />
                     </span>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-2">

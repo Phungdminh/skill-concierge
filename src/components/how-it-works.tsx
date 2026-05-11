@@ -19,7 +19,7 @@ const STEPS = [
   {
     icon: Download,
     title: 'Nhận file + chạy ngay',
-    desc: 'Sau khi xác nhận, mình gửi link Drive folder gồm .exe + _internal/ + hướng dẫn cài. Double-click là chạy — không cần cài Python hay setup gì thêm.',
+    desc: 'Sau khi xác nhận, mình gửi link Drive folder gồm app .exe + hướng dẫn ngắn. Bạn kích đúp để mở tool trên máy; tool sẽ hỗ trợ thao tác với website/app web phù hợp, không can thiệp vào phần mềm local hoặc hệ thống nội bộ công ty.',
     badge: 'Bước 3',
   },
 ];
@@ -35,7 +35,7 @@ export function HowItWorks() {
           3 bước. Không cần biết code.
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-foreground/60">
-          Tool đóng gói sẵn dạng .exe — chỉ cần Windows 10+ là chạy. Không cần cài Python, không phải config gì rườm rà.
+          Tool phù hợp cho các use case thao tác trên website/app web như ChatGPT, Google Docs, Excel Online, Google Sheets, Gmail hoặc CRM web. Mình không chạy hay can thiệp vào phần mềm local/nội bộ của công ty bạn.
         </p>
       </div>
 

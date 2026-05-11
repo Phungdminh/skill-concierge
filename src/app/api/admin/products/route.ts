@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createClient } from '@/lib/supabase/server';
 import { requireAdmin } from '@/lib/auth';
 import { slugify } from '@/lib/product-types';
+import { createAdminClient } from '@/lib/supabase/admin';
 
 const productInputSchema = z.object({
   kind: z.enum(['tool', 'setup', 'course', 'webwork']),
@@ -67,7 +67,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const slug = (parsed.data.slug?.trim() || slugify(parsed.data.title)).slice(0, 80);
 
   const insert = {
@@ -99,9 +99,14 @@ export async function POST(req: Request) {
     .select()
     .single();
   if (error) {
+    console.error('Failed to create product', { code: error.code, message: error.message });
     const status = error.code === '23505' ? 409 : 500;
+    const message =
+      error.code === '23505'
+        ? 'Slug này đã tồn tại. Hãy chọn slug khác.'
+        : 'Không tạo được sản phẩm. Thử lại sau.';
     return NextResponse.json(
-      { error: { code: error.code ?? 'db_error', message: error.message } },
+      { error: { code: error.code ?? 'db_error', message } },
       { status },
     );
   }

@@ -3,7 +3,8 @@ import { Footer } from '@/components/footer';
 import { PageHeader } from '@/components/page-header';
 import { InquiryForm } from '@/components/inquiry-form';
 import { createClient } from '@/lib/supabase/server';
-import { MessageCircle, Mail, Send, Clock } from 'lucide-react';
+import { Clock } from 'lucide-react';
+import { BrandIcon } from '@/components/brand-icon';
 import {
   ALL_KINDS,
   KIND_META,
@@ -19,25 +20,25 @@ export const metadata = {
 
 const CHANNELS = [
   {
-    icon: MessageCircle,
+    brand: 'zalo' as const,
     label: 'Zalo',
-    value: '0xx xxx xxxx',
+    value: '0973309676',
     hint: 'Phản hồi nhanh nhất · <4h trong giờ HC',
-    href: 'https://zalo.me/0000000000',
+    href: 'https://zalo.me/0973309676',
   },
   {
-    icon: Send,
+    brand: 'telegram' as const,
     label: 'Telegram',
-    value: '@yourhandle',
+    value: '@ducminh299',
     hint: 'Cho khách quốc tế · <8h',
-    href: 'https://t.me/yourhandle',
+    href: 'https://t.me/ducminh299',
   },
   {
-    icon: Mail,
-    label: 'Email',
-    value: 'hello@your-domain.vn',
+    brand: 'gmail' as const,
+    label: 'Gmail',
+    value: 'phungducminh2992003@gmail.com',
     hint: 'Brief dài, file đính kèm · <24h',
-    href: 'mailto:hello@your-domain.vn',
+    href: 'mailto:phungducminh2992003@gmail.com',
   },
 ];
 
@@ -108,7 +109,6 @@ export default async function ContactPage({ searchParams }: PageProps) {
           </h2>
           <ul className="grid grid-cols-1 gap-3 md:grid-cols-3">
             {CHANNELS.map((c) => {
-              const Icon = c.icon;
               return (
                 <li key={c.label}>
                   <a
@@ -117,8 +117,8 @@ export default async function ContactPage({ searchParams }: PageProps) {
                     rel="noreferrer"
                     className="group flex h-full flex-col rounded-2xl border border-white/5 bg-[#0d0d10] p-6 transition hover:border-white/15 hover:bg-white/[0.02]"
                   >
-                    <span className="grid h-12 w-12 place-items-center rounded-xl bg-white/[0.04] text-brand-orange ring-1 ring-white/10">
-                      <Icon className="h-5 w-5" strokeWidth={1.75} />
+                    <span className="grid h-12 w-12 place-items-center rounded-xl bg-white/[0.04] ring-1 ring-white/10">
+                      <BrandIcon brand={c.brand} />
                     </span>
                     <div className="mt-4 text-sm font-medium text-foreground/90">{c.label}</div>
                     <div className="mt-1 text-sm text-foreground/60">{c.value}</div>

@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createClient } from '@/lib/supabase/server';
 import { requireAdmin } from '@/lib/auth';
+import { createAdminClient } from '@/lib/supabase/admin';
+
+const idSchema = z.string().uuid();
 
 const patchSchema = z.object({
   title: z.string().trim().min(2).max(160).optional(),
@@ -45,6 +47,13 @@ export async function PATCH(
     );
   }
   const { id } = await params;
+  const parsedId = idSchema.safeParse(id);
+  if (!parsedId.success) {
+    return NextResponse.json(
+      { error: { code: 'invalid_id', message: 'ID sản phẩm không hợp lệ.' } },
+      { status: 400 },
+    );
+  }
 
   let payload: unknown;
   try {
@@ -90,18 +99,25 @@ export async function PATCH(
   if (d.featured !== undefined) update.featured = d.featured;
   if (d.sort_order !== undefined) update.sort_order = d.sort_order;
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase
     .from('products')
     .update(update)
-    .eq('id', id)
+    .eq('id', parsedId.data)
     .select()
     .single();
 
   if (error) {
+    console.error('Failed to update product', { code: error.code, message: error.message });
     const status = error.code === '23505' ? 409 : error.code === 'PGRST116' ? 404 : 500;
+    const message =
+      error.code === '23505'
+        ? 'Slug này đã tồn tại. Hãy chọn slug khác.'
+        : error.code === 'PGRST116'
+          ? 'Không tìm thấy sản phẩm.'
+          : 'Không lưu được sản phẩm. Thử lại sau.';
     return NextResponse.json(
-      { error: { code: error.code ?? 'db_error', message: error.message } },
+      { error: { code: error.code ?? 'db_error', message } },
       { status },
     );
   }
@@ -120,12 +136,31 @@ export async function DELETE(
     );
   }
   const { id } = await params;
-  const supabase = await createClient();
-  const { error } = await supabase.from('products').delete().eq('id', id);
-  if (error) {
+  const parsedId = idSchema.safeParse(id);
+  if (!parsedId.success) {
     return NextResponse.json(
-      { error: { code: error.code ?? 'db_error', message: error.message } },
-      { status: 500 },
+      { error: { code: 'invalid_id', message: 'ID sản phẩm không hợp lệ.' } },
+      { status: 400 },
+    );
+  }
+
+  const supabase = createAdminClient();
+  const { error } = await supabase
+    .from('products')
+    .delete()
+    .eq('id', parsedId.data)
+    .select('id')
+    .single();
+  if (error) {
+    console.error('Failed to delete product', { code: error.code, message: error.message });
+    const status = error.code === 'PGRST116' ? 404 : 500;
+    const message =
+      error.code === 'PGRST116'
+        ? 'Không tìm thấy sản phẩm.'
+        : 'Không xoá được sản phẩm. Thử lại sau.';
+    return NextResponse.json(
+      { error: { code: error.code ?? 'db_error', message } },
+      { status },
     );
   }
   return NextResponse.json({ ok: true });

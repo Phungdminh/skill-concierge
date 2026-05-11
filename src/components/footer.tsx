@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Sparkles } from 'lucide-react';
+import { BrandIcon } from '@/components/brand-icon';
 
 const COLS: { heading: string; links: { label: string; href: string }[] }[] = [
   {
@@ -8,7 +9,7 @@ const COLS: { heading: string; links: { label: string; href: string }[] }[] = [
       { label: 'Tool desktop', href: '/tools' },
       { label: 'Hướng dẫn setup', href: '/setup' },
       { label: 'Khoá học', href: '/courses' },
-      { label: 'Web / CV theo yêu cầu', href: '/web' },
+      { label: 'Web / portfolio cá nhân', href: '/web' },
     ],
   },
   {
@@ -77,30 +78,33 @@ export function Footer() {
             <ul className="mt-4 space-y-2.5 text-sm">
               <li>
                 <a
-                  href="https://zalo.me/0000000000"
+                  href="https://zalo.me/0973309676"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-foreground/75 transition hover:text-foreground"
+                  className="inline-flex items-center gap-2 text-foreground/75 transition hover:text-foreground"
                 >
-                  Zalo: 0xx xxx xxxx
+                  <BrandIcon brand="zalo" className="h-4 w-4" />
+                  Zalo: 0973309676
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:hello@your-domain.vn"
-                  className="text-foreground/75 transition hover:text-foreground"
+                  href="mailto:phungducminh2992003@gmail.com"
+                  className="inline-flex items-center gap-2 text-foreground/75 transition hover:text-foreground"
                 >
-                  hello@your-domain.vn
+                  <BrandIcon brand="gmail" className="h-4 w-4" />
+                  phungducminh2992003@gmail.com
                 </a>
               </li>
               <li>
                 <a
-                  href="https://t.me/yourhandle"
+                  href="https://t.me/ducminh299"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-foreground/75 transition hover:text-foreground"
+                  className="inline-flex items-center gap-2 text-foreground/75 transition hover:text-foreground"
                 >
-                  Telegram @yourhandle
+                  <BrandIcon brand="telegram" className="h-4 w-4" />
+                  Telegram @ducminh299
                 </a>
               </li>
             </ul>

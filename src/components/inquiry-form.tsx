@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Mail, Send, User, Phone, MessageSquare } from 'lucide-react';
+import { ImagePlus, Loader2, Mail, Send, User, Phone, MessageSquare } from 'lucide-react';
 import { KIND_META, type ProductKind } from '@/lib/product-types';
 import { cn } from '@/lib/utils';
 
@@ -23,6 +23,7 @@ export function InquiryForm({
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [mediaUrl, setMediaUrl] = useState('');
   const defaultMessage = (() => {
     if (productTitle) return `Mình quan tâm "${productTitle}". Cho mình thêm thông tin về…`;
     if (productKind) {
@@ -35,15 +36,45 @@ export function InquiryForm({
   const [honey, setHoney] = useState('');
   const [state, setState] = useState<'idle' | 'sending' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<{
+    name?: string;
+    email?: string;
+    mediaUrl?: string;
+  }>({});
 
-  const valid = name.trim().length >= 2 && /@/.test(email);
+  function validateFields() {
+    const next: { name?: string; email?: string; mediaUrl?: string } = {};
+    if (name.trim().length < 2) next.name = 'Nhập ít nhất 2 ký tự.';
+    if (!/^\S+@\S+\.\S+$/.test(email.trim())) {
+      next.email = 'Nhập email hợp lệ để mình phản hồi.';
+    }
+    if (mediaUrl.trim()) {
+      try {
+        const url = new URL(mediaUrl.trim());
+        if (!['http:', 'https:'].includes(url.protocol)) {
+          next.mediaUrl = 'Dán link ảnh/video bắt đầu bằng http hoặc https.';
+        }
+      } catch {
+        next.mediaUrl = 'Dán link ảnh/video hợp lệ, ví dụ Google Drive, YouTube, Loom.';
+      }
+    }
+    setFieldErrors(next);
+    return Object.keys(next).length === 0;
+  }
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!valid || state === 'sending') return;
+    if (state === 'sending') return;
+    if (!validateFields()) return;
     setState('sending');
     setErrorMsg(null);
     try {
+      const finalMessage = [
+        message.trim(),
+        mediaUrl.trim() ? `Link ảnh/video tham khảo: ${mediaUrl.trim()}` : '',
+      ]
+        .filter(Boolean)
+        .join('\n\n');
       const res = await fetch('/api/inquiries', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -51,7 +82,7 @@ export function InquiryForm({
           name: name.trim(),
           email: email.trim(),
           phone: phone.trim() || null,
-          message: message.trim() || null,
+          message: finalMessage || null,
           product_id: productId ?? null,
           product_kind: productKind ?? null,
           website: honey,
@@ -92,9 +123,15 @@ export function InquiryForm({
             id="iq-name"
             required
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {
+              setName(e.target.value);
+              if (fieldErrors.name) setFieldErrors((curr) => ({ ...curr, name: undefined }));
+            }}
+            onBlur={validateFields}
             placeholder="Nguyễn Văn A"
             autoComplete="name"
+            aria-invalid={Boolean(fieldErrors.name)}
+            aria-describedby={fieldErrors.name ? 'iq-name-error' : undefined}
             className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
           />
         </Field>
@@ -104,13 +141,22 @@ export function InquiryForm({
             type="email"
             required
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (fieldErrors.email) setFieldErrors((curr) => ({ ...curr, email: undefined }));
+            }}
+            onBlur={validateFields}
             placeholder="ban@example.com"
             autoComplete="email"
+            aria-invalid={Boolean(fieldErrors.email)}
+            aria-describedby={fieldErrors.email ? 'iq-email-error' : undefined}
             className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
           />
         </Field>
       </div>
+
+      <FieldError id="iq-name-error" message={fieldErrors.name} />
+      <FieldError id="iq-email-error" message={fieldErrors.email} />
 
       <Field icon={Phone} label="Số điện thoại / Zalo (tuỳ chọn)" htmlFor="iq-phone">
         <input
@@ -136,20 +182,41 @@ export function InquiryForm({
         />
       </Field>
 
+      <Field icon={ImagePlus} label="Video hoặc ảnh tham khảo (tuỳ chọn)" htmlFor="iq-media-url">
+        <input
+          id="iq-media-url"
+          type="url"
+          value={mediaUrl}
+          onChange={(e) => {
+            setMediaUrl(e.target.value);
+            if (fieldErrors.mediaUrl) {
+              setFieldErrors((curr) => ({ ...curr, mediaUrl: undefined }));
+            }
+          }}
+          onBlur={validateFields}
+          placeholder="Dán link YouTube, Loom, Google Drive, Figma…"
+          aria-invalid={Boolean(fieldErrors.mediaUrl)}
+          aria-describedby={fieldErrors.mediaUrl ? 'iq-media-url-error' : 'iq-media-url-hint'}
+          className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
+        />
+      </Field>
+      <p id="iq-media-url-hint" className="-mt-2 px-1 text-xs text-foreground/45">
+        Nếu có ảnh/video mẫu, gửi link sẽ giúp mình hiểu đúng use case nhanh hơn.
+      </p>
+      <FieldError id="iq-media-url-error" message={fieldErrors.mediaUrl} />
+
       {errorMsg && (
-        <p className="rounded-lg bg-red-500/10 px-3 py-2 text-xs text-red-300 ring-1 ring-red-500/30">
+        <p role="alert" className="rounded-lg bg-red-500/10 px-3 py-2 text-xs text-red-300 ring-1 ring-red-500/30">
           {errorMsg}
         </p>
       )}
 
       <button
         type="submit"
-        disabled={!valid || state === 'sending'}
+        disabled={state === 'sending'}
         className={cn(
-          'group inline-flex w-full items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm font-semibold transition',
-          valid && state !== 'sending'
-            ? 'bg-brand-gradient glow-red text-black hover:brightness-110'
-            : 'cursor-not-allowed bg-white/5 text-muted-foreground',
+          'bg-brand-gradient glow-red group inline-flex w-full items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm font-semibold text-black transition hover:brightness-110',
+          state === 'sending' && 'cursor-wait opacity-70',
         )}
       >
         {state === 'sending' ? (
@@ -177,6 +244,15 @@ interface FieldProps {
   htmlFor: string;
   align?: 'center' | 'start';
   children: React.ReactNode;
+}
+
+function FieldError({ id, message }: { id: string; message?: string }) {
+  if (!message) return null;
+  return (
+    <p id={id} role="alert" className="-mt-2 px-1 text-xs text-red-300">
+      {message}
+    </p>
+  );
 }
 
 function Field({ icon: Icon, label, htmlFor, align = 'center', children }: FieldProps) {

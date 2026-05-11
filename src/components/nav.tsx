@@ -1,38 +1,64 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { Sparkles, Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const LINKS = [
-  { href: '/tools', anchor: '#featured', label: 'Tools' },
-  { href: '/setup', anchor: '#categories', label: 'Setup' },
-  { href: '/courses', anchor: '#categories', label: 'Khoá học' },
-  { href: '/web', anchor: '#categories', label: 'Web / CV' },
+  { href: '/tools', label: 'Tools' },
+  { href: '/setup', label: 'Setup' },
+  { href: '/courses', label: 'Khoá học' },
+  { href: '/web', label: 'Web / Portfolio' },
 ];
 
 export function Nav() {
   const pathname = usePathname();
   const onLanding = pathname === '/';
   const [open, setOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!open) return;
+    const menuButton = menuButtonRef.current;
     document.body.style.overflow = 'hidden';
+    closeButtonRef.current?.focus();
     return () => {
       document.body.style.overflow = '';
+      menuButton?.focus();
     };
   }, [open]);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') setOpen(false);
+      if (!open) return;
+      if (e.key === 'Escape') {
+        setOpen(false);
+        return;
+      }
+      if (e.key !== 'Tab' || !drawerRef.current) return;
+
+      const focusable = drawerRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     }
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, []);
+  }, [open]);
 
   return (
     <>
@@ -53,12 +79,11 @@ export function Nav() {
 
           <ul className="hidden flex-1 items-center gap-1 md:flex">
             {LINKS.map((l) => {
-              const href = onLanding ? l.anchor : l.href;
-              const active = !onLanding && pathname.startsWith(l.href);
+              const active = pathname.startsWith(l.href);
               return (
                 <li key={l.label}>
                   <Link
-                    href={href}
+                    href={l.href}
                     className={cn(
                       'rounded-full px-3 py-1.5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30',
                       active
@@ -77,15 +102,16 @@ export function Nav() {
             href={onLanding ? '#contact' : '/contact'}
             className="ml-auto hidden rounded-full bg-white px-4 py-1.5 font-medium text-black transition hover:bg-white/90 md:inline-flex"
           >
-            Nhận quote
+            Làm UseCase riêng
           </Link>
 
           <button
+            ref={menuButtonRef}
             type="button"
             onClick={() => setOpen(true)}
             aria-label="Mở menu"
             aria-expanded={open}
-            className="ml-auto inline-flex h-9 w-9 items-center justify-center rounded-full text-foreground/80 hover:bg-white/5 md:hidden"
+            className="ml-auto inline-flex h-9 w-9 items-center justify-center rounded-full text-foreground/80 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 md:hidden"
           >
             <Menu className="h-5 w-5" />
           </button>
@@ -108,6 +134,7 @@ export function Nav() {
           )}
         />
         <div
+          ref={drawerRef}
           role="dialog"
           aria-modal="true"
           aria-label="Menu"
@@ -128,10 +155,11 @@ export function Nav() {
               <span>SkillForge VN</span>
             </Link>
             <button
+              ref={closeButtonRef}
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Đóng menu"
-              className="grid h-9 w-9 place-items-center rounded-full text-foreground/80 hover:bg-white/5"
+              className="grid h-9 w-9 place-items-center rounded-full text-foreground/80 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
             >
               <X className="h-5 w-5" />
             </button>
@@ -141,7 +169,7 @@ export function Nav() {
             {LINKS.map((l) => (
               <li key={l.label}>
                 <Link
-                  href={onLanding ? l.anchor : l.href}
+                  href={l.href}
                   onClick={() => setOpen(false)}
                   className="block rounded-xl px-3 py-3 text-base font-medium text-foreground/85 hover:bg-white/5"
                 >
@@ -165,7 +193,7 @@ export function Nav() {
             onClick={() => setOpen(false)}
             className="mt-4 block w-full rounded-2xl bg-white py-3 text-center font-medium text-black"
           >
-            Nhận quote miễn phí
+            Làm UseCase riêng
           </Link>
         </div>
       </div>

@@ -101,10 +101,10 @@ export const KIND_META: Record<ProductKind, KindMeta> = {
   },
   webwork: {
     kind: 'webwork',
-    label: 'Tạo web / CV',
-    shortLabel: 'Web / CV',
+    label: 'Làm web / portfolio',
+    shortLabel: 'Web / Portfolio',
     pluralLabel: 'Web & Portfolio',
-    description: 'Landing page, portfolio, CV online theo yêu cầu. Vibe-coded gọn nhẹ, deploy Vercel/Netlify, source code đứng tên bạn.',
+    description: 'Landing page và portfolio cá nhân theo yêu cầu. Vibe-coded gọn nhẹ, deploy Vercel/Netlify, source code đứng tên bạn.',
     route: '/web',
     icon: Globe,
     accent: 'from-brand-red/60 to-brand-amber/30',
@@ -164,8 +164,8 @@ export const COURSE_CATEGORIES = [
 export const WEBWORK_CATEGORIES = [
   { value: 'landing', label: 'Landing page' },
   { value: 'portfolio', label: 'Portfolio' },
-  { value: 'cv', label: 'CV online' },
-  { value: 'webapp', label: 'Web app' },
+  { value: 'personal', label: 'Web cá nhân' },
+  { value: 'webapp', label: 'Web app cá nhân' },
   { value: 'other', label: 'Khác' },
 ] as const;
 

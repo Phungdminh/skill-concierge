@@ -26,7 +26,7 @@ const CARD_COPY: Record<
   },
   webwork: {
     tag: 'Theo yêu cầu',
-    pitch: 'Landing page, portfolio, CV online — vibe-coded gọn nhẹ, deploy nhanh.',
+    pitch: 'Landing page và portfolio cá nhân — vibe-coded gọn nhẹ, deploy nhanh.',
     bullets: ['5-7 ngày từ brief đến deploy', 'Source code đứng tên bạn', '2 vòng revise miễn phí'],
   },
 };

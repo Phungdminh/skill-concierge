@@ -54,7 +54,7 @@ export default async function AdminProductsPage({ searchParams }: PageProps) {
           <p className="text-xs uppercase tracking-widest text-muted-foreground">Admin</p>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight md:text-4xl">Sản phẩm</h1>
           <p className="mt-2 text-foreground/65">
-            Tool, setup guide, khoá học, web/CV — tất cả nháp và đang bán.
+            Tool, setup guide, khoá học, web/portfolio — tất cả nháp và đang bán.
           </p>
         </div>
         <Link
@@ -77,14 +77,14 @@ export default async function AdminProductsPage({ searchParams }: PageProps) {
         ))}
       </div>
 
-      <div className="mt-6 overflow-hidden rounded-2xl border border-white/5 bg-[#0d0d10]">
+      <div className="mt-6 overflow-x-auto rounded-2xl border border-white/5 bg-[#0d0d10]">
         {products.length === 0 ? (
           <div className="px-6 py-16 text-center text-sm text-foreground/55">
             Chưa có sản phẩm{validKind ? ` thuộc loại ${KIND_META[validKind].label}` : ''}.
             Bấm &ldquo;Tạo sản phẩm&rdquo; để bắt đầu.
           </div>
         ) : (
-          <table className="w-full text-sm">
+          <table className="min-w-[760px] w-full text-sm">
             <thead className="border-b border-white/5 text-left text-[11px] uppercase tracking-widest text-muted-foreground">
               <tr>
                 <th className="px-4 py-3 font-normal">Sản phẩm</th>

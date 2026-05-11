@@ -49,7 +49,7 @@ const DETAILS = [
     icon: Sparkles,
     title: 'Đặt tool riêng theo nhu cầu',
     duration: '3–10 ngày',
-    body: 'Nếu trong catalog không có tool đúng nhu cầu của bạn: mô tả use case → mình quote (1.5–10tr tuỳ phức tạp). Build xong → bạn xem demo qua YouTube unlisted → ưng mới chuyển khoản. Không ưng → mình không tính phí dù đã build.',
+    body: 'Nếu trong catalog không có tool đúng nhu cầu: mô tả use case trên các app web như ChatGPT, Google Docs, Excel Online, Google Sheets, Gmail hoặc CRM web → mình quote. Mình không chạy hoặc can thiệp vào phần mềm local/nội bộ của công ty bạn. Build xong → bạn xem demo qua YouTube unlisted → ưng mới chuyển khoản.',
   },
 ];
 
@@ -61,7 +61,7 @@ export default function ProcessPage() {
         <PageHeader
           eyebrow="Cách mua tool"
           title={`Từ "xem demo" đến "tool chạy trên máy" — thường dưới 24h`}
-          intro="Không subscription, không SaaS bắt nâng cấp. Bạn mua 1 lần file .exe, tool thuộc về bạn — chạy trên máy bạn, không cloud, không gửi telemetry."
+          intro="Không subscription, không SaaS bắt nâng cấp. Use case phù hợp là thao tác trên app web như ChatGPT, Google Docs, Excel Online, Google Sheets — không can thiệp phần mềm local/nội bộ công ty bạn."
           crumbs={[{ label: 'Trang chủ', href: '/' }, { label: 'Cách mua tool' }]}
         />
 

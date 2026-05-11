@@ -9,9 +9,77 @@
   - `tool`: desktop `.exe` tools built by the owner, usually Python + Playwright + CustomTkinter + PyInstaller.
   - `setup`: done-for-you setup services for non-IT users, e.g. MCP, OpenClaw, FX API, Claude Code, AI plugins.
   - `course`: AI basic courses/classes delivered as Drive folders, videos, PDFs, and support channels.
-  - `webwork`: custom landing pages, portfolio sites, and CV online work.
+  - `webwork`: custom landing pages and personal portfolio sites only; do not position this as CV work.
 - Customers do not pay automatically in the MVP. They view product details and submit a contact/inquiry form; the owner follows up manually through Zalo/Telegram/email/Drive.
-- Every public product can have a YouTube demo URL. Use lazy YouTube embedding and avoid loading iframes until needed.
+- Customers should be able to watch a demo before buying. Every public product can have a YouTube demo URL. Use lazy YouTube embedding and avoid loading iframes until needed.
+- Tool/custom use cases should focus on allowed website/web-app workflows such as ChatGPT, Google Docs, Google Sheets, Excel Online, Gmail, CRM web apps, and similar browser-accessible tools. Do not position tools as running against or accessing a customer's local/internal company software.
+
+## Backlog ý tưởng tool văn phòng
+
+Các tool nên ưu tiên vì dễ demo bằng video, khách văn phòng dễ hiểu pain point, và phù hợp phạm vi thao tác trên website/app web:
+
+### Google Sheets / Excel Online
+
+1. **Sheet Cleaner** — Xoá dòng trống, chuẩn hoá khoảng trắng, format tên, email, số điện thoại trong Google Sheets/Excel Online.
+2. **Duplicate Finder & Merger** — Tìm dữ liệu trùng theo email/số điện thoại/tên và gộp bản ghi đầy đủ nhất.
+3. **Lead Sheet Formatter** — Biến sheet lead thô thành format chuẩn gồm tên, phone, email, nguồn, trạng thái, ghi chú.
+4. **Auto Follow-up Tracker** — Đọc sheet khách hàng và đánh dấu ai cần follow-up hôm nay.
+5. **Sheet to Gmail Sender** — Lấy danh sách trong Google Sheets để tạo/gửi email cá nhân hoá qua Gmail.
+6. **Invoice/Quote Generator** — Từ Google Sheets tạo báo giá/hoá đơn dạng Google Docs hoặc PDF.
+7. **Data Splitter** — Tách một sheet lớn thành nhiều sheet nhỏ theo tỉnh/thành, nhân viên phụ trách, hoặc trạng thái.
+8. **Sheet Report Builder** — Tạo báo cáo tổng hợp từ sheet: tổng lead, doanh thu, trạng thái, tỉ lệ chốt.
+9. **Excel Formula Explainer** — Giải thích công thức Excel/Sheets bằng tiếng Việt và gợi ý sửa.
+10. **CSV Import Cleaner** — Nhận CSV tải từ sàn/shop/CRM web, clean và chuẩn hoá thành Google Sheets dễ đọc.
+
+### Google Docs / tài liệu
+
+11. **Docs Formatter** — Tự căn heading, bullet, spacing, table of contents cho Google Docs.
+12. **Meeting Notes Cleaner** — Biến transcript/cuộc họp thành biên bản họp, ý chính, action items và deadline.
+13. **Proposal Generator** — Từ thông tin khách hàng tạo proposal Google Docs.
+14. **Contract Draft Assistant** — Tạo bản nháp hợp đồng/dịch vụ từ thông tin cơ bản; phải ghi rõ chỉ là bản nháp tham khảo.
+15. **Long Doc Summarizer** — Tóm tắt Google Docs dài thành bullet, executive summary và checklist.
+16. **Docs Translator** — Dịch Google Docs sang tiếng Việt/Anh/Nhật/Hàn và giữ format cơ bản.
+17. **Policy Rewrite Tool** — Viết lại văn bản công ty cho dễ hiểu, chuyên nghiệp hoặc thân thiện hơn.
+
+### Dịch thuật / ngôn ngữ
+
+18. **Bulk Translation Sheet** — Dịch nhiều dòng text trong sheet và ghi kết quả ra cột mới.
+19. **Product Description Translator** — Dịch mô tả sản phẩm Việt/Anh và giữ tone bán hàng.
+20. **Email Tone Rewriter** — Viết lại email theo tone lịch sự, ngắn gọn, chuyên nghiệp, xin lỗi hoặc follow-up.
+21. **Subtitle Translator** — Dịch file phụ đề `.srt` hoặc text phụ đề cho creator nhỏ.
+22. **Bilingual Glossary Builder** — Tạo bảng thuật ngữ song ngữ từ tài liệu hoặc sheet.
+
+### Gmail / inbox
+
+23. **Gmail Reply Draft Generator** — Đọc nội dung email và tạo draft trả lời để người dùng kiểm tra trước khi gửi.
+24. **Gmail Label Organizer** — Gợi ý label/category cho email như khách hàng, hoá đơn, support, tuyển dụng.
+25. **Cold Email Personalizer** — Từ sheet lead tạo draft email cá nhân hoá; định vị là draft assistant, tránh spam.
+26. **Gmail Follow-up Reminder Sheet** — Tạo danh sách email cần follow-up và export ra Google Sheets.
+27. **Attachment Collector** — Tìm email có attachment theo keyword/người gửi và ghi danh sách vào sheet.
+
+### Văn phòng tổng hợp
+
+28. **Web Form to Sheet Automator** — Lấy dữ liệu từ form/web admin rồi đưa vào Google Sheets chuẩn.
+29. **CRM Web Data Export Helper** — Copy dữ liệu từ CRM web được phép truy cập sang sheet theo format chuẩn.
+30. **Daily Work Report Generator** — Từ sheet task tạo báo cáo ngày/tuần gửi qua Docs/Gmail.
+31. **Task Prioritizer** — Phân loại task theo urgent/important, deadline và effort, sau đó output ra sheet.
+32. **Document Checklist Builder** — Từ yêu cầu công việc tạo checklist tài liệu cần chuẩn bị.
+33. **Recruitment Screening Sheet** — Hỗ trợ HR lọc ứng viên theo tiêu chí trong sheet; không định vị là chấm điểm con người.
+34. **Job Description Generator** — Tạo JD từ vị trí, kỹ năng, lương, địa điểm và output ra Docs/social post.
+35. **Social Content Repurposer** — Từ một bài dài tạo post Facebook, Threads, Telegram, Instagram, TikTok script.
+
+### Thứ tự ưu tiên làm trước
+
+1. Sheet Cleaner
+2. Docs Translator
+3. Meeting Notes Cleaner
+4. Sheet to Gmail Sender
+5. Invoice/Quote Generator
+6. Bulk Translation Sheet
+7. Gmail Reply Draft Generator
+8. Daily Work Report Generator
+9. Proposal Generator
+10. Social Content Repurposer
 
 ## Current routes
 
@@ -34,6 +102,18 @@
   - `PATCH /api/admin/products/[id]`
   - `DELETE /api/admin/products/[id]`
   - `PATCH /api/admin/inquiries/[id]`
+
+## Google Sheets / Google API direction
+
+- For MVP/custom tools that need Google Sheets, prefer a Google Cloud service account: the owner provides the service account email, the customer shares only the needed Sheet with Editor access, and the tool reads/writes only that Sheet.
+- For future broadly distributed tools, prefer OAuth: the customer clicks "Connect Google", grants narrow scopes, and can revoke access from their Google Account.
+- Use the narrowest practical Google scopes:
+  - `https://www.googleapis.com/auth/spreadsheets` for read/write Sheets.
+  - `https://www.googleapis.com/auth/spreadsheets.readonly` for read-only Sheets.
+  - `https://www.googleapis.com/auth/drive.file` only when the tool must create/select/export files in Drive.
+- Avoid broad Drive access such as `https://www.googleapis.com/auth/drive` unless there is a specific, explained need.
+- Never commit Google credential JSON, OAuth client secrets, service-account files, or tokens. Store them outside git and reference them through env vars or a secrets manager.
+- Customer-facing copy should explain that Google integration only accesses files/sheets the customer explicitly grants, and that local/internal company software is out of scope.
 
 ## Database and Supabase
 
