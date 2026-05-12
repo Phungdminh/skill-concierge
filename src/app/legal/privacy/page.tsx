@@ -45,7 +45,7 @@ const SECTIONS = [
     p: [
       'Yêu cầu mình xoá toàn bộ dữ liệu của bạn — ping Zalo / email, mình xử lý trong 7 ngày.',
       'Yêu cầu export tất cả dữ liệu mình lưu về bạn (data portability) — gửi qua email mã hoá.',
-      'Khiếu nại — gửi email phungducminh2992003@gmail.com, mình rep trong 48h.',
+      'Khiếu nại — gửi email Phungducminh299@gmail.com, mình rep trong 48h.',
     ],
   },
 ];
@@ -81,9 +81,9 @@ export default function PrivacyPage() {
               <strong className="text-foreground/85">Câu hỏi cụ thể?</strong> Email{' '}
               <a
                 className="text-brand-orange hover:underline"
-                href="mailto:phungducminh2992003@gmail.com"
+                href="mailto:Phungducminh299@gmail.com"
               >
-                phungducminh2992003@gmail.com
+                Phungducminh299@gmail.com
               </a>
               {' '}— mình trả lời trong 48h, kể cả khi bạn không phải khách hàng.
             </p>

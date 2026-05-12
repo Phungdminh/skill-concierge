@@ -197,7 +197,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
                 <Link
                   href={`/contact?kind=${product.kind}`}
-                  className="group flex items-center justify-between rounded-2xl border border-white/8 bg-white/[0.02] p-5 transition hover:bg-white/[0.05]"
+                  className="group flex items-center justify-between rounded-2xl border border-white/8 bg-white/[0.02] p-5 transition duration-300 hover:-translate-y-1 hover:border-brand-orange/60 hover:bg-brand-orange/10 hover:text-brand-orange hover:shadow-lg hover:shadow-brand-orange/20"
                 >
                   <div>
                     <div className="text-sm font-medium">Cần khác đi 1 chút?</div>

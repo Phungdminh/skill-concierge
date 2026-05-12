@@ -3,7 +3,7 @@
 import { Suspense, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Sparkles, Mail, Loader2, ArrowRight } from 'lucide-react';
+import { Sparkles, Mail, Lock, Loader2, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { createClient } from '@/lib/supabase/client';
 
@@ -11,7 +11,8 @@ function LoginForm() {
   const params = useSearchParams();
   const returnTo = params.get('returnTo') ?? '/admin';
   const [email, setEmail] = useState('');
-  const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [password, setPassword] = useState('');
+  const [state, setState] = useState<'idle' | 'sending' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   function validateEmail() {
@@ -27,21 +28,27 @@ function LoginForm() {
     e.preventDefault();
     if (state === 'sending') return;
     if (!validateEmail()) return;
+    if (password.length < 6) {
+      setErrorMsg('Mật khẩu phải có ít nhất 6 ký tự.');
+      return;
+    }
     setState('sending');
     setErrorMsg(null);
     try {
       const supabase = createClient();
-      const { error } = await supabase.auth.signInWithOtp({
+      const { error } = await supabase.auth.signInWithPassword({
         email: email.trim(),
-        options: {
-          shouldCreateUser: false,
-          emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(returnTo)}`,
-        },
+        password,
       });
       if (error) throw error;
-      setState('sent');
+      window.location.href = returnTo.startsWith('/') ? returnTo : '/admin';
     } catch (err) {
-      setErrorMsg(err instanceof Error ? err.message : 'Có lỗi xảy ra, thử lại nhé.');
+      const message = err instanceof Error ? err.message : '';
+      setErrorMsg(
+        message.toLowerCase().includes('invalid login') || message.toLowerCase().includes('invalid credentials')
+          ? 'Email hoặc mật khẩu không đúng.'
+          : message || 'Không đăng nhập được. Vui lòng thử lại.',
+      );
       setState('error');
     }
   }
@@ -77,7 +84,7 @@ function LoginForm() {
             Đăng nhập
           </h1>
           <p className="mt-2 text-sm text-foreground/65">
-            Nhập email — mình gửi link đăng nhập 1 lần. Không cần nhớ mật khẩu.
+            Đăng nhập bằng tài khoản admin đã tạo trong Supabase Auth.
           </p>
 
           <form onSubmit={submit} className="mt-6 space-y-4">
@@ -109,6 +116,33 @@ function LoginForm() {
               </div>
             </div>
 
+            <div>
+              <label
+                htmlFor="password"
+                className="text-[11px] uppercase tracking-widest text-muted-foreground"
+              >
+                Mật khẩu
+              </label>
+              <div className="mt-2 flex items-center gap-2 rounded-xl bg-white/[0.02] px-3 py-3 ring-1 ring-white/8 focus-within:ring-white/20">
+                <Lock className="h-4 w-4 text-muted-foreground" />
+                <input
+                  id="password"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (errorMsg) setErrorMsg(null);
+                  }}
+                  placeholder="Nhập mật khẩu admin"
+                  aria-invalid={Boolean(errorMsg)}
+                  aria-describedby={errorMsg ? 'login-email-error' : undefined}
+                  className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
+                />
+              </div>
+            </div>
+
             {errorMsg ? (
               <p id="login-email-error" role="alert" className="rounded-lg bg-red-500/10 px-3 py-2 text-xs text-red-300 ring-1 ring-red-500/30">
                 {errorMsg}
@@ -125,13 +159,11 @@ function LoginForm() {
             >
               {state === 'sending' ? (
                 <>
-                  <Loader2 className="h-4 w-4 animate-spin" /> Đang gửi link
+                  <Loader2 className="h-4 w-4 animate-spin" /> Đang đăng nhập
                 </>
-              ) : state === 'sent' ? (
-                <>Đã gửi ✓ Check email của bạn</>
               ) : (
                 <>
-                  Gửi link đăng nhập
+                  Đăng nhập admin
                   <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
                 </>
               )}
@@ -139,10 +171,7 @@ function LoginForm() {
           </form>
 
           <p className="mt-6 text-center text-xs text-muted-foreground">
-            Chưa có tài khoản?{' '}
-            <Link href="/signup" className="text-foreground/80 hover:underline">
-              Tạo tài khoản
-            </Link>
+            Chỉ email khớp ADMIN_EMAIL mới truy cập được dashboard.
           </p>
         </div>
 

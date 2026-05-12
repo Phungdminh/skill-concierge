@@ -19,7 +19,7 @@ const fadeUp: Variants = {
 };
 
 const STATS = [
-  { label: 'Tool đã giao', value: '12+' },
+  { label: 'Tổng số tool', value: '50+' },
   { label: 'Khách hài lòng', value: '95%' },
   { label: 'Giao trung bình', value: '3 ngày' },
 ];
@@ -51,8 +51,8 @@ export function Hero() {
           className="max-w-5xl text-balance text-5xl font-semibold leading-[1.05] tracking-tight md:text-7xl lg:text-[88px]"
         >
           Tool desktop{' '}
-          <span className="text-brand-gradient">tự build</span>
-          <br className="hidden md:block" /> giải quyết task lặp.
+          <span className="text-brand-gradient">tự chạy task</span>
+          <br className="hidden md:block" /> thay bạn thao tác thủ công.
         </motion.h1>
 
         <motion.p
@@ -62,7 +62,7 @@ export function Hero() {
           variants={fadeUp}
           className="mt-6 max-w-2xl text-balance text-lg text-foreground/70 md:text-xl"
         >
-          Automation · Scraping · Mockup · Productivity. Mình quay video demo cho từng tool — xem ưng thì mua, mình giao file qua Zalo / Drive.
+          Tool là ứng dụng hỗ trợ tự động thực hiện các tác vụ lặp lại hằng ngày trên website hoặc app web, giúp giảm thao tác thủ công. Mỗi tool đều có video demo để bạn xem cách hoạt động trước khi nhận file qua Zalo hoặc Drive.
         </motion.p>
 
         <motion.div
@@ -74,7 +74,7 @@ export function Hero() {
         >
           <Link
             href="/tools"
-            className="bg-brand-gradient glow-red group inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 text-sm font-semibold text-black"
+            className="hero-primary-cta bg-brand-gradient glow-red group inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 text-sm font-semibold text-black"
           >
             <Wrench className="h-4 w-4" />
             Xem tất cả tools
@@ -82,7 +82,7 @@ export function Hero() {
           </Link>
           <Link
             href="#featured"
-            className="group inline-flex items-center gap-2 rounded-2xl border border-white/12 bg-white/[0.02] px-6 py-3.5 text-sm font-medium text-foreground/85 backdrop-blur transition hover:bg-white/[0.06]"
+            className="hero-secondary-cta group inline-flex items-center gap-2 rounded-2xl border border-white/12 bg-white/[0.02] px-6 py-3.5 text-sm font-medium text-foreground/85 backdrop-blur"
           >
             <Play className="h-4 w-4 fill-current" strokeWidth={0} />
             Xem demo nổi bật

@@ -7,7 +7,7 @@ const STEPS = [
   {
     icon: Play,
     title: 'Xem video demo',
-    desc: 'Mỗi tool có video YouTube chạy thật trên máy mình. Bạn thấy chính xác tool làm gì, giao diện ra sao, output thế nào — trước khi quyết định.',
+    desc: 'Mỗi tool có video YouTube chạy thật với một task hằng ngày tương đương, gần giống hoặc cùng concept với việc bạn đang làm. Bạn xem được tool xử lý ra sao, giao diện thế nào và output cuối cùng là gì — trước khi quyết định.',
     badge: 'Bước 1',
   },
   {

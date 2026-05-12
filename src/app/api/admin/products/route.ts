@@ -27,6 +27,7 @@ const productInputSchema = z.object({
   status: z.enum(['draft', 'published', 'sold_out', 'archived']).optional(),
   featured: z.boolean().optional(),
   sort_order: z.number().int().optional(),
+  sales_count: z.number().int().min(0).optional(),
 });
 
 function emptyToNull<T extends string | null | undefined>(v: T): string | null {
@@ -91,6 +92,7 @@ export async function POST(req: Request) {
     status: parsed.data.status ?? 'draft',
     featured: parsed.data.featured ?? false,
     sort_order: parsed.data.sort_order ?? 0,
+    sales_count: parsed.data.sales_count ?? 0,
   };
 
   const { data, error } = await supabase

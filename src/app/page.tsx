@@ -21,8 +21,8 @@ export default function Home() {
         <HowItWorks />
         <Categories />
         <Promises />
-        <Faq items={FAQ_GENERAL.slice(0, 6)} id="faq" />
         <Contact />
+        <Faq items={FAQ_GENERAL.slice(0, 6)} id="faq" />
       </main>
       <Footer />
     </>

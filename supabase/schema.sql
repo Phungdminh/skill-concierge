@@ -3,6 +3,8 @@
 
 -- Clean slate (idempotent re-runs)
 -- Dropping tables with cascade also removes their policies, indexes, and foreign keys.
+drop trigger if exists on_auth_user_created on auth.users;
+drop function if exists public.handle_new_user();
 drop table if exists inquiries cascade;
 drop table if exists products cascade;
 drop table if exists tools cascade;
@@ -32,6 +34,7 @@ create table products (
   status text default 'draft' check (status in ('draft','published','sold_out','archived')),
   featured boolean default false,
   sort_order integer default 0,
+  sales_count integer default 0 not null,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
 );
@@ -50,6 +53,8 @@ create table inquiries (
 
 create index products_published_idx
   on products(status, kind, featured desc, sort_order desc, created_at desc);
+create index products_best_seller_idx
+  on products(status, kind, sales_count desc, featured desc, sort_order desc, created_at desc);
 create index products_kind_idx
   on products(kind, status);
 create index inquiries_status_idx

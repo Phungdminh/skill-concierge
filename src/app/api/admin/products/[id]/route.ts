@@ -27,6 +27,7 @@ const patchSchema = z.object({
   status: z.enum(['draft', 'published', 'sold_out', 'archived']).optional(),
   featured: z.boolean().optional(),
   sort_order: z.number().int().optional(),
+  sales_count: z.number().int().min(0).optional(),
 });
 
 function emptyToNull<T extends string | null | undefined>(v: T): string | null {
@@ -98,6 +99,7 @@ export async function PATCH(
   if (d.status !== undefined) update.status = d.status;
   if (d.featured !== undefined) update.featured = d.featured;
   if (d.sort_order !== undefined) update.sort_order = d.sort_order;
+  if (d.sales_count !== undefined) update.sales_count = d.sales_count;
 
   const supabase = createAdminClient();
   const { data, error } = await supabase

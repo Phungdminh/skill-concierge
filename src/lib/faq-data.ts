@@ -15,7 +15,7 @@ export const FAQ_GENERAL: FaqItem[] = [
   },
   {
     q: 'Mất bao lâu từ lúc liên hệ đến lúc nhận tool?',
-    a: 'Tool có sẵn trong catalog: nhận file ngay sau khi xác nhận thanh toán (thường <24h). Tool đặt riêng theo yêu cầu: 3–10 ngày tuỳ phức tạp — mình báo timeline rõ trong quote.',
+    a: 'Tool có sẵn trong catalog: nhận file ngay sau khi hoàn thành thanh toán. Tool đặt riêng theo yêu cầu: 3–10 ngày tuỳ phức tạp — mình báo timeline rõ trong quote.',
   },
   {
     q: 'Tool chạy lỗi thì sao?',
@@ -28,6 +28,18 @@ export const FAQ_GENERAL: FaqItem[] = [
   {
     q: 'Có thể đặt tool riêng theo nhu cầu không?',
     a: 'Có. Mô tả use case → mình quote. Giá custom thường 1.5–10tr tuỳ phức tạp. Mình build & test trước, bạn xem demo qua YouTube → ưng mới trả tiền.',
+  },
+  {
+    q: 'Dịch vụ setup phù hợp với ai?',
+    a: 'Phù hợp nếu bạn muốn dùng MCP, plugin AI, OpenClaw, Claude Code hoặc công cụ AI khác nhưng không muốn tự cấu hình. Mình setup từ xa, giải thích ngắn cách dùng và gửi lại hướng dẫn để bạn xem lại.',
+  },
+  {
+    q: 'Làm web ở đây gồm những loại nào?',
+    a: 'Mình nhận landing page và portfolio cá nhân gọn nhẹ, tập trung vào giới thiệu dịch vụ/sản phẩm và tạo form liên hệ. Không định vị là hệ thống nội bộ phức tạp hay phần mềm quản trị doanh nghiệp.',
+  },
+  {
+    q: 'Khoá học AI dành cho người mới có cần nền tảng kỹ thuật không?',
+    a: 'Không cần. Nội dung tập trung vào cách dùng AI cho công việc hằng ngày: viết prompt, xử lý tài liệu, tạo quy trình làm việc và tránh các lỗi phổ biến khi dùng ChatGPT/Claude.',
   },
   {
     q: 'Tool có dùng được trên Mac / Linux không?',

@@ -15,7 +15,6 @@ const LINKS = [
 
 export function Nav() {
   const pathname = usePathname();
-  const onLanding = pathname === '/';
   const [open, setOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -66,9 +65,9 @@ export function Nav() {
         <nav className="glass flex w-full max-w-3xl items-center gap-1 rounded-full px-2 py-2 pr-2 text-sm">
           <Link
             href="/"
-            className="flex items-center gap-2 rounded-full px-3 py-1.5 font-semibold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+            className="subtle-nav group flex items-center gap-2 rounded-full border border-transparent px-3 py-1.5 font-semibold tracking-tight focus-visible:outline-none"
           >
-            <span className="bg-brand-gradient grid h-6 w-6 place-items-center rounded-md text-black">
+            <span className="nav-logo-mark bg-brand-gradient grid h-6 w-6 place-items-center rounded-md text-black transition duration-200">
               <Sparkles className="h-3.5 w-3.5" strokeWidth={2.5} />
             </span>
             <span>SkillForge</span>
@@ -85,10 +84,10 @@ export function Nav() {
                   <Link
                     href={l.href}
                     className={cn(
-                      'rounded-full px-3 py-1.5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30',
+                      'subtle-nav rounded-full border border-transparent px-3 py-1.5 focus-visible:outline-none',
                       active
-                        ? 'bg-white/[0.06] text-foreground'
-                        : 'text-foreground/70 hover:bg-white/5 hover:text-foreground',
+                        ? 'bg-brand-orange/15 text-brand-orange ring-1 ring-brand-orange/30'
+                        : 'text-foreground/70',
                     )}
                   >
                     {l.label}
@@ -99,10 +98,10 @@ export function Nav() {
           </ul>
 
           <Link
-            href={onLanding ? '#contact' : '/contact'}
-            className="ml-auto hidden rounded-full bg-white px-4 py-1.5 font-medium text-black transition hover:bg-white/90 md:inline-flex"
+            href="/contact?kind=tool"
+            className="subtle-nav ml-auto hidden rounded-full border border-transparent bg-white px-4 py-1.5 font-medium text-black md:inline-flex"
           >
-            Làm UseCase riêng
+            Làm theo yêu cầu riêng
           </Link>
 
           <button
@@ -111,7 +110,7 @@ export function Nav() {
             onClick={() => setOpen(true)}
             aria-label="Mở menu"
             aria-expanded={open}
-            className="ml-auto inline-flex h-9 w-9 items-center justify-center rounded-full text-foreground/80 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 md:hidden"
+            className="subtle-nav ml-auto inline-flex h-9 w-9 items-center justify-center rounded-full border border-transparent text-foreground/80 focus-visible:outline-none md:hidden"
           >
             <Menu className="h-5 w-5" />
           </button>
@@ -159,7 +158,7 @@ export function Nav() {
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Đóng menu"
-              className="grid h-9 w-9 place-items-center rounded-full text-foreground/80 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+              className="subtle-nav grid h-9 w-9 place-items-center rounded-full border border-transparent text-foreground/80 focus-visible:outline-none"
             >
               <X className="h-5 w-5" />
             </button>
@@ -171,7 +170,7 @@ export function Nav() {
                 <Link
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="block rounded-xl px-3 py-3 text-base font-medium text-foreground/85 hover:bg-white/5"
+                  className="subtle-nav block rounded-xl border border-transparent px-3 py-3 text-base font-medium text-foreground/85"
                 >
                   {l.label}
                 </Link>
@@ -181,7 +180,7 @@ export function Nav() {
               <Link
                 href="/about"
                 onClick={() => setOpen(false)}
-                className="block rounded-xl px-3 py-3 text-base font-medium text-foreground/85 hover:bg-white/5"
+                className="subtle-nav block rounded-xl border border-transparent px-3 py-3 text-base font-medium text-foreground/85"
               >
                 Về mình
               </Link>
@@ -189,11 +188,11 @@ export function Nav() {
           </ul>
 
           <Link
-            href={onLanding ? '#contact' : '/contact'}
+            href="/contact?kind=tool"
             onClick={() => setOpen(false)}
-            className="mt-4 block w-full rounded-2xl bg-white py-3 text-center font-medium text-black"
+            className="subtle-nav mt-4 block w-full rounded-2xl border border-transparent bg-white py-3 text-center font-medium text-black"
           >
-            Làm UseCase riêng
+            Làm theo yêu cầu riêng
           </Link>
         </div>
       </div>

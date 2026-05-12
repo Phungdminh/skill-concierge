@@ -29,6 +29,7 @@ export interface Product {
   status: ProductStatus;
   featured: boolean;
   sort_order: number;
+  sales_count: number;
   created_at: string;
   updated_at: string;
 }

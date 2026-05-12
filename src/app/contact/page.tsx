@@ -4,7 +4,6 @@ import { PageHeader } from '@/components/page-header';
 import { InquiryForm } from '@/components/inquiry-form';
 import { createClient } from '@/lib/supabase/server';
 import { Clock } from 'lucide-react';
-import { BrandIcon } from '@/components/brand-icon';
 import {
   ALL_KINDS,
   KIND_META,
@@ -36,9 +35,9 @@ const CHANNELS = [
   {
     brand: 'gmail' as const,
     label: 'Gmail',
-    value: 'phungducminh2992003@gmail.com',
+    value: 'Phungducminh299@gmail.com',
     hint: 'Brief dài, file đính kèm · <24h',
-    href: 'mailto:phungducminh2992003@gmail.com',
+    href: 'mailto:Phungducminh299@gmail.com',
   },
 ];
 
@@ -117,10 +116,7 @@ export default async function ContactPage({ searchParams }: PageProps) {
                     rel="noreferrer"
                     className="group flex h-full flex-col rounded-2xl border border-white/5 bg-[#0d0d10] p-6 transition hover:border-white/15 hover:bg-white/[0.02]"
                   >
-                    <span className="grid h-12 w-12 place-items-center rounded-xl bg-white/[0.04] ring-1 ring-white/10">
-                      <BrandIcon brand={c.brand} />
-                    </span>
-                    <div className="mt-4 text-sm font-medium text-foreground/90">{c.label}</div>
+                    <div className="text-sm font-medium text-foreground/90">{c.label}</div>
                     <div className="mt-1 text-sm text-foreground/60">{c.value}</div>
                     <div className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
                       <Clock className="h-3 w-3" /> {c.hint}

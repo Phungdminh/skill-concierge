@@ -37,12 +37,12 @@ export function Faq({
                 type="button"
                 onClick={() => setOpen(isOpen ? null : i)}
                 aria-expanded={isOpen}
-                className="flex w-full items-start justify-between gap-4 px-6 py-5 text-left transition hover:bg-white/[0.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/15"
+                className="faq-row flex w-full items-start justify-between gap-4 px-6 py-5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/40"
               >
                 <span className="text-base font-medium leading-snug text-foreground/95 md:text-lg">
                   {item.q}
                 </span>
-                <span className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full bg-white/[0.04] text-foreground/70 ring-1 ring-white/10">
+                <span className="faq-icon mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full bg-white/[0.04] text-foreground/70 ring-1 ring-white/10 transition duration-200">
                   {isOpen ? <Minus className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
                 </span>
               </button>

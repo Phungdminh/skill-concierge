@@ -25,8 +25,17 @@ export function ProductCard({ product, hideKind = false }: ProductCardProps) {
   return (
     <Link
       href={productDetailHref(product)}
-      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/5 bg-[#0d0d10] transition hover:border-white/15"
+      className="subtle-card group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/5 bg-[#0d0d10]"
     >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-10 rounded-3xl bg-gradient-to-br from-brand-orange/0 via-brand-red/0 to-brand-amber/0 transition duration-300 group-hover:from-brand-orange/18 group-hover:via-brand-red/8 group-hover:to-brand-amber/10"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-10 rounded-3xl ring-0 ring-brand-orange/0 transition duration-300 group-hover:ring-2 group-hover:ring-brand-orange/60"
+      />
+
       <div className="relative aspect-video w-full overflow-hidden bg-[#0a0a0b]">
         {cover ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -69,11 +78,11 @@ export function ProductCard({ product, hideKind = false }: ProductCardProps) {
             {product.category}
           </span>
         )}
-        <h3 className="text-balance text-lg font-semibold tracking-tight">
+        <h3 className="text-balance text-lg font-semibold tracking-tight transition duration-300 group-hover:text-brand-orange">
           {product.title}
         </h3>
         {product.tagline && (
-          <p className="mt-2 line-clamp-2 text-sm text-foreground/65">{product.tagline}</p>
+          <p className="mt-2 line-clamp-2 text-sm text-foreground/65 transition duration-300 group-hover:text-foreground/85">{product.tagline}</p>
         )}
 
         {product.tags.length > 0 && (
@@ -98,7 +107,7 @@ export function ProductCard({ product, hideKind = false }: ProductCardProps) {
               {formatPriceVnd(product.price_vnd, product.pricing_mode)}
             </div>
           </div>
-          <span className="inline-flex items-center gap-1 text-xs text-foreground/65 transition group-hover:text-foreground">
+          <span className="inline-flex items-center gap-1 rounded-full border border-white/10 px-3 py-1.5 text-xs text-foreground/65 transition duration-300 group-hover:border-brand-orange/50 group-hover:bg-brand-orange/10 group-hover:text-brand-orange">
             Xem chi tiết
             <ArrowUpRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </span>

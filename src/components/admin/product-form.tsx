@@ -81,6 +81,9 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
   const [sortOrder, setSortOrder] = useState<string>(
     initial?.sort_order == null ? '0' : String(initial.sort_order),
   );
+  const [salesCount, setSalesCount] = useState<string>(
+    initial?.sales_count == null ? '0' : String(initial.sales_count),
+  );
   const [state, setState] = useState<'idle' | 'saving' | 'deleting' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -104,6 +107,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
     setState('saving');
     setErrorMsg(null);
     const sortOrderNum = Number.parseInt(sortOrder, 10);
+    const salesCountNum = Number.parseInt(salesCount, 10);
     const basePayload = {
       title: title.trim(),
       slug: slug.trim() || slugify(title),
@@ -126,6 +130,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
       status,
       featured,
       sort_order: Number.isFinite(sortOrderNum) ? sortOrderNum : 0,
+      sales_count: Number.isFinite(salesCountNum) && salesCountNum > 0 ? salesCountNum : 0,
     };
     const payload =
       mode === 'create' ? { kind, ...basePayload } : basePayload;
@@ -524,6 +529,17 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
           />
         </FormField>
       </div>
+
+      <FormField label="Số lượt bán" htmlFor="sales_count" hint="Tool có số lượt bán cao nhất sẽ được hiện demo nổi bật trên landing page.">
+        <input
+          id="sales_count"
+          type="number"
+          min="0"
+          value={salesCount}
+          onChange={(e) => setSalesCount(e.target.value)}
+          className={inputCls}
+        />
+      </FormField>
 
       {errorMsg && (
         <p className="rounded-lg bg-red-500/10 px-3 py-2 text-xs text-red-300 ring-1 ring-red-500/30">

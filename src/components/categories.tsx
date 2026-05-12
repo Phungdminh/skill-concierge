@@ -56,31 +56,41 @@ export function Categories() {
               key={k}
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ y: -10, scale: 1.02 }}
               viewport={{ once: true, amount: 0.25 }}
               transition={{ delay: i * 0.06, duration: 0.5 }}
+              className="h-full"
             >
               <Link
                 href={meta.route}
-                className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/5 bg-[#0d0d10] p-7 transition hover:border-white/15"
+                className="interactive-card group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/5 bg-[#0d0d10] p-7"
               >
                 <div
                   aria-hidden
-                  className={`pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-gradient-to-br ${meta.accent} opacity-25 blur-3xl transition-opacity group-hover:opacity-45`}
+                  className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-brand-orange/0 via-brand-orange/0 to-brand-orange/0 transition duration-300 group-hover:from-brand-orange/20 group-hover:via-brand-red/10 group-hover:to-brand-amber/10"
+                />
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 rounded-3xl ring-0 ring-brand-orange/0 transition duration-300 group-hover:ring-2 group-hover:ring-brand-orange/60"
+                />
+                <div
+                  aria-hidden
+                  className={`pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-gradient-to-br ${meta.accent} opacity-25 blur-3xl transition duration-300 group-hover:scale-150 group-hover:opacity-80`}
                 />
 
                 <div className="relative flex items-start gap-5">
-                  <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-white/[0.04] text-brand-orange ring-1 ring-white/10">
-                    <Icon className="h-7 w-7" strokeWidth={1.6} />
+                  <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-white/[0.04] text-brand-orange ring-1 ring-white/10 transition duration-300 group-hover:scale-110 group-hover:bg-brand-orange group-hover:text-white group-hover:ring-brand-orange/40">
+                    <Icon className="h-7 w-7 transition duration-300 group-hover:rotate-3" strokeWidth={1.6} />
                   </span>
                   <div className="flex-1">
                     <p className="text-[10.5px] uppercase tracking-widest text-muted-foreground">
                       {copy.tag}
                     </p>
-                    <h3 className="mt-1.5 flex items-center gap-1.5 text-2xl font-semibold tracking-tight">
+                    <h3 className="mt-1.5 flex items-center gap-1.5 text-2xl font-semibold tracking-tight transition duration-300 group-hover:text-brand-orange">
                       {meta.label}
-                      <ArrowUpRight className="h-4 w-4 text-foreground/40 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground" />
+                      <ArrowUpRight className="h-4 w-4 text-foreground/40 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brand-orange" />
                     </h3>
-                    <p className="mt-2 text-sm text-foreground/65">{copy.pitch}</p>
+                    <p className="mt-2 text-sm text-foreground/65 transition duration-300 group-hover:text-foreground/85">{copy.pitch}</p>
                   </div>
                 </div>
 
@@ -93,7 +103,7 @@ export function Categories() {
                   ))}
                 </ul>
 
-                <span className="relative mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-foreground/80 transition group-hover:text-foreground">
+                <span className="relative mt-6 inline-flex w-fit items-center gap-1.5 rounded-full border border-white/10 px-3 py-1.5 text-sm font-medium text-foreground/80 transition duration-300 group-hover:border-brand-orange/50 group-hover:bg-brand-orange/10 group-hover:text-brand-orange">
                   Xem {meta.pluralLabel.toLowerCase()}
                   <ArrowUpRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </span>

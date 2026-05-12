@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { Sparkles } from 'lucide-react';
-import { BrandIcon } from '@/components/brand-icon';
 
 const COLS: { heading: string; links: { label: string; href: string }[] }[] = [
   {
@@ -38,7 +37,7 @@ export function Footer() {
           <div className="col-span-2 md:col-span-4">
             <Link href="/" className="inline-flex items-center gap-2 font-semibold tracking-tight">
               <span className="bg-brand-gradient grid h-7 w-7 place-items-center rounded-md text-black">
-                <Sparkles className="h-4 w-4" strokeWidth={2.5} />
+                <Sparkles className="h-6 w-6 shrink-0" strokeWidth={2.5} />
               </span>
               <span className="text-base">SkillForge</span>
               <span className="text-[10px] font-medium text-muted-foreground">VN</span>
@@ -83,17 +82,15 @@ export function Footer() {
                   rel="noreferrer"
                   className="inline-flex items-center gap-2 text-foreground/75 transition hover:text-foreground"
                 >
-                  <BrandIcon brand="zalo" className="h-4 w-4" />
                   Zalo: 0973309676
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:phungducminh2992003@gmail.com"
+                  href="mailto:Phungducminh299@gmail.com"
                   className="inline-flex items-center gap-2 text-foreground/75 transition hover:text-foreground"
                 >
-                  <BrandIcon brand="gmail" className="h-4 w-4" />
-                  phungducminh2992003@gmail.com
+                  Phungducminh299@gmail.com
                 </a>
               </li>
               <li>
@@ -103,7 +100,6 @@ export function Footer() {
                   rel="noreferrer"
                   className="inline-flex items-center gap-2 text-foreground/75 transition hover:text-foreground"
                 >
-                  <BrandIcon brand="telegram" className="h-4 w-4" />
                   Telegram @ducminh299
                 </a>
               </li>

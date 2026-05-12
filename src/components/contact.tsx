@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { BrandIcon } from '@/components/brand-icon';
 
 const CHANNELS = [
   {
@@ -21,9 +20,9 @@ const CHANNELS = [
   {
     brand: 'gmail' as const,
     label: 'Gmail',
-    value: 'phungducminh2992003@gmail.com',
+    value: 'Phungducminh299@gmail.com',
     hint: 'Brief dài, file đính kèm',
-    href: 'mailto:phungducminh2992003@gmail.com',
+    href: 'mailto:Phungducminh299@gmail.com',
   },
 ];
 
@@ -62,11 +61,8 @@ export function Contact() {
                     href={c.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="group flex items-center gap-4 rounded-2xl border border-white/5 bg-white/[0.02] p-4 transition hover:border-white/15 hover:bg-white/[0.04]"
+                    className="featured-cta group flex items-center gap-4 rounded-2xl border border-white/5 bg-white/[0.02] p-4"
                   >
-                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-white/[0.04] ring-1 ring-white/8">
-                      <BrandIcon brand={c.brand} />
-                    </span>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-2">
                         <span className="text-sm font-medium text-foreground/90">{c.label}</span>

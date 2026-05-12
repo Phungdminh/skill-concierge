@@ -115,10 +115,10 @@ function CategoryChip({
     <Link
       href={href}
       className={cn(
-        'rounded-full px-4 py-1.5 text-sm transition',
+        'rounded-full px-4 py-1.5 text-sm transition duration-300',
         active
-          ? 'bg-brand-gradient font-semibold text-black'
-          : 'border border-white/10 bg-white/[0.02] text-foreground/75 hover:bg-white/[0.06]',
+          ? 'bg-brand-gradient font-semibold text-black shadow-lg shadow-brand-orange/20'
+          : 'border border-white/10 bg-white/[0.02] text-foreground/75 hover:-translate-y-0.5 hover:border-brand-orange/60 hover:bg-brand-orange/10 hover:text-brand-orange hover:shadow-lg hover:shadow-brand-orange/20',
       )}
     >
       {label}
@@ -138,7 +138,7 @@ function EmptyState({ kind, category }: { kind: ProductKind; category?: string }
       <p className="mt-2 max-w-md text-sm text-foreground/55">{meta.emptyBody}</p>
       <Link
         href={`/contact?kind=${kind}`}
-        className="mt-6 inline-flex items-center gap-2 rounded-xl border border-white/10 px-5 py-2.5 text-sm transition hover:bg-white/[0.04]"
+        className="mt-6 inline-flex items-center gap-2 rounded-xl border border-white/10 px-5 py-2.5 text-sm transition duration-300 hover:-translate-y-1 hover:border-brand-orange/60 hover:bg-brand-orange/10 hover:text-brand-orange hover:shadow-lg hover:shadow-brand-orange/20"
       >
         {meta.ctaLabel}
       </Link>
