@@ -54,7 +54,7 @@ export default async function AdminProductsPage({ searchParams }: PageProps) {
           <p className="text-xs uppercase tracking-widest text-muted-foreground">Admin</p>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight md:text-4xl">Sản phẩm</h1>
           <p className="mt-2 text-foreground/65">
-            Tool, setup guide, khoá học, web/portfolio — tất cả nháp và đang bán.
+            Tool, setup guide, prompt mẫu, web/portfolio — tất cả nháp và đang bán.
           </p>
         </div>
         <Link
@@ -112,7 +112,7 @@ export default async function AdminProductsPage({ searchParams }: PageProps) {
                       </span>
                     </td>
                     <td className="px-4 py-3 tabular-nums text-foreground/80">
-                      {formatPriceVnd(p.price_vnd, p.pricing_mode)}
+                      {formatPriceVnd(p.price_vnd, p.pricing_mode, p.is_free)}
                     </td>
                     <td className="px-4 py-3">
                       <span

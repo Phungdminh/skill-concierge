@@ -38,8 +38,8 @@ export const FAQ_GENERAL: FaqItem[] = [
     a: 'Mình nhận landing page và portfolio cá nhân gọn nhẹ, tập trung vào giới thiệu dịch vụ/sản phẩm và tạo form liên hệ. Không định vị là hệ thống nội bộ phức tạp hay phần mềm quản trị doanh nghiệp.',
   },
   {
-    q: 'Khoá học AI dành cho người mới có cần nền tảng kỹ thuật không?',
-    a: 'Không cần. Nội dung tập trung vào cách dùng AI cho công việc hằng ngày: viết prompt, xử lý tài liệu, tạo quy trình làm việc và tránh các lỗi phổ biến khi dùng ChatGPT/Claude.',
+    q: 'Prompt mẫu dùng cho những việc gì?',
+    a: 'Prompt mẫu được chia theo nhu cầu như công việc, học tập, kinh doanh, sáng tạo nội dung và automation. Bạn chỉ cần copy, chỉnh vài thông tin theo ngữ cảnh rồi dùng với ChatGPT/Claude.',
   },
   {
     q: 'Tool có dùng được trên Mac / Linux không?',

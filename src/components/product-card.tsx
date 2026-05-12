@@ -104,7 +104,7 @@ export function ProductCard({ product, hideKind = false }: ProductCardProps) {
               {product.duration_label ?? 'Giá'}
             </div>
             <div className="mt-0.5 text-base font-semibold tabular-nums text-foreground/95">
-              {formatPriceVnd(product.price_vnd, product.pricing_mode)}
+              {formatPriceVnd(product.price_vnd, product.pricing_mode, product.is_free)}
             </div>
           </div>
           <span className="inline-flex items-center gap-1 rounded-full border border-white/10 px-3 py-1.5 text-xs text-foreground/65 transition duration-300 group-hover:border-brand-orange/50 group-hover:bg-brand-orange/10 group-hover:text-brand-orange">

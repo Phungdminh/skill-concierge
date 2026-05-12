@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 const LINKS = [
   { href: '/tools', label: 'Tools' },
   { href: '/setup', label: 'Setup' },
-  { href: '/courses', label: 'Khoá học' },
+  { href: '/prompts', label: 'Prompt mẫu' },
   { href: '/web', label: 'Web / Portfolio' },
 ];
 
@@ -98,7 +98,7 @@ export function Nav() {
           </ul>
 
           <Link
-            href="/contact?kind=tool"
+            href="/contact"
             className="subtle-nav ml-auto hidden rounded-full border border-transparent bg-white px-4 py-1.5 font-medium text-black md:inline-flex"
           >
             Làm theo yêu cầu riêng
@@ -188,7 +188,7 @@ export function Nav() {
           </ul>
 
           <Link
-            href="/contact?kind=tool"
+            href="/contact"
             onClick={() => setOpen(false)}
             className="subtle-nav mt-4 block w-full rounded-2xl border border-transparent bg-white py-3 text-center font-medium text-black"
           >

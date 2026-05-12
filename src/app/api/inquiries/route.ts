@@ -8,7 +8,7 @@ const inquirySchema = z.object({
   phone: z.string().trim().max(40).nullable().optional(),
   message: z.string().trim().max(4000).nullable().optional(),
   product_id: z.string().uuid().nullable().optional(),
-  product_kind: z.enum(['tool', 'setup', 'course', 'webwork']).nullable().optional(),
+  product_kind: z.enum(['tool', 'setup', 'prompt', 'webwork']).nullable().optional(),
   website: z.string().optional(), // honeypot
 });
 

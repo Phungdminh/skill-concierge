@@ -2,8 +2,7 @@
 
 import Link from 'next/link';
 import { motion, type Variants } from 'motion/react';
-import { Play, Sparkles, Wrench, ArrowRight } from 'lucide-react';
-import { AnimatedBackground } from './animated-background';
+import { Play, Sparkles } from 'lucide-react';
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 16 },
@@ -27,8 +26,6 @@ const STATS = [
 export function Hero() {
   return (
     <section className="relative isolate flex min-h-[100svh] flex-col">
-      <AnimatedBackground />
-
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col items-center justify-center px-6 pb-16 pt-32 text-center">
         <motion.span
           custom={0}
@@ -73,19 +70,11 @@ export function Hero() {
           className="mt-10 flex flex-wrap items-center justify-center gap-3"
         >
           <Link
-            href="/tools"
-            className="hero-primary-cta bg-brand-gradient glow-red group inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 text-sm font-semibold text-black"
-          >
-            <Wrench className="h-4 w-4" />
-            Xem tất cả tools
-            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-          </Link>
-          <Link
             href="#featured"
             className="hero-secondary-cta group inline-flex items-center gap-2 rounded-2xl border border-white/12 bg-white/[0.02] px-6 py-3.5 text-sm font-medium text-foreground/85 backdrop-blur"
           >
             <Play className="h-4 w-4 fill-current" strokeWidth={0} />
-            Xem demo nổi bật
+            Xem demo tool nổi bật nhất
           </Link>
         </motion.div>
 

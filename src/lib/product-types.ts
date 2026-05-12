@@ -1,7 +1,7 @@
 import type { LucideIcon } from 'lucide-react';
-import { Bot, Wrench, GraduationCap, Globe } from 'lucide-react';
+import { Bot, Wrench, LibraryBig, Globe } from 'lucide-react';
 
-export type ProductKind = 'tool' | 'setup' | 'course' | 'webwork';
+export type ProductKind = 'tool' | 'setup' | 'prompt' | 'webwork';
 export type ProductStatus = 'draft' | 'published' | 'sold_out' | 'archived';
 export type PricingMode = 'fixed' | 'from' | 'quote';
 export type InquiryStatus = 'new' | 'contacted' | 'closed';
@@ -20,6 +20,7 @@ export interface Product {
   gallery: string[];
   pricing_mode: PricingMode;
   price_vnd: number | null;
+  is_free: boolean;
   category: string | null;
   tags: string[];
   deliverables: string[];
@@ -87,18 +88,18 @@ export const KIND_META: Record<ProductKind, KindMeta> = {
     emptyBody: 'Đang ghi hình các bộ setup guide đầu tiên. Bạn cần setup gì cụ thể? Ping mình.',
     ctaLabel: 'Đặt setup riêng',
   },
-  course: {
-    kind: 'course',
-    label: 'Khoá học',
-    shortLabel: 'Khoá học',
-    pluralLabel: 'Khoá học',
-    description: 'Khoá học AI cơ bản cho non-IT: cách dùng Claude/ChatGPT đúng, viết prompt, automate work hằng ngày. Video + PDF + Zalo group.',
-    route: '/courses',
-    icon: GraduationCap,
+  prompt: {
+    kind: 'prompt',
+    label: 'Prompt mẫu',
+    shortLabel: 'Prompt mẫu',
+    pluralLabel: 'Prompt mẫu',
+    description: 'Kho tàng trữ prompt cho tất tần tật về mọi thứ: công việc, học tập, kinh doanh, sáng tạo nội dung, automation và AI hằng ngày.',
+    route: '/prompts',
+    icon: LibraryBig,
     accent: 'from-brand-amber/70 to-brand-red/40',
-    emptyTitle: 'Khoá học đang quay',
-    emptyBody: '2 khoá AI cơ bản đang trong giai đoạn quay — đăng ký waitlist nếu muốn nhận sớm.',
-    ctaLabel: 'Đăng ký waitlist',
+    emptyTitle: 'Prompt mẫu đang được cập nhật',
+    emptyBody: 'Kho prompt đang được sắp xếp lại — quay lại sớm nhé. Nếu bạn cần prompt cho việc cụ thể, nhắn mình để được gợi ý.',
+    ctaLabel: 'Yêu cầu prompt riêng',
   },
   webwork: {
     kind: 'webwork',
@@ -115,7 +116,7 @@ export const KIND_META: Record<ProductKind, KindMeta> = {
   },
 };
 
-export const ALL_KINDS: ProductKind[] = ['tool', 'setup', 'course', 'webwork'];
+export const ALL_KINDS: ProductKind[] = ['tool', 'setup', 'prompt', 'webwork'];
 
 export const SUPPORT_META: Record<SupportOption, { label: string; description: string }> = {
   drive_folder: {
@@ -124,7 +125,7 @@ export const SUPPORT_META: Record<SupportOption, { label: string; description: s
   },
   zalo_group: {
     label: 'Zalo group',
-    description: 'Group riêng cho khách của tool/khoá học — hỏi đáp trực tiếp',
+    description: 'Group riêng cho khách của tool/prompt mẫu — hỏi đáp trực tiếp',
   },
   one_on_one_call: {
     label: '1-on-1 call 30 phút',
@@ -155,10 +156,12 @@ export const SETUP_CATEGORIES = [
   { value: 'other', label: 'Khác' },
 ] as const;
 
-export const COURSE_CATEGORIES = [
-  { value: 'ai-basic', label: 'AI cơ bản' },
-  { value: 'prompt', label: 'Prompt engineering' },
-  { value: 'automation', label: 'Automation cho non-IT' },
+export const PROMPT_CATEGORIES = [
+  { value: 'cong-viec', label: 'Công việc' },
+  { value: 'kinh-doanh', label: 'Kinh doanh' },
+  { value: 'sang-tao', label: 'Sáng tạo nội dung' },
+  { value: 'hoc-tap', label: 'Học tập' },
+  { value: 'automation', label: 'Automation' },
   { value: 'other', label: 'Khác' },
 ] as const;
 
@@ -176,14 +179,15 @@ export function categoriesFor(kind: ProductKind) {
       return TOOL_CATEGORIES;
     case 'setup':
       return SETUP_CATEGORIES;
-    case 'course':
-      return COURSE_CATEGORIES;
+    case 'prompt':
+      return PROMPT_CATEGORIES;
     case 'webwork':
       return WEBWORK_CATEGORIES;
   }
 }
 
-export function formatPriceVnd(price: number | null, mode: PricingMode = 'fixed'): string {
+export function formatPriceVnd(price: number | null, mode: PricingMode = 'fixed', isFree = false): string {
+  if (isFree) return 'Miễn phí';
   if (mode === 'quote' || price == null) return 'Liên hệ báo giá';
   const formatted = new Intl.NumberFormat('vi-VN').format(price) + 'đ';
   return mode === 'from' ? `Từ ${formatted}` : formatted;

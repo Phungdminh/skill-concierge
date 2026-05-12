@@ -19,10 +19,10 @@ const CARD_COPY: Record<
     pitch: 'Mình setup giúp: MCP, plugin AI, OpenClaw, FX broker API, Claude Code…',
     bullets: ['Remote setup qua TeamViewer/AnyDesk', 'Video screen-record để xem lại', 'Hỗ trợ Zalo 14 ngày'],
   },
-  course: {
-    tag: 'Học AI cho người mới',
-    pitch: 'Khoá học AI cơ bản — cách dùng Claude/ChatGPT đúng để automate công việc.',
-    bullets: ['Folder Drive video + PDF', 'Zalo group hỏi đáp', 'Cập nhật khi có version mới'],
+  prompt: {
+    tag: 'Kho prompt dùng ngay',
+    pitch: 'Kho tàng prompt mẫu cho công việc, học tập, kinh doanh và sáng tạo nội dung.',
+    bullets: ['Prompt chia theo nhu cầu', 'Copy là dùng được ngay', 'Cập nhật thêm mẫu mới'],
   },
   webwork: {
     tag: 'Theo yêu cầu',

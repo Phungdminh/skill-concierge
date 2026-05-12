@@ -1,5 +1,5 @@
 -- Run in Supabase SQL editor after creating the project.
--- SkillForge VN — single-creator multi-kind storefront (tool / setup / course / webwork).
+-- SkillForge VN — single-creator multi-kind storefront (tool / setup / prompt / webwork).
 
 -- Clean slate (idempotent re-runs)
 -- Dropping tables with cascade also removes their policies, indexes, and foreign keys.
@@ -15,7 +15,7 @@ drop table if exists skills cascade;
 create table products (
   id uuid primary key default gen_random_uuid(),
   owner_id uuid references auth.users(id) on delete cascade not null,
-  kind text not null check (kind in ('tool','setup','course','webwork')),
+  kind text not null check (kind in ('tool','setup','prompt','webwork')),
   slug text unique not null,
   title text not null,
   tagline text,
@@ -25,12 +25,13 @@ create table products (
   gallery jsonb default '[]'::jsonb,                                 -- array of image URLs
   pricing_mode text default 'fixed' check (pricing_mode in ('fixed','from','quote')),
   price_vnd integer,                                                 -- nullable when pricing_mode='quote'
+  is_free boolean default false not null,                            -- free prompt/download option
   category text,                                                     -- kind-specific: automation/scraping/mockup, mcp/openclaw/api, ai-basic/prompt, landing/portfolio …
   tags text[] default '{}',                                          -- stack/topic chips
   deliverables jsonb default '[]'::jsonb,                            -- array of strings (bullet list shown on detail page)
   support_options text[] default '{}',                               -- subset of: drive_folder, zalo_group, one_on_one_call, remote_setup
   duration_label text,                                               -- "5 bài × ~30 phút", "Giao 3 ngày", v.v.
-  prerequisites jsonb default '[]'::jsonb,                           -- array of strings shown for setup/course kinds
+  prerequisites jsonb default '[]'::jsonb,                           -- array of strings shown for setup/prompt kinds
   status text default 'draft' check (status in ('draft','published','sold_out','archived')),
   featured boolean default false,
   sort_order integer default 0,

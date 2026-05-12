@@ -94,7 +94,7 @@ export async function FeaturedTools() {
                   </span>
                 )}
                 <span className="rounded-full bg-white/[0.04] px-3 py-1 text-xs text-foreground/75 ring-1 ring-white/8">
-                  {formatPriceVnd(bestSeller.price_vnd, bestSeller.pricing_mode)}
+                  {formatPriceVnd(bestSeller.price_vnd, bestSeller.pricing_mode, bestSeller.is_free)}
                 </span>
               </div>
             </div>
@@ -126,7 +126,7 @@ export async function FeaturedTools() {
             Đang đóng gói tool tiếp theo — quay lại sớm nhé. Hoặc nói với mình bạn cần gì.
           </p>
           <Link
-            href="/contact?kind=tool"
+            href="/contact"
             className="featured-cta mt-6 inline-flex min-h-12 items-center gap-2 rounded-xl border border-white/12 bg-white/[0.03] px-6 py-3 text-sm font-medium text-foreground/90 transition duration-200 hover:-translate-y-0.5 hover:scale-[1.015] hover:border-brand-orange/45 hover:bg-brand-orange/10 hover:text-white hover:shadow-lg hover:shadow-brand-orange/15"
           >
             Đặt tool riêng

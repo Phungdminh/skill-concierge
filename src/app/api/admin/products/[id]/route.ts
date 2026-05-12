@@ -15,6 +15,7 @@ const patchSchema = z.object({
   gallery: z.array(z.string().url()).max(20).optional(),
   pricing_mode: z.enum(['fixed', 'from', 'quote']).optional(),
   price_vnd: z.number().int().min(0).nullable().optional(),
+  is_free: z.boolean().optional(),
   category: z.string().max(40).nullable().optional(),
   tags: z.array(z.string().max(40)).max(20).optional(),
   deliverables: z.array(z.string().max(200)).max(20).optional(),
@@ -98,6 +99,7 @@ export async function PATCH(
   if (d.prerequisites !== undefined) update.prerequisites = d.prerequisites;
   if (d.status !== undefined) update.status = d.status;
   if (d.featured !== undefined) update.featured = d.featured;
+  if (d.is_free !== undefined) update.is_free = d.is_free;
   if (d.sort_order !== undefined) update.sort_order = d.sort_order;
   if (d.sales_count !== undefined) update.sales_count = d.sales_count;
 

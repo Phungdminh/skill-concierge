@@ -5,7 +5,7 @@ import { slugify } from '@/lib/product-types';
 import { createAdminClient } from '@/lib/supabase/admin';
 
 const productInputSchema = z.object({
-  kind: z.enum(['tool', 'setup', 'course', 'webwork']),
+  kind: z.enum(['tool', 'setup', 'prompt', 'webwork']),
   title: z.string().trim().min(2).max(160),
   slug: z.string().trim().min(1).max(80).optional(),
   tagline: z.string().trim().max(300).nullable().optional(),
@@ -15,6 +15,7 @@ const productInputSchema = z.object({
   gallery: z.array(z.string().url()).max(20).optional(),
   pricing_mode: z.enum(['fixed', 'from', 'quote']).optional(),
   price_vnd: z.number().int().min(0).nullable().optional(),
+  is_free: z.boolean().optional(),
   category: z.string().trim().max(40).nullable().optional(),
   tags: z.array(z.string().max(40)).max(20).optional(),
   deliverables: z.array(z.string().max(200)).max(20).optional(),
@@ -91,6 +92,7 @@ export async function POST(req: Request) {
     prerequisites: parsed.data.prerequisites ?? [],
     status: parsed.data.status ?? 'draft',
     featured: parsed.data.featured ?? false,
+    is_free: parsed.data.is_free ?? false,
     sort_order: parsed.data.sort_order ?? 0,
     sales_count: parsed.data.sales_count ?? 0,
   };

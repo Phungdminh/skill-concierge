@@ -3,7 +3,7 @@ import { Footer } from '@/components/footer';
 import { PageHeader } from '@/components/page-header';
 import { InquiryForm } from '@/components/inquiry-form';
 import { createClient } from '@/lib/supabase/server';
-import { Clock } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import {
   ALL_KINDS,
   KIND_META,
@@ -14,7 +14,7 @@ import {
 export const metadata = {
   title: 'Liên hệ — SkillForge VN',
   description:
-    'Đặt mua tool, đặt setup, đăng ký khoá học, hay yêu cầu làm web — rep trong 24h qua Zalo / Telegram / Email.',
+    'Đặt mua tool, đặt setup, lấy prompt mẫu, hay yêu cầu làm web — rep trong 24h qua Zalo / Telegram / Email.',
 };
 
 const CHANNELS = [
@@ -66,18 +66,15 @@ export default async function ContactPage({ searchParams }: PageProps) {
 
   const activeKind = product?.kind ?? kind;
   const kindMeta = activeKind ? KIND_META[activeKind] : null;
+  const showForm = product != null;
 
   const title = product
     ? `Đặt: ${product.title}`
-    : kindMeta
-      ? kindMeta.ctaLabel
-      : 'Đặt sản phẩm hoặc yêu cầu làm riêng.';
+    : 'Làm theo yêu cầu riêng';
 
   const intro = product
     ? 'Điền form bên dưới — mình rep trong 24h kèm thông tin thanh toán và bước tiếp theo.'
-    : kindMeta
-      ? `Kể nhu cầu của bạn về ${kindMeta.label.toLowerCase()} — mình rep trong 24h với mức quote sơ bộ.`
-      : 'Kể use case của bạn — mình rep trong 24h với mức quote sơ bộ. Không spam follow-up.';
+    : 'Kể nhu cầu của bạn về tool, setup, prompt mẫu hoặc web — mình rep trong 24h với mức quote sơ bộ.';
 
   return (
     <>
@@ -91,21 +88,25 @@ export default async function ContactPage({ searchParams }: PageProps) {
           align="center"
         />
 
-        <section className="mx-auto w-full max-w-2xl px-6 py-6">
-          <div className="rounded-3xl border border-white/5 bg-[#0d0d10] p-6 md:p-8">
-            <InquiryForm
-              productId={product?.id}
-              productSlug={product?.slug}
-              productTitle={product?.title}
-              productKind={product?.kind ?? kind}
-            />
-          </div>
-        </section>
+        {showForm && (
+          <section className="mx-auto w-full max-w-2xl px-6 py-6">
+            <div className="rounded-3xl border border-white/5 bg-[#0d0d10] p-6 md:p-8">
+              <InquiryForm
+                productId={product?.id}
+                productSlug={product?.slug}
+                productTitle={product?.title}
+                productKind={product?.kind ?? kind}
+              />
+            </div>
+          </section>
+        )}
 
         <section className="mx-auto w-full max-w-6xl px-6 py-12">
-          <h2 className="mb-6 text-center text-xs uppercase tracking-widest text-muted-foreground">
-            Hoặc liên hệ kênh khác
-          </h2>
+          {showForm && (
+            <h2 className="mb-6 text-center text-xs uppercase tracking-widest text-muted-foreground">
+              Hoặc liên hệ kênh khác
+            </h2>
+          )}
           <ul className="grid grid-cols-1 gap-3 md:grid-cols-3">
             {CHANNELS.map((c) => {
               return (
@@ -114,13 +115,25 @@ export default async function ContactPage({ searchParams }: PageProps) {
                     href={c.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="group flex h-full flex-col rounded-2xl border border-white/5 bg-[#0d0d10] p-6 transition hover:border-white/15 hover:bg-white/[0.02]"
+                    className="interactive-card group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/5 bg-[#0d0d10] p-6"
                   >
-                    <div className="text-sm font-medium text-foreground/90">{c.label}</div>
-                    <div className="mt-1 text-sm text-foreground/60">{c.value}</div>
-                    <div className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
-                      <Clock className="h-3 w-3" /> {c.hint}
+                    <div
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-brand-orange/0 via-brand-orange/0 to-brand-orange/0 transition duration-300 group-hover:from-brand-orange/20 group-hover:via-brand-red/10 group-hover:to-brand-amber/10"
+                    />
+                    <div
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 rounded-2xl ring-0 ring-brand-orange/0 transition duration-300 group-hover:ring-2 group-hover:ring-brand-orange/60"
+                    />
+                    <div
+                      aria-hidden
+                      className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-gradient-to-br from-brand-orange to-brand-red opacity-20 blur-3xl transition duration-300 group-hover:scale-150 group-hover:opacity-70"
+                    />
+                    <div className="relative flex items-center justify-between">
+                      <div className="text-base font-semibold text-foreground/90 transition duration-300 group-hover:text-brand-orange">{c.label}</div>
+                      <ArrowUpRight className="h-4 w-4 text-foreground/30 transition duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brand-orange" />
                     </div>
+                    <div className="relative mt-2 text-sm text-foreground/60 transition duration-300 group-hover:text-foreground/85">{c.value}</div>
                   </a>
                 </li>
               );
@@ -130,7 +143,10 @@ export default async function ContactPage({ searchParams }: PageProps) {
 
         <section className="mx-auto w-full max-w-3xl px-6 pb-24 text-center">
           <p className="text-sm text-foreground/55">
-            Mình ở Hà Nội (GMT+7). Cuối tuần vẫn rep, nhưng để dành thứ 2 đầu giờ cho call.
+            Mình sẽ xử lý yêu cầu của bạn trong thời gian nhanh nhất.
+          </p>
+          <p className="mt-2 text-sm text-foreground/55">
+            Uy tín là trên hết.
           </p>
         </section>
       </main>

@@ -78,6 +78,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
     (initial?.status as ProductStatus) ?? 'draft',
   );
   const [featured, setFeatured] = useState<boolean>(initial?.featured ?? false);
+  const [isFree, setIsFree] = useState<boolean>(initial?.is_free ?? false);
   const [sortOrder, setSortOrder] = useState<string>(
     initial?.sort_order == null ? '0' : String(initial.sort_order),
   );
@@ -116,11 +117,12 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
       youtube_url: youtubeUrl.trim() || null,
       thumbnail_url: thumbnailUrl.trim() || null,
       gallery: gallery.split('\n').map((s) => s.trim()).filter(Boolean),
-      pricing_mode: pricingMode,
+      pricing_mode: isFree ? 'fixed' : pricingMode,
       price_vnd:
-        pricingMode === 'quote' || priceVnd.trim() === ''
+        isFree || pricingMode === 'quote' || priceVnd.trim() === ''
           ? null
           : Number.parseInt(priceVnd, 10),
+      is_free: kind === 'prompt' ? isFree : false,
       category: category.trim() || null,
       tags: tags.split(',').map((s) => s.trim()).filter(Boolean),
       deliverables: deliverables.split('\n').map((s) => s.trim()).filter(Boolean),
@@ -229,8 +231,8 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
                 ? 'MockupAutomation'
                 : kind === 'setup'
                   ? 'Setup OpenClaw cho FX trader'
-                  : kind === 'course'
-                    ? 'AI cơ bản cho người không IT'
+                  : kind === 'prompt'
+                    ? 'Prompt mẫu cho content marketing'
                     : 'Landing page cho coach 1-1'
             }
             className={inputCls}
@@ -275,8 +277,8 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder={
-            kind === 'course'
-              ? '### Nội dung\n- Buổi 1: …\n- Buổi 2: …'
+            kind === 'prompt'
+              ? '### Mô tả\n- Prompt dùng cho…\n- Cách chỉnh theo ngữ cảnh…'
               : '### Tính năng\n- Tự động hoá X\n- Generate Y'
           }
           className={cn(inputCls, 'font-mono text-[13px]')}
@@ -321,13 +323,29 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
         />
       </FormField>
 
+      {kind === 'prompt' && (
+        <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3">
+          <input
+            type="checkbox"
+            checked={isFree}
+            onChange={(e) => setIsFree(e.target.checked)}
+            className="h-4 w-4 accent-brand-orange"
+          />
+          <span className="text-sm">
+            <span className="font-medium">Miễn phí</span>{' '}
+            <span className="text-foreground/55">— prompt này không tính phí, hiển thị badge "Miễn phí"</span>
+          </span>
+        </label>
+      )}
+
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <FormField label="Pricing mode" htmlFor="pricing_mode">
           <select
             id="pricing_mode"
             value={pricingMode}
+            disabled={isFree}
             onChange={(e) => setPricingMode(e.target.value as PricingMode)}
-            className={inputCls}
+            className={cn(inputCls, isFree && 'opacity-40')}
           >
             {PRICING_OPTIONS.map((o) => (
               <option key={o.value} value={o.value} className="bg-[#0d0d10]">
@@ -342,7 +360,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
         <FormField
           label="Giá (VND)"
           htmlFor="price_vnd"
-          hint={pricingMode === 'quote' ? 'Không dùng khi "Liên hệ báo giá"' : 'Nhập số nguyên, không phẩy'}
+          hint={isFree ? 'Không dùng khi "Miễn phí"' : pricingMode === 'quote' ? 'Không dùng khi "Liên hệ báo giá"' : 'Nhập số nguyên, không phẩy'}
         >
           <input
             id="price_vnd"
@@ -350,10 +368,10 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
             min={0}
             step={1000}
             value={priceVnd}
-            disabled={pricingMode === 'quote'}
+            disabled={isFree || pricingMode === 'quote'}
             onChange={(e) => setPriceVnd(e.target.value)}
             placeholder="1500000"
-            className={cn(inputCls, pricingMode === 'quote' && 'opacity-40')}
+            className={cn(inputCls, (isFree || pricingMode === 'quote') && 'opacity-40')}
           />
         </FormField>
         <FormField label="Trạng thái" htmlFor="status">
@@ -392,8 +410,8 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
           label="Duration label"
           htmlFor="duration_label"
           hint={
-            kind === 'course'
-              ? 'Vd: "6 buổi · 12 giờ video"'
+            kind === 'prompt'
+              ? 'Vd: "50 prompt · 5 nhóm use case"'
               : kind === 'setup'
                 ? 'Vd: "30-60 phút remote setup"'
                 : kind === 'webwork'
@@ -440,8 +458,8 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
               ? 'File .exe + folder _internal/&#10;Hướng dẫn cài đặt PDF&#10;Bảo hành 30 ngày'
               : kind === 'setup'
                 ? 'Video screen-record các bước&#10;File config mẫu&#10;Hỗ trợ Zalo 7 ngày'
-                : kind === 'course'
-                  ? 'Drive folder video + PDF&#10;Zalo group hỗ trợ&#10;Mentorship 1 buổi 1-1'
+                : kind === 'prompt'
+                  ? 'File prompt (PDF/Notion)&#10;Hướng dẫn chỉnh theo ngữ cảnh&#10;Cập nhật mẫu mới miễn phí'
                   : 'Source code (GitHub)&#10;Deploy Vercel/Netlify&#10;Domain setup hỗ trợ'
           }
           className={inputCls}
@@ -498,8 +516,8 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
           placeholder={
             kind === 'tool'
               ? 'Windows 10+ 64-bit&#10;Trình duyệt Chrome'
-              : kind === 'course'
-                ? 'Biết dùng máy tính cơ bản&#10;Có tài khoản Claude/ChatGPT (mình hỗ trợ tạo)'
+              : kind === 'prompt'
+                ? 'Có tài khoản Claude/ChatGPT&#10;Biết copy và chỉnh thông tin cơ bản'
                 : 'Không yêu cầu kiến thức trước'
           }
           className={inputCls}

@@ -8,7 +8,7 @@
 - The site sells and showcases 4 product kinds through one unified product model:
   - `tool`: desktop `.exe` tools built by the owner, usually Python + Playwright + CustomTkinter + PyInstaller.
   - `setup`: done-for-you setup services for non-IT users, e.g. MCP, OpenClaw, FX API, Claude Code, AI plugins.
-  - `course`: AI basic courses/classes delivered as Drive folders, videos, PDFs, and support channels.
+  - `prompt`: Prompt template collections covering work, business, content creation, learning, and daily AI use.
   - `webwork`: custom landing pages and personal portfolio sites only; do not position this as CV work.
 - Customers do not pay automatically in the MVP. They view product details and submit a contact/inquiry form; the owner follows up manually through Zalo/Telegram/email/Drive.
 - Customers should be able to watch a demo before buying. Every public product can have a YouTube demo URL. Use lazy YouTube embedding and avoid loading iframes until needed.
@@ -87,7 +87,7 @@ Các tool nên ưu tiên vì dễ demo bằng video, khách văn phòng dễ hi�
   - `/`
   - `/tools`, `/tools/[slug]`
   - `/setup`, `/setup/[slug]`
-  - `/courses`, `/courses/[slug]`
+  - `/prompts`, `/prompts/[slug]`
   - `/web`, `/web/[slug]`
   - `/contact`, `/thanks`, `/login`, `/signup`, `/about`, `/process`, `/legal/privacy`, `/legal/terms`
 - Admin pages:

@@ -14,24 +14,24 @@ export async function generateMetadata({ params }: PageProps) {
     .from('products')
     .select('title, tagline')
     .eq('slug', slug)
-    .eq('kind', 'course')
+    .eq('kind', 'prompt')
     .eq('status', 'published')
     .maybeSingle();
-  if (!data) return { title: 'Khoá học — SkillForge VN' };
+  if (!data) return { title: 'Prompt mẫu — SkillForge VN' };
   return {
     title: `${data.title} — SkillForge VN`,
     description: data.tagline ?? undefined,
   };
 }
 
-export default async function CourseDetailPage({ params }: PageProps) {
+export default async function PromptDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const supabase = await createClient();
   const { data, error } = await supabase
     .from('products')
     .select('*')
     .eq('slug', slug)
-    .eq('kind', 'course')
+    .eq('kind', 'prompt')
     .eq('status', 'published')
     .maybeSingle();
 

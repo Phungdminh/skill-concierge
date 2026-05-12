@@ -45,7 +45,7 @@ export default async function AdminHome() {
       <p className="text-xs uppercase tracking-widest text-muted-foreground">Admin</p>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight md:text-4xl">Tổng quan</h1>
       <p className="mt-3 text-foreground/65">
-        Quản lý sản phẩm (tool / setup / khoá học / web) và inquiry từ khách.
+        Quản lý sản phẩm (tool / setup / prompt mẫu / web) và inquiry từ khách.
       </p>
 
       <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">

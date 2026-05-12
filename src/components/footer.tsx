@@ -7,7 +7,7 @@ const COLS: { heading: string; links: { label: string; href: string }[] }[] = [
     links: [
       { label: 'Tool desktop', href: '/tools' },
       { label: 'Hướng dẫn setup', href: '/setup' },
-      { label: 'Khoá học', href: '/courses' },
+      { label: 'Prompt mẫu', href: '/prompts' },
       { label: 'Web / portfolio cá nhân', href: '/web' },
     ],
   },
@@ -17,7 +17,7 @@ const COLS: { heading: string; links: { label: string; href: string }[] }[] = [
       { label: 'Cách mua', href: '/process' },
       { label: 'Về mình', href: '/about' },
       { label: 'Liên hệ', href: '/contact' },
-      { label: 'Đặt riêng', href: '/contact?kind=tool' },
+      { label: 'Đặt riêng', href: '/contact' },
     ],
   },
   {
@@ -57,7 +57,7 @@ export function Footer() {
               </h3>
               <ul className="mt-4 space-y-2.5">
                 {c.links.map((l) => (
-                  <li key={l.href}>
+                  <li key={`${c.heading}-${l.label}`}>
                     <Link
                       href={l.href}
                       className="text-sm text-foreground/75 transition hover:text-foreground"

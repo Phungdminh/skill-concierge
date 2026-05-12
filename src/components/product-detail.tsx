@@ -26,10 +26,10 @@ const DEFAULT_BULLETS: Record<Product['kind'], string[]> = {
     'Hỗ trợ trong 14 ngày sau setup',
     'Document config riêng cho máy bạn',
   ],
-  course: [
-    'Truy cập trọn đời folder Drive',
-    'Zalo group hỗ trợ trực tiếp',
-    'Cập nhật khi có version mới',
+  prompt: [
+    'Kho prompt dùng ngay',
+    'Có hướng dẫn chỉnh theo ngữ cảnh',
+    'Cập nhật thêm mẫu mới',
   ],
   webwork: [
     '2 vòng revise miễn phí',
@@ -153,12 +153,14 @@ export function ProductDetail({ product }: ProductDetailProps) {
                     Giá
                   </div>
                   <div className="mt-1 text-3xl font-semibold tabular-nums">
-                    {formatPriceVnd(product.price_vnd, product.pricing_mode)}
+                    {formatPriceVnd(product.price_vnd, product.pricing_mode, product.is_free)}
                   </div>
                   <p className="mt-3 text-xs text-foreground/55">
-                    {product.pricing_mode === 'quote'
-                      ? 'Báo giá theo yêu cầu — mô tả scope, mình quote trong 24h.'
-                      : 'Thanh toán 1 lần. Giao qua Zalo/Drive trong vòng 24h sau xác nhận.'}
+                    {product.is_free
+                      ? 'Prompt này miễn phí — nhắn mình qua Zalo/Telegram để nhận file.'
+                      : product.pricing_mode === 'quote'
+                        ? 'Báo giá theo yêu cầu — mô tả scope, mình quote trong 24h.'
+                        : 'Thanh toán 1 lần. Giao qua Zalo/Drive trong vòng 24h sau xác nhận.'}
                   </p>
 
                   <Link
@@ -166,7 +168,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                     className="bg-brand-gradient glow-red mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-semibold text-black"
                   >
                     <Sparkles className="h-4 w-4" />{' '}
-                    {product.pricing_mode === 'quote' ? 'Yêu cầu báo giá' : 'Mua / Đặt câu hỏi'}
+                    {product.is_free ? 'Nhận prompt miễn phí' : product.pricing_mode === 'quote' ? 'Yêu cầu báo giá' : 'Mua / Đặt câu hỏi'}
                   </Link>
 
                   <ul className="mt-5 space-y-2.5 text-sm text-foreground/75">
