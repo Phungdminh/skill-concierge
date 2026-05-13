@@ -333,7 +333,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
           />
           <span className="text-sm">
             <span className="font-medium">Miễn phí</span>{' '}
-            <span className="text-foreground/55">— prompt này không tính phí, hiển thị badge "Miễn phí"</span>
+            <span className="text-foreground/55">— prompt này không tính phí, hiển thị badge &quot;Miễn phí&quot;</span>
           </span>
         </label>
       )}

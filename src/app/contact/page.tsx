@@ -6,7 +6,6 @@ import { createClient } from '@/lib/supabase/server';
 import { ArrowUpRight } from 'lucide-react';
 import {
   ALL_KINDS,
-  KIND_META,
   type Product,
   type ProductKind,
 } from '@/lib/product-types';
@@ -51,9 +50,13 @@ export default async function ContactPage({ searchParams }: PageProps) {
     ? (kindParam as ProductKind)
     : undefined;
 
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   let product: Pick<Product, 'id' | 'slug' | 'title' | 'kind'> | null = null;
   if (productSlug) {
-    const supabase = await createClient();
     let q = supabase
       .from('products')
       .select('id, slug, title, kind')
@@ -64,8 +67,6 @@ export default async function ContactPage({ searchParams }: PageProps) {
     if (data) product = data;
   }
 
-  const activeKind = product?.kind ?? kind;
-  const kindMeta = activeKind ? KIND_META[activeKind] : null;
   const showForm = product != null;
 
   const title = product
@@ -96,6 +97,14 @@ export default async function ContactPage({ searchParams }: PageProps) {
                 productSlug={product?.slug}
                 productTitle={product?.title}
                 productKind={product?.kind ?? kind}
+                userEmail={user?.email ?? undefined}
+                userName={
+                  typeof user?.user_metadata?.full_name === 'string'
+                    ? user.user_metadata.full_name
+                    : typeof user?.user_metadata?.name === 'string'
+                      ? user.user_metadata.name
+                      : undefined
+                }
               />
             </div>
           </section>

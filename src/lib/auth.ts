@@ -1,4 +1,5 @@
 import type { User } from '@supabase/supabase-js';
+import { isAdminEmailVerified } from './admin-verification';
 import { createClient } from './supabase/server';
 
 export function isAdmin(user: User | null | undefined): boolean {
@@ -16,8 +17,15 @@ export async function getCurrentUser() {
   return user;
 }
 
-export async function requireAdmin() {
+export async function requireAdminIdentityOnly() {
   const user = await getCurrentUser();
   if (!isAdmin(user)) return null;
+  return user;
+}
+
+export async function requireAdmin() {
+  const user = await requireAdminIdentityOnly();
+  if (!user) return null;
+  if (!(await isAdminEmailVerified(user))) return null;
   return user;
 }

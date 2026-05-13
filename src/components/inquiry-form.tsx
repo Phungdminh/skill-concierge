@@ -11,6 +11,8 @@ interface InquiryFormProps {
   productSlug?: string;
   productTitle?: string;
   productKind?: ProductKind;
+  userEmail?: string;
+  userName?: string;
 }
 
 export function InquiryForm({
@@ -18,10 +20,13 @@ export function InquiryForm({
   productSlug,
   productTitle,
   productKind,
+  userEmail,
+  userName,
 }: InquiryFormProps) {
   const router = useRouter();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState(userName ?? '');
+  const [email, setEmail] = useState(userEmail ?? '');
+  const hasSessionEmail = Boolean(userEmail);
   const [phone, setPhone] = useState('');
   const [mediaUrl, setMediaUrl] = useState('');
   const defaultMessage = (() => {
@@ -45,7 +50,7 @@ export function InquiryForm({
   function validateFields() {
     const next: { name?: string; email?: string; mediaUrl?: string } = {};
     if (name.trim().length < 2) next.name = 'Nhập ít nhất 2 ký tự.';
-    if (!/^\S+@\S+\.\S+$/.test(email.trim())) {
+    if (!hasSessionEmail && !/^\S+@\S+\.\S+$/.test(email.trim())) {
       next.email = 'Nhập email hợp lệ để mình phản hồi.';
     }
     if (mediaUrl.trim()) {
@@ -135,25 +140,33 @@ export function InquiryForm({
             className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
           />
         </Field>
-        <Field icon={Mail} label="Email" htmlFor="iq-email">
-          <input
-            id="iq-email"
-            type="email"
-            required
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              if (fieldErrors.email) setFieldErrors((curr) => ({ ...curr, email: undefined }));
-            }}
-            onBlur={validateFields}
-            placeholder="ban@example.com"
-            autoComplete="email"
-            aria-invalid={Boolean(fieldErrors.email)}
-            aria-describedby={fieldErrors.email ? 'iq-email-error' : undefined}
-            className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
-          />
-        </Field>
+        {!hasSessionEmail && (
+          <Field icon={Mail} label="Email" htmlFor="iq-email">
+            <input
+              id="iq-email"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (fieldErrors.email) setFieldErrors((curr) => ({ ...curr, email: undefined }));
+              }}
+              onBlur={validateFields}
+              placeholder="ban@example.com"
+              autoComplete="email"
+              aria-invalid={Boolean(fieldErrors.email)}
+              aria-describedby={fieldErrors.email ? 'iq-email-error' : undefined}
+              className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
+            />
+          </Field>
+        )}
       </div>
+
+      {hasSessionEmail && (
+        <p className="rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3 text-sm text-foreground/65">
+          Email phản hồi: <span className="font-medium text-foreground/90">{userEmail}</span>
+        </p>
+      )}
 
       <FieldError id="iq-name-error" message={fieldErrors.name} />
       <FieldError id="iq-email-error" message={fieldErrors.email} />

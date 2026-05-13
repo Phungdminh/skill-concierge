@@ -84,7 +84,7 @@ export function Nav() {
                   <Link
                     href={l.href}
                     className={cn(
-                      'subtle-nav rounded-full border border-transparent px-3 py-1.5 focus-visible:outline-none',
+                      'subtle-nav whitespace-nowrap rounded-full border border-transparent px-3 py-1.5 focus-visible:outline-none',
                       active
                         ? 'bg-brand-orange/15 text-brand-orange ring-1 ring-brand-orange/30'
                         : 'text-foreground/70',
@@ -98,10 +98,10 @@ export function Nav() {
           </ul>
 
           <Link
-            href="/contact"
+            href="/login?returnTo=/contact"
             className="subtle-nav ml-auto hidden rounded-full border border-transparent bg-white px-4 py-1.5 font-medium text-black md:inline-flex"
           >
-            Làm theo yêu cầu riêng
+            Đăng nhập
           </Link>
 
           <button
@@ -188,11 +188,11 @@ export function Nav() {
           </ul>
 
           <Link
-            href="/contact"
+            href="/login?returnTo=/contact"
             onClick={() => setOpen(false)}
             className="subtle-nav mt-4 block w-full rounded-2xl border border-transparent bg-white py-3 text-center font-medium text-black"
           >
-            Làm theo yêu cầu riêng
+            Đăng nhập
           </Link>
         </div>
       </div>

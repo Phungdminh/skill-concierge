@@ -1,9 +1,30 @@
 import Link from 'next/link';
-import { ArrowUpRight, Bot, Play, Trophy } from 'lucide-react';
+import { ArrowUpRight, Bot, Mail, MessageCircle, Play, Send, Trophy } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { ProductCard } from '@/components/product-card';
 import { YouTubeEmbed } from '@/components/youtube-embed';
 import { formatPriceVnd, productDetailHref, type Product } from '@/lib/product-types';
+
+const CONTACT_LINKS = [
+  {
+    label: 'Zalo',
+    value: '0973309676',
+    href: 'https://zalo.me/0973309676',
+    icon: MessageCircle,
+  },
+  {
+    label: 'Telegram',
+    value: '@ducminh299',
+    href: 'https://t.me/ducminh299',
+    icon: Send,
+  },
+  {
+    label: 'Gmail',
+    value: 'Phungducminh299@gmail.com',
+    href: 'mailto:Phungducminh299@gmail.com',
+    icon: Mail,
+  },
+];
 
 export async function FeaturedTools() {
   const supabase = await createClient();
@@ -139,6 +160,48 @@ export async function FeaturedTools() {
           ))}
         </div>
       )}
+
+      <div className="mt-12 rounded-3xl border border-white/5 bg-[#0d0d10] p-6 md:p-8">
+        <div className="max-w-2xl">
+          <p className="mb-3 text-xs uppercase tracking-widest text-muted-foreground">
+            Cần tool riêng?
+          </p>
+          <h3 className="text-balance text-2xl font-semibold tracking-tight md:text-3xl">
+            Không có tool bạn cần?
+          </h3>
+          <p className="mt-3 text-sm leading-relaxed text-foreground/60 md:text-base">
+            Hãy liên hệ với mình qua Zalo, Telegram hoặc Gmail. Bạn chỉ cần mô tả tác vụ đang làm lặp lại hằng ngày, mình sẽ tư vấn xem có thể làm tool tự động phù hợp hay không.
+          </p>
+        </div>
+
+        <div className="relative mt-6 grid grid-cols-1 gap-3 md:grid-cols-3">
+          {CONTACT_LINKS.map((contact) => {
+            const Icon = contact.icon;
+            return (
+              <a
+                key={contact.label}
+                href={contact.href}
+                target="_blank"
+                rel="noreferrer"
+                className="contact-lift-card group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/5 bg-[#0d0d10] p-6"
+              >
+                <div className="relative flex items-start gap-4">
+                  <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-white/[0.04] text-brand-orange ring-1 ring-white/10 transition duration-200 group-hover:scale-105 group-hover:bg-white/[0.06] group-hover:ring-white/20">
+                    <Icon className="h-7 w-7 transition duration-200" strokeWidth={1.6} />
+                  </span>
+                  <div className="flex-1">
+                    <h4 className="flex items-center gap-1.5 text-xl font-semibold tracking-tight transition duration-200 group-hover:text-foreground">
+                      {contact.label}
+                      <ArrowUpRight className="h-4 w-4 text-foreground/40 transition duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground/70" />
+                    </h4>
+                    <p className="mt-2 text-sm text-foreground/65 transition duration-200 group-hover:text-foreground/85">{contact.value}</p>
+                  </div>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </div>
     </section>
   );
 }
