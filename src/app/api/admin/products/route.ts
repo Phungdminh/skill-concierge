@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { requireAdmin } from '@/lib/auth';
-import { slugify } from '@/lib/product-types';
+import { categoriesFor, slugify } from '@/lib/product-types';
 import { createAdminClient } from '@/lib/supabase/admin';
 
 const productInputSchema = z.object({
@@ -16,7 +16,7 @@ const productInputSchema = z.object({
   pricing_mode: z.enum(['fixed', 'from', 'quote']).optional(),
   price_vnd: z.number().int().min(0).nullable().optional(),
   is_free: z.boolean().optional(),
-  category: z.string().trim().max(40).nullable().optional(),
+  categories: z.array(z.string().trim().min(1).max(40)).max(6).optional(),
   tags: z.array(z.string().max(40)).max(20).optional(),
   deliverables: z.array(z.string().max(200)).max(20).optional(),
   support_options: z
@@ -69,6 +69,15 @@ export async function POST(req: Request) {
     );
   }
 
+  const selectedCategories = Array.from(new Set(parsed.data.categories ?? []));
+  const allowedCategories = new Set<string>(categoriesFor(parsed.data.kind).map((category) => category.value));
+  if (selectedCategories.some((category) => !allowedCategories.has(category))) {
+    return NextResponse.json(
+      { error: { code: 'validation_error', message: 'Danh mục không hợp lệ cho loại sản phẩm này.' } },
+      { status: 422 },
+    );
+  }
+
   const supabase = createAdminClient();
   const slug = (parsed.data.slug?.trim() || slugify(parsed.data.title)).slice(0, 80);
 
@@ -84,7 +93,7 @@ export async function POST(req: Request) {
     gallery: parsed.data.gallery ?? [],
     pricing_mode: parsed.data.pricing_mode ?? 'fixed',
     price_vnd: parsed.data.price_vnd ?? null,
-    category: emptyToNull(parsed.data.category),
+    categories: selectedCategories,
     tags: parsed.data.tags ?? [],
     deliverables: parsed.data.deliverables ?? [],
     support_options: parsed.data.support_options ?? [],

@@ -71,7 +71,7 @@ export async function FeaturedTools() {
         </div>
         <Link
           href="/tools"
-          className="featured-cta group inline-flex min-h-12 items-center gap-2 self-start rounded-full border border-white/12 bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-foreground/90 transition duration-200 hover:-translate-y-0.5 hover:scale-[1.015] hover:border-brand-orange/45 hover:bg-brand-orange/10 hover:text-white hover:shadow-lg hover:shadow-brand-orange/15 md:self-end"
+          className="featured-cta group inline-flex min-h-12 items-center gap-2 self-start rounded-full border border-white/12 bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-foreground/90 md:self-end"
         >
           Xem tất cả tool
           <ArrowUpRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -148,7 +148,7 @@ export async function FeaturedTools() {
           </p>
           <Link
             href="/contact"
-            className="featured-cta mt-6 inline-flex min-h-12 items-center gap-2 rounded-xl border border-white/12 bg-white/[0.03] px-6 py-3 text-sm font-medium text-foreground/90 transition duration-200 hover:-translate-y-0.5 hover:scale-[1.015] hover:border-brand-orange/45 hover:bg-brand-orange/10 hover:text-white hover:shadow-lg hover:shadow-brand-orange/15"
+            className="featured-cta mt-6 inline-flex min-h-12 items-center gap-2 rounded-xl border border-white/12 bg-white/[0.03] px-6 py-3 text-sm font-medium text-foreground/90"
           >
             Đặt tool riêng
           </Link>

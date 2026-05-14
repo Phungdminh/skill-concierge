@@ -39,7 +39,7 @@ create table products (
   pricing_mode text default 'fixed' check (pricing_mode in ('fixed','from','quote')),
   price_vnd integer,                                                 -- nullable when pricing_mode='quote'
   is_free boolean default false not null,                            -- free prompt/download option
-  category text,                                                     -- kind-specific: automation/scraping/mockup, mcp/openclaw/api, ai-basic/prompt, landing/portfolio …
+  categories text[] not null default '{}',                          -- kind-specific category values; products can belong to multiple categories
   tags text[] default '{}',                                          -- stack/topic chips
   deliverables jsonb default '[]'::jsonb,                            -- array of strings (bullet list shown on detail page)
   support_options text[] default '{}',                               -- subset of: drive_folder, zalo_group, one_on_one_call, remote_setup
@@ -86,6 +86,8 @@ create index products_best_seller_idx
   on products(status, kind, sales_count desc, featured desc, sort_order desc, created_at desc);
 create index products_kind_idx
   on products(kind, status);
+create index products_categories_gin_idx
+  on products using gin(categories);
 create index inquiries_status_idx
   on inquiries(status, created_at desc);
 create index admin_login_challenges_user_idx

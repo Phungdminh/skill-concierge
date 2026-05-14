@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { createHmac, randomInt, timingSafeEqual } from 'crypto';
+import { createHmac, randomBytes, randomInt, timingSafeEqual } from 'crypto';
 import type { User } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 
@@ -11,6 +11,15 @@ export const ADMIN_MFA_VERIFIED_TTL_SECONDS = 8 * 60 * 60;
 export const ADMIN_MFA_MAX_ATTEMPTS = 5;
 
 const COOKIE_PATH = '/';
+
+type AdminMfaChallenge = {
+  id: string;
+  userId: string;
+  email: string;
+  codeHash: string;
+  expiresAt: number;
+  attemptCount: number;
+};
 
 function getSecret() {
   const secret = process.env.ADMIN_MFA_COOKIE_SECRET;
@@ -42,6 +51,10 @@ export function createVerificationCode() {
   return randomInt(0, 1_000_000).toString().padStart(6, '0');
 }
 
+export function createChallengeId() {
+  return randomBytes(16).toString('hex');
+}
+
 export function hashVerificationCode(challengeId: string, code: string) {
   return hmac(`${challengeId}:${code}`);
 }
@@ -53,9 +66,53 @@ export function compareCodeHash(expectedHash: string, challengeId: string, code:
   return expected.length === actual.length && timingSafeEqual(expected, actual);
 }
 
-export async function setChallengeCookie(challengeId: string) {
+function signChallengePayload(payload: string) {
+  return hmac(`challenge:${payload}`);
+}
+
+function encodeChallenge(challenge: AdminMfaChallenge) {
+  const payload = Buffer.from(JSON.stringify(challenge), 'utf8').toString('base64url');
+  return `${payload}.${signChallengePayload(payload)}`;
+}
+
+function decodeChallenge(value: string): AdminMfaChallenge | null {
+  const [payload, signature] = value.split('.');
+  if (!payload || !signature) return null;
+
+  const expectedSignature = signChallengePayload(payload);
+  const expected = Buffer.from(expectedSignature, 'hex');
+  const actual = Buffer.from(signature, 'hex');
+  if (expected.length !== actual.length || !timingSafeEqual(expected, actual)) return null;
+
+  try {
+    const parsed = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8')) as Partial<AdminMfaChallenge>;
+    if (
+      typeof parsed.id !== 'string' ||
+      typeof parsed.userId !== 'string' ||
+      typeof parsed.email !== 'string' ||
+      typeof parsed.codeHash !== 'string' ||
+      typeof parsed.expiresAt !== 'number' ||
+      typeof parsed.attemptCount !== 'number'
+    ) {
+      return null;
+    }
+
+    return {
+      id: parsed.id,
+      userId: parsed.userId,
+      email: parsed.email,
+      codeHash: parsed.codeHash,
+      expiresAt: parsed.expiresAt,
+      attemptCount: parsed.attemptCount,
+    };
+  } catch {
+    return null;
+  }
+}
+
+export async function setChallengeCookie(challenge: AdminMfaChallenge) {
   const cookieStore = await cookies();
-  cookieStore.set(ADMIN_MFA_CHALLENGE_COOKIE, challengeId, cookieOptions(ADMIN_MFA_CODE_TTL_SECONDS));
+  cookieStore.set(ADMIN_MFA_CHALLENGE_COOKIE, encodeChallenge(challenge), cookieOptions(ADMIN_MFA_CODE_TTL_SECONDS));
 }
 
 export async function clearChallengeCookie() {
@@ -63,9 +120,14 @@ export async function clearChallengeCookie() {
   cookieStore.delete(ADMIN_MFA_CHALLENGE_COOKIE);
 }
 
-export async function getChallengeIdFromCookie() {
+export async function getChallengeFromCookie() {
   const cookieStore = await cookies();
-  return cookieStore.get(ADMIN_MFA_CHALLENGE_COOKIE)?.value ?? null;
+  const value = cookieStore.get(ADMIN_MFA_CHALLENGE_COOKIE)?.value;
+  return value ? decodeChallenge(value) : null;
+}
+
+export async function incrementChallengeAttemptCookie(challenge: AdminMfaChallenge) {
+  await setChallengeCookie({ ...challenge, attemptCount: challenge.attemptCount + 1 });
 }
 
 export async function setVerifiedCookie(user: User) {

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { requireAdmin } from '@/lib/auth';
+import { categoriesFor, type ProductKind } from '@/lib/product-types';
 import { createAdminClient } from '@/lib/supabase/admin';
 
 const idSchema = z.string().uuid();
@@ -16,7 +17,7 @@ const patchSchema = z.object({
   pricing_mode: z.enum(['fixed', 'from', 'quote']).optional(),
   price_vnd: z.number().int().min(0).nullable().optional(),
   is_free: z.boolean().optional(),
-  category: z.string().max(40).nullable().optional(),
+  categories: z.array(z.string().trim().min(1).max(40)).max(6).optional(),
   tags: z.array(z.string().max(40)).max(20).optional(),
   deliverables: z.array(z.string().max(200)).max(20).optional(),
   support_options: z
@@ -80,6 +81,43 @@ export async function PATCH(
     );
   }
 
+  const supabase = createAdminClient();
+
+  let selectedCategories: string[] | undefined;
+  if (parsed.data.categories !== undefined) {
+    const { data: existing, error: existingError } = await supabase
+      .from('products')
+      .select('kind')
+      .eq('id', parsedId.data)
+      .single();
+
+    if (existingError) {
+      console.error('Failed to load product kind before category update', {
+        code: existingError.code,
+        message: existingError.message,
+      });
+      const status = existingError.code === 'PGRST116' ? 404 : 500;
+      return NextResponse.json(
+        {
+          error: {
+            code: existingError.code ?? 'db_error',
+            message: status === 404 ? 'Không tìm thấy sản phẩm.' : 'Không kiểm tra được danh mục sản phẩm.',
+          },
+        },
+        { status },
+      );
+    }
+
+    selectedCategories = Array.from(new Set(parsed.data.categories));
+    const allowedCategories = new Set<string>(categoriesFor(existing.kind as ProductKind).map((category) => category.value));
+    if (selectedCategories.some((category) => !allowedCategories.has(category))) {
+      return NextResponse.json(
+        { error: { code: 'validation_error', message: 'Danh mục không hợp lệ cho loại sản phẩm này.' } },
+        { status: 422 },
+      );
+    }
+  }
+
   const update: Record<string, unknown> = { updated_at: new Date().toISOString() };
   const d = parsed.data;
   if (d.title !== undefined) update.title = d.title.trim();
@@ -91,7 +129,7 @@ export async function PATCH(
   if (d.gallery !== undefined) update.gallery = d.gallery;
   if (d.pricing_mode !== undefined) update.pricing_mode = d.pricing_mode;
   if (d.price_vnd !== undefined) update.price_vnd = d.price_vnd;
-  if (d.category !== undefined) update.category = emptyToNull(d.category);
+  if (selectedCategories !== undefined) update.categories = selectedCategories;
   if (d.tags !== undefined) update.tags = d.tags;
   if (d.deliverables !== undefined) update.deliverables = d.deliverables;
   if (d.support_options !== undefined) update.support_options = d.support_options;
@@ -103,7 +141,6 @@ export async function PATCH(
   if (d.sort_order !== undefined) update.sort_order = d.sort_order;
   if (d.sales_count !== undefined) update.sales_count = d.sales_count;
 
-  const supabase = createAdminClient();
   const { data, error } = await supabase
     .from('products')
     .update(update)

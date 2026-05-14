@@ -21,7 +21,7 @@ export interface Product {
   pricing_mode: PricingMode;
   price_vnd: number | null;
   is_free: boolean;
-  category: string | null;
+  categories: string[];
   tags: string[];
   deliverables: string[];
   support_options: SupportOption[];
@@ -184,6 +184,15 @@ export function categoriesFor(kind: ProductKind) {
     case 'webwork':
       return WEBWORK_CATEGORIES;
   }
+}
+
+export function categoryLabelFor(kind: ProductKind, value: string): string {
+  return categoriesFor(kind).find((category) => category.value === value)?.label ?? value;
+}
+
+export function normalizeCategories(values: string[], kind: ProductKind): string[] {
+  const allowed = new Set<string>(categoriesFor(kind).map((category) => category.value));
+  return Array.from(new Set(values.map((value) => value.trim()).filter((value) => allowed.has(value))));
 }
 
 export function formatPriceVnd(price: number | null, mode: PricingMode = 'fixed', isFree = false): string {

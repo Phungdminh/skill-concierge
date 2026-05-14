@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/server';
 import { ArrowUpRight } from 'lucide-react';
 import {
   ALL_KINDS,
+  KIND_META,
   type Product,
   type ProductKind,
 } from '@/lib/product-types';
@@ -67,15 +68,20 @@ export default async function ContactPage({ searchParams }: PageProps) {
     if (data) product = data;
   }
 
-  const showForm = product != null;
+  const showForm = product != null || kind != null;
+  const kindMeta = kind ? KIND_META[kind] : null;
 
   const title = product
     ? `Đặt: ${product.title}`
-    : 'Làm theo yêu cầu riêng';
+    : kindMeta
+      ? kindMeta.ctaLabel
+      : 'Làm theo yêu cầu riêng';
 
   const intro = product
     ? 'Điền form bên dưới — mình rep trong 24h kèm thông tin thanh toán và bước tiếp theo.'
-    : 'Kể nhu cầu của bạn về tool, setup, prompt mẫu hoặc web — mình rep trong 24h với mức quote sơ bộ.';
+    : kindMeta
+      ? `Mô tả nhu cầu ${kindMeta.shortLabel.toLowerCase()} riêng của bạn — mình rep trong 24h với hướng xử lý và quote sơ bộ.`
+      : 'Kể nhu cầu của bạn về tool, setup, prompt mẫu hoặc web — mình rep trong 24h với mức quote sơ bộ.';
 
   return (
     <>

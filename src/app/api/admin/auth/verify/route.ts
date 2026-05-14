@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createAdminClient } from '@/lib/supabase/admin';
 import { getCurrentUser, isAdmin } from '@/lib/auth';
 import {
   ADMIN_MFA_MAX_ATTEMPTS,
   clearChallengeCookie,
   compareCodeHash,
-  getChallengeIdFromCookie,
+  getChallengeFromCookie,
+  incrementChallengeAttemptCookie,
   setVerifiedCookie,
 } from '@/lib/admin-verification';
 
@@ -48,34 +48,15 @@ export async function POST(request: Request) {
     );
   }
 
-  const challengeId = await getChallengeIdFromCookie();
-  if (!challengeId) {
+  const challenge = await getChallengeFromCookie();
+  if (!challenge) {
     return NextResponse.json(
       { error: { code: 'missing_challenge', message: 'Phiên xác nhận đã hết hạn. Vui lòng đăng nhập lại.' } },
       { status: 410 },
     );
   }
 
-  const supabase = createAdminClient();
-  const { data: challenge, error } = await supabase
-    .from('admin_login_challenges')
-    .select('id,user_id,code_hash,expires_at,consumed_at,attempt_count')
-    .eq('id', challengeId)
-    .eq('user_id', user.id)
-    .maybeSingle();
-
-  if (error) {
-    console.error('Failed to load admin login challenge', {
-      code: error.code,
-      message: error.message,
-    });
-    return NextResponse.json(
-      { error: { code: 'challenge_error', message: 'Không kiểm tra được mã xác nhận.' } },
-      { status: 500 },
-    );
-  }
-
-  if (!challenge || challenge.consumed_at) {
+  if (challenge.userId !== user.id || challenge.email !== user.email?.toLowerCase().trim()) {
     await clearChallengeCookie();
     return NextResponse.json(
       { error: { code: 'invalid_challenge', message: 'Phiên xác nhận không hợp lệ. Vui lòng đăng nhập lại.' } },
@@ -83,7 +64,7 @@ export async function POST(request: Request) {
     );
   }
 
-  if (new Date(challenge.expires_at).getTime() <= Date.now()) {
+  if (challenge.expiresAt <= Date.now()) {
     await clearChallengeCookie();
     return NextResponse.json(
       { error: { code: 'expired_challenge', message: 'Mã xác nhận đã hết hạn. Vui lòng đăng nhập lại.' } },
@@ -91,7 +72,7 @@ export async function POST(request: Request) {
     );
   }
 
-  if (challenge.attempt_count >= ADMIN_MFA_MAX_ATTEMPTS) {
+  if (challenge.attemptCount >= ADMIN_MFA_MAX_ATTEMPTS) {
     await clearChallengeCookie();
     return NextResponse.json(
       { error: { code: 'too_many_attempts', message: 'Bạn đã nhập sai quá nhiều lần. Vui lòng đăng nhập lại.' } },
@@ -99,32 +80,13 @@ export async function POST(request: Request) {
     );
   }
 
-  const isValidCode = compareCodeHash(challenge.code_hash, challenge.id, parsed.data.code);
+  const isValidCode = compareCodeHash(challenge.codeHash, challenge.id, parsed.data.code);
   if (!isValidCode) {
-    await supabase
-      .from('admin_login_challenges')
-      .update({ attempt_count: challenge.attempt_count + 1 })
-      .eq('id', challenge.id);
+    await incrementChallengeAttemptCookie(challenge);
 
     return NextResponse.json(
       { error: { code: 'invalid_code', message: 'Mã xác nhận không đúng.' } },
       { status: 401 },
-    );
-  }
-
-  const { error: consumeError } = await supabase
-    .from('admin_login_challenges')
-    .update({ consumed_at: new Date().toISOString() })
-    .eq('id', challenge.id);
-
-  if (consumeError) {
-    console.error('Failed to consume admin login challenge', {
-      code: consumeError.code,
-      message: consumeError.message,
-    });
-    return NextResponse.json(
-      { error: { code: 'challenge_error', message: 'Không hoàn tất xác nhận.' } },
-      { status: 500 },
     );
   }
 

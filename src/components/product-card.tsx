@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowUpRight, Play } from 'lucide-react';
 import {
   KIND_META,
+  categoryLabelFor,
   extractYouTubeId,
   formatPriceVnd,
   productDetailHref,
@@ -21,6 +22,9 @@ export function ProductCard({ product, hideKind = false }: ProductCardProps) {
   const cover =
     product.thumbnail_url ??
     (videoId ? `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg` : null);
+  const categoryLabels = product.categories.map((category) => categoryLabelFor(product.kind, category));
+  const visibleCategoryLabels = categoryLabels.slice(0, 2);
+  const hiddenCategoryCount = Math.max(categoryLabels.length - visibleCategoryLabels.length, 0);
 
   return (
     <Link
@@ -73,9 +77,10 @@ export function ProductCard({ product, hideKind = false }: ProductCardProps) {
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        {product.category && (
+        {visibleCategoryLabels.length > 0 && (
           <span className="mb-2 text-[10.5px] uppercase tracking-widest text-muted-foreground">
-            {product.category}
+            {visibleCategoryLabels.join(' · ')}
+            {hiddenCategoryCount > 0 ? ` · +${hiddenCategoryCount}` : ''}
           </span>
         )}
         <h3 className="text-balance text-lg font-semibold tracking-tight transition duration-300 group-hover:text-brand-orange">

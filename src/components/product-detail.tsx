@@ -6,6 +6,7 @@ import { YouTubeEmbed } from '@/components/youtube-embed';
 import {
   KIND_META,
   SUPPORT_META,
+  categoryLabelFor,
   formatPriceVnd,
   type Product,
 } from '@/lib/product-types';
@@ -62,11 +63,11 @@ export function ProductDetail({ product }: ProductDetailProps) {
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.04] px-3 py-1 text-[11px] uppercase tracking-widest text-muted-foreground ring-1 ring-white/8">
                   <Icon className="h-3 w-3" strokeWidth={2.25} /> {meta.label}
                 </span>
-                {product.category && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.04] px-3 py-1 text-[11px] uppercase tracking-widest text-muted-foreground ring-1 ring-white/8">
-                    <Tag className="h-3 w-3" /> {product.category}
+                {product.categories.map((category) => (
+                  <span key={category} className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.04] px-3 py-1 text-[11px] uppercase tracking-widest text-muted-foreground ring-1 ring-white/8">
+                    <Tag className="h-3 w-3" /> {categoryLabelFor(product.kind, category)}
                   </span>
-                )}
+                ))}
                 {product.duration_label && (
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.04] px-3 py-1 text-[11px] uppercase tracking-widest text-muted-foreground ring-1 ring-white/8">
                     <Clock className="h-3 w-3" /> {product.duration_label}
@@ -165,7 +166,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
                   <Link
                     href={`/contact?product=${product.slug}&kind=${product.kind}`}
-                    className="bg-brand-gradient glow-red mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-semibold text-black"
+                    className="hero-primary-cta bg-brand-gradient glow-red mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-semibold text-black"
                   >
                     <Sparkles className="h-4 w-4" />{' '}
                     {product.is_free ? 'Nhận prompt miễn phí' : product.pricing_mode === 'quote' ? 'Yêu cầu báo giá' : 'Mua / Đặt câu hỏi'}
@@ -199,7 +200,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
                 <Link
                   href={`/contact?kind=${product.kind}`}
-                  className="group flex items-center justify-between rounded-2xl border border-white/8 bg-white/[0.02] p-5 transition duration-300 hover:-translate-y-1 hover:border-brand-orange/60 hover:bg-brand-orange/10 hover:text-brand-orange hover:shadow-lg hover:shadow-brand-orange/20"
+                  className="featured-cta group flex items-center justify-between rounded-2xl border border-white/8 bg-white/[0.02] p-5"
                 >
                   <div>
                     <div className="text-sm font-medium">Cần khác đi 1 chút?</div>

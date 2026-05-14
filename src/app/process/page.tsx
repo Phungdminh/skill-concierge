@@ -115,13 +115,13 @@ export default function ProcessPage() {
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link
               href="/tools"
-              className="bg-brand-gradient glow-red inline-flex items-center justify-center rounded-2xl px-6 py-3 text-sm font-semibold text-black transition hover:opacity-95"
+              className="hero-primary-cta bg-brand-gradient glow-red inline-flex items-center justify-center rounded-2xl px-6 py-3 text-sm font-semibold text-black"
             >
               Xem tất cả tool
             </Link>
             <Link
               href="/contact?custom=1"
-              className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-3 text-sm font-medium text-foreground/85 transition hover:bg-white/[0.06]"
+              className="featured-cta inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-3 text-sm font-medium text-foreground/85"
             >
               Đặt tool riêng theo yêu cầu
             </Link>

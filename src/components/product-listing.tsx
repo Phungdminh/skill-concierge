@@ -25,6 +25,8 @@ export async function ProductListing({ kind, category, title, intro }: ProductLi
   const meta = KIND_META[kind];
   const Icon = meta.icon;
   const cats = categoriesFor(kind);
+  const validCategory = category && cats.some((c) => c.value === category) ? category : undefined;
+  const activeCategoryLabel = validCategory ? cats.find((c) => c.value === validCategory)?.label : undefined;
   const supabase = await createClient();
 
   let query = supabase
@@ -35,7 +37,7 @@ export async function ProductListing({ kind, category, title, intro }: ProductLi
     .order('featured', { ascending: false })
     .order('sort_order', { ascending: false })
     .order('created_at', { ascending: false });
-  if (category) query = query.eq('category', category);
+  if (validCategory) query = query.contains('categories', [validCategory]);
 
   const { data, error } = await query;
   const products: Product[] = (data as Product[] | null) ?? [];
@@ -58,7 +60,7 @@ export async function ProductListing({ kind, category, title, intro }: ProductLi
               <CategoryChip
                 key={c.value}
                 href={`${meta.route}?category=${c.value}`}
-                active={category === c.value}
+                active={validCategory === c.value}
                 label={c.label}
               />
             ))}
@@ -69,7 +71,7 @@ export async function ProductListing({ kind, category, title, intro }: ProductLi
           {error ? (
             <ErrorState message={error.message} />
           ) : products.length === 0 ? (
-            <EmptyState kind={kind} category={category} />
+            <EmptyState kind={kind} category={activeCategoryLabel} />
           ) : (
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
               {products.map((p) => (
@@ -91,7 +93,7 @@ export async function ProductListing({ kind, category, title, intro }: ProductLi
           </p>
           <Link
             href={`/contact?kind=${kind}`}
-            className="bg-brand-gradient glow-red mt-6 inline-flex items-center gap-2 rounded-2xl px-6 py-3 text-sm font-semibold text-black"
+            className="hero-primary-cta bg-brand-gradient glow-red mt-6 inline-flex items-center gap-2 rounded-2xl px-6 py-3 text-sm font-semibold text-black"
           >
             <Sparkles className="h-4 w-4" /> {meta.ctaLabel}
           </Link>
@@ -115,10 +117,10 @@ function CategoryChip({
     <Link
       href={href}
       className={cn(
-        'rounded-full px-4 py-1.5 text-sm transition duration-300',
+        'subtle-nav rounded-full border px-4 py-1.5 text-sm focus-visible:outline-none',
         active
-          ? 'bg-brand-gradient font-semibold text-black shadow-lg shadow-brand-orange/20'
-          : 'border border-white/10 bg-white/[0.02] text-foreground/75 hover:-translate-y-0.5 hover:border-brand-orange/60 hover:bg-brand-orange/10 hover:text-brand-orange hover:shadow-lg hover:shadow-brand-orange/20',
+          ? 'border-brand-orange/30 bg-brand-orange/15 font-semibold text-brand-orange ring-1 ring-brand-orange/30'
+          : 'border-white/10 bg-white/[0.02] text-foreground/75',
       )}
     >
       {label}
@@ -138,7 +140,7 @@ function EmptyState({ kind, category }: { kind: ProductKind; category?: string }
       <p className="mt-2 max-w-md text-sm text-foreground/55">{meta.emptyBody}</p>
       <Link
         href={`/contact?kind=${kind}`}
-        className="mt-6 inline-flex items-center gap-2 rounded-xl border border-white/10 px-5 py-2.5 text-sm transition duration-300 hover:-translate-y-1 hover:border-brand-orange/60 hover:bg-brand-orange/10 hover:text-brand-orange hover:shadow-lg hover:shadow-brand-orange/20"
+        className="featured-cta mt-6 inline-flex items-center gap-2 rounded-xl border border-white/10 px-5 py-2.5 text-sm"
       >
         {meta.ctaLabel}
       </Link>
