@@ -391,12 +391,12 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
             htmlFor="duration_label"
             hint={
               kind === 'prompt'
-                ? 'Vd: "50 prompt · 5 nhóm use case"'
+                ? 'Prompt chỉ cần copy là dùng — không cần điền thời lượng.'
                 : kind === 'setup'
                   ? 'Vd: "30-60 phút remote setup"'
                   : kind === 'webwork'
-                    ? 'Vd: "5-7 ngày từ brief đến deploy"'
-                    : 'Không bắt buộc với tool'
+                    ? 'Website: 7-14 ngày. Portfolio: 3-5 ngày.'
+                    : 'Tool có sẵn: giao ngay sau thanh toán. Tool làm riêng: 3-5 ngày.'
             }
           >
             <input
@@ -405,12 +405,12 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
               onChange={(e) => setDurationLabel(e.target.value)}
               placeholder={
                 kind === 'prompt'
-                  ? '50 prompt · 5 nhóm use case'
+                  ? 'Copy là dùng ngay (không cần)'
                   : kind === 'setup'
                     ? '30-60 phút remote setup'
                     : kind === 'webwork'
-                      ? '5-7 ngày từ brief đến deploy'
-                      : 'Giao trong 24h'
+                      ? '7-14 ngày (website) · 3-5 ngày (portfolio)'
+                      : 'Giao ngay sau thanh toán · 3-5 ngày nếu làm riêng'
               }
               className={inputCls}
             />

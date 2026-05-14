@@ -1,7 +1,3 @@
-'use client';
-
-import { motion } from 'motion/react';
-
 const CHANNELS = [
   {
     brand: 'zalo' as const,
@@ -29,13 +25,7 @@ const CHANNELS = [
 export function Contact() {
   return (
     <section id="contact" className="relative mx-auto w-full max-w-6xl px-6 py-24">
-      <motion.div
-        initial={{ opacity: 0, y: 18 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.6 }}
-        className="relative overflow-hidden rounded-3xl border border-white/5 bg-gradient-to-br from-[#1a0d10] via-[#0d0d10] to-[#0d0d10] p-10 md:p-14"
-      >
+      <div className="relative overflow-hidden rounded-3xl border border-white/5 bg-gradient-to-br from-[#1a0d10] via-[#0d0d10] to-[#0d0d10] p-10 md:p-14">
         <div
           aria-hidden
           className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full"
@@ -76,8 +66,7 @@ export function Contact() {
             })}
           </ul>
         </div>
-      </motion.div>
-
+      </div>
     </section>
   );
 }

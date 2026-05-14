@@ -1,7 +1,4 @@
-'use client';
-
 import type { ReactNode } from 'react';
-import { motion } from 'motion/react';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 import { Sparkline } from './sparkline';
 import { cn } from '@/lib/utils';
@@ -23,17 +20,12 @@ const accents = {
   neutral: { stroke: '#9a9a9e', glow: 'rgba(154,154,158,0.12)' },
 };
 
-export function StatCard({ label, value, delta, trend, icon, accent = 'orange', index = 0 }: Props) {
+export function StatCard({ label, value, delta, trend, icon, accent = 'orange' }: Props) {
   const a = accents[accent];
   const positive = delta >= 0;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.06, duration: 0.4, ease: 'easeOut' }}
-      className="group relative overflow-hidden rounded-2xl border border-white/5 bg-[#0d0d10] p-5 transition hover:border-white/10"
-    >
+    <div className="group relative overflow-hidden rounded-2xl border border-white/5 bg-[#0d0d10] p-5 transition hover:border-white/10">
       <div
         className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full opacity-0 blur-3xl transition group-hover:opacity-100"
         style={{ background: a.glow }}
@@ -64,6 +56,6 @@ export function StatCard({ label, value, delta, trend, icon, accent = 'orange', 
         <div className="text-3xl font-semibold tracking-tight tabular-nums">{value}</div>
         <Sparkline data={trend} color={a.stroke} width={110} height={36} />
       </div>
-    </motion.div>
+    </div>
   );
 }

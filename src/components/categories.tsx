@@ -1,7 +1,4 @@
-'use client';
-
 import Link from 'next/link';
-import { motion } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 import { ALL_KINDS, KIND_META } from '@/lib/product-types';
 
@@ -47,20 +44,12 @@ export function Categories() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        {ALL_KINDS.map((k, i) => {
+        {ALL_KINDS.map((k) => {
           const meta = KIND_META[k];
           const copy = CARD_COPY[k];
           const Icon = meta.icon;
           return (
-            <motion.div
-              key={k}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              whileHover={{ y: -10, scale: 1.02 }}
-              viewport={{ once: true, amount: 0.25 }}
-              transition={{ delay: i * 0.06, duration: 0.5 }}
-              className="h-full"
-            >
+            <div key={k} className="h-full">
               <Link
                 href={meta.route}
                 className="interactive-card group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/5 bg-[#0d0d10] p-7"
@@ -108,7 +97,7 @@ export function Categories() {
                   <ArrowUpRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </span>
               </Link>
-            </motion.div>
+            </div>
           );
         })}
       </div>

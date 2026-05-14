@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:motionsites.ai)"
+      "WebFetch(domain:motionsites.ai)",
+      "PowerShell(npm run dev)",
+      "PowerShell(npm install)",
+      "PowerShell(Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Process -Name node -ErrorAction SilentlyContinue)",
+      "PowerShell(New-NetFirewallRule -DisplayName \"Next.js Dev 3000-3001\" -Direction Inbound -Protocol TCP -LocalPort 3000,3001 -Action Allow -Profile Any 2>&1)",
+      "PowerShell(Get-NetTCPConnection -LocalPort 3001 -State Listen -ErrorAction SilentlyContinue)",
+      "PowerShell(taskkill /PID 14468 /F)"
     ]
   }
 }

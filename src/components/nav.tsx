@@ -11,6 +11,7 @@ const LINKS = [
   { href: '/setup', label: 'Setup' },
   { href: '/prompts', label: 'Prompt mẫu' },
   { href: '/web', label: 'Web / Portfolio' },
+  { href: '/about', label: 'Giới thiệu' },
 ];
 
 export function Nav() {
@@ -176,15 +177,6 @@ export function Nav() {
                 </Link>
               </li>
             ))}
-            <li>
-              <Link
-                href="/about"
-                onClick={() => setOpen(false)}
-                className="subtle-nav block rounded-xl border border-transparent px-3 py-3 text-base font-medium text-foreground/85"
-              >
-                Về mình
-              </Link>
-            </li>
           </ul>
 
           <Link

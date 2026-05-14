@@ -1,6 +1,3 @@
-'use client';
-
-import { motion } from 'motion/react';
 import { Play, MessageSquare, Download } from 'lucide-react';
 
 const STEPS = [
@@ -43,12 +40,8 @@ export function HowItWorks() {
         {STEPS.map((s, i) => {
           const Icon = s.icon;
           return (
-            <motion.li
+            <li
               key={s.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{ delay: i * 0.08, duration: 0.5 }}
               className="glass relative flex flex-col rounded-2xl p-6"
             >
               <div className="flex items-center justify-between">
@@ -64,7 +57,7 @@ export function HowItWorks() {
               </div>
               <h3 className="mt-1 text-xl font-semibold tracking-tight">{s.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-foreground/70">{s.desc}</p>
-            </motion.li>
+            </li>
           );
         })}
       </ol>
