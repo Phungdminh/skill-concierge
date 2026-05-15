@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowLeft, ArrowUpRight, CheckCircle2, Sparkles, Tag, Clock } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, ArrowUpRight, CheckCircle2, Sparkles, Tag, Clock } from 'lucide-react';
 import { Nav } from '@/components/nav';
 import { Footer } from '@/components/footer';
 import { YouTubeEmbed } from '@/components/youtube-embed';
@@ -8,13 +8,19 @@ import {
   SUPPORT_META,
   categoryLabelFor,
   formatPriceVnd,
+  formatVersionPrice,
+  visibleProductVersions,
   type Product,
+  type ProductVersionStatus,
 } from '@/lib/product-types';
 import { renderMarkdown } from '@/lib/markdown';
 
 interface ProductDetailProps {
   product: Product;
 }
+
+const MOCKUP_AUTOMATION_NOTICE = 'Tool Mockup Automation có thể xuất ra nhiều ảnh mockup sau khi chạy, phù hợp khi bạn cần tạo hàng loạt ảnh sản phẩm từ cùng một quy trình.';
+const MOCKUP_COLLAGE_PROMPT_NOTICE = 'File prompt có thể có rất nhiều prompt, có thể lên đến 100 prompt, nhưng output chỉ là 1 ảnh. Trong ảnh đó sẽ bao gồm nhiều ảnh nhỏ được đặt trong các khung tách nhau. Nếu bạn muốn phiên bản xuất nhiều ảnh riêng lẻ, hãy liên hệ để mình làm riêng theo quy trình của bạn.';
 
 const DEFAULT_BULLETS: Record<Product['kind'], string[]> = {
   tool: [
@@ -44,6 +50,13 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const Icon = meta.icon;
   const html = renderMarkdown(product.description);
   const bullets = product.deliverables.length > 0 ? product.deliverables : DEFAULT_BULLETS[product.kind];
+  const versions = product.kind === 'tool' ? visibleProductVersions(product) : [];
+  const normalizedSlug = product.slug.replace(/-/g, '').toLowerCase();
+  const notice = product.notice || (normalizedSlug === 'mockupautomation'
+    ? MOCKUP_AUTOMATION_NOTICE
+    : normalizedSlug === 'mockupcollageprompt'
+      ? MOCKUP_COLLAGE_PROMPT_NOTICE
+      : null);
 
   return (
     <>
@@ -103,6 +116,50 @@ export function ProductDetail({ product }: ProductDetailProps) {
                 </div>
               )}
 
+              {versions.length > 0 && (
+                <div className="mt-10 rounded-2xl border border-white/5 bg-white/[0.02] p-5">
+                  <div className="flex flex-wrap items-end justify-between gap-3">
+                    <div>
+                      <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                        Phiên bản
+                      </h2>
+                      <p className="mt-2 text-sm text-foreground/60">
+                        Sản phẩm này có nhiều phiên bản. Chọn bản phù hợp với quy trình của bạn khi liên hệ.
+                      </p>
+                    </div>
+                    <span className="rounded-full bg-brand-orange/10 px-3 py-1 text-xs text-brand-orange ring-1 ring-brand-orange/25">
+                      {versions.length} phiên bản
+                    </span>
+                  </div>
+                  <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-2">
+                    {versions.map((version) => (
+                      <div key={version.slug ?? version.name} className="rounded-2xl border border-white/8 bg-black/15 p-4">
+                        <div className="flex flex-wrap items-start justify-between gap-2">
+                          <div>
+                            <h3 className="text-base font-semibold tracking-tight text-foreground/95">{version.name}</h3>
+                            {version.executable_label && (
+                              <div className="mt-1 text-xs text-foreground/45">{version.executable_label}</div>
+                            )}
+                          </div>
+                          <VersionStatusBadge status={version.status ?? 'available'} />
+                        </div>
+                        {version.description && (
+                          <p className="mt-3 text-sm leading-relaxed text-foreground/65">{version.description}</p>
+                        )}
+                        <div className="mt-4 flex flex-wrap gap-2 text-xs text-foreground/60">
+                          {version.platform && (
+                            <span className="rounded-full bg-white/[0.04] px-2.5 py-1 ring-1 ring-white/8">{version.platform}</span>
+                          )}
+                          <span className="rounded-full bg-white/[0.04] px-2.5 py-1 font-medium text-foreground/80 ring-1 ring-white/8">
+                            {formatVersionPrice(version, product)}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {product.prerequisites.length > 0 && (
                 <div className="mt-10 rounded-2xl border border-white/5 bg-white/[0.02] p-5">
                   <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
@@ -116,6 +173,22 @@ export function ProductDetail({ product }: ProductDetailProps) {
                       </li>
                     ))}
                   </ul>
+                </div>
+              )}
+
+              {notice && (
+                <div className="mt-10 rounded-2xl border border-brand-orange/25 bg-brand-orange/10 p-5">
+                  <div className="flex items-start gap-3">
+                    <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-brand-orange" strokeWidth={2} />
+                    <div>
+                      <h2 className="text-xs font-semibold uppercase tracking-widest text-brand-orange">
+                        Lưu ý trước khi mua
+                      </h2>
+                      <p className="mt-2 text-sm leading-relaxed text-foreground/80">
+                        {notice}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               )}
 
@@ -215,6 +288,20 @@ export function ProductDetail({ product }: ProductDetailProps) {
       </main>
       <Footer />
     </>
+  );
+}
+
+function VersionStatusBadge({ status }: { status: ProductVersionStatus }) {
+  const label =
+    status === 'beta'
+      ? 'Beta'
+      : status === 'deprecated'
+        ? 'Ngừng khuyến nghị'
+        : 'Đang bán';
+  return (
+    <span className="rounded-full bg-white/[0.04] px-2.5 py-1 text-[11px] text-foreground/65 ring-1 ring-white/8">
+      {label}
+    </span>
   );
 }
 

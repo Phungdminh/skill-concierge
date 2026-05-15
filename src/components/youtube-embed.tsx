@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Play } from 'lucide-react';
+import Link from 'next/link';
+import { ExternalLink, Play } from 'lucide-react';
 import { extractYouTubeId } from '@/lib/product-types';
 
 interface YouTubeEmbedProps {
@@ -24,17 +25,30 @@ export function YouTubeEmbed({ url, title = 'Video demo', className }: YouTubeEm
 
   const poster = `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
   const fallbackPoster = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+  const embedSrc = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+  const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
 
   return (
     <div className={`relative aspect-video w-full overflow-hidden rounded-2xl border border-white/5 bg-[#0a0a0b] ${className ?? ''}`}>
       {active ? (
-        <iframe
-          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
-          title={title}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          className="absolute inset-0 h-full w-full"
-        />
+        <>
+          <iframe
+            src={embedSrc}
+            title={title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            className="absolute inset-0 h-full w-full"
+          />
+          <Link
+            href={watchUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-black/65 px-3 py-1.5 text-xs text-white backdrop-blur transition hover:bg-black/80"
+          >
+            Mở trên YouTube
+            <ExternalLink className="h-3.5 w-3.5" />
+          </Link>
+        </>
       ) : (
         <button
           type="button"

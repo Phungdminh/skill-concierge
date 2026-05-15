@@ -19,6 +19,8 @@ function AdminVerifyForm() {
   const [code, setCode] = useState('');
   const [state, setState] = useState<'idle' | 'sending' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [resendState, setResendState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [resendMsg, setResendMsg] = useState<string | null>(null);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -47,6 +49,34 @@ function AdminVerifyForm() {
     } catch (err) {
       setState('error');
       setErrorMsg(err instanceof Error ? err.message : 'Không xác nhận được mã.');
+    }
+  }
+
+  async function resendCode() {
+    if (resendState === 'sending') return;
+
+    setResendState('sending');
+    setResendMsg(null);
+    setErrorMsg(null);
+    try {
+      const response = await fetch('/api/admin/auth/challenge', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ returnTo }),
+      });
+      const payload = await response.json().catch(() => null) as {
+        error?: { message?: string };
+      } | null;
+      if (!response.ok) {
+        throw new Error(payload?.error?.message || 'Không gửi lại được mã xác nhận.');
+      }
+      setCode('');
+      setState('idle');
+      setResendState('sent');
+      setResendMsg('Đã gửi lại mã xác nhận. Kiểm tra email admin nhé.');
+    } catch (err) {
+      setResendState('error');
+      setResendMsg(err instanceof Error ? err.message : 'Không gửi lại được mã xác nhận.');
     }
   }
 
@@ -127,6 +157,42 @@ function AdminVerifyForm() {
               )}
             </button>
           </form>
+
+          <div className="mt-4 rounded-2xl bg-white/[0.02] p-4 ring-1 ring-white/8">
+            <p className="text-xs leading-relaxed text-foreground/60">
+              Chưa thấy email hoặc mã đã hết hạn? Gửi lại mã mới vào email admin.
+            </p>
+            {resendMsg ? (
+              <p
+                role="status"
+                className={cn(
+                  'mt-3 rounded-lg px-3 py-2 text-xs ring-1',
+                  resendState === 'error'
+                    ? 'bg-red-500/10 text-red-300 ring-red-500/30'
+                    : 'bg-emerald-500/10 text-emerald-200 ring-emerald-500/25',
+                )}
+              >
+                {resendMsg}
+              </p>
+            ) : null}
+            <button
+              type="button"
+              onClick={resendCode}
+              disabled={resendState === 'sending'}
+              className={cn(
+                'mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 px-5 py-3 text-sm text-foreground/75 transition hover:bg-white/[0.04] hover:text-foreground',
+                resendState === 'sending' && 'cursor-wait opacity-70',
+              )}
+            >
+              {resendState === 'sending' ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" /> Đang gửi lại mã
+                </>
+              ) : (
+                'Gửi lại mã xác nhận'
+              )}
+            </button>
+          </div>
 
           <form action="/auth/signout" method="post" className="mt-4">
             <button type="submit" className="w-full rounded-xl border border-white/10 px-5 py-3 text-sm text-foreground/70 transition hover:bg-white/[0.04] hover:text-foreground">

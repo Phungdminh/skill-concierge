@@ -33,6 +33,7 @@ create table products (
   title text not null,
   tagline text,
   description text,                                                  -- markdown long-form
+  notice text,                                                       -- customer-facing limitation or usage note
   youtube_url text,
   thumbnail_url text,
   gallery jsonb default '[]'::jsonb,                                 -- array of image URLs
@@ -41,6 +42,7 @@ create table products (
   is_free boolean default false not null,                            -- free prompt/download option
   categories text[] not null default '{}',                          -- kind-specific category values; products can belong to multiple categories
   tags text[] default '{}',                                          -- stack/topic chips
+  versions jsonb not null default '[]'::jsonb,                       -- tool version objects
   deliverables jsonb default '[]'::jsonb,                            -- array of strings (bullet list shown on detail page)
   support_options text[] default '{}',                               -- subset of: drive_folder, zalo_group, one_on_one_call, remote_setup
   duration_label text,                                               -- "5 bài × ~30 phút", "Giao 3 ngày", v.v.
@@ -88,6 +90,8 @@ create index products_kind_idx
   on products(kind, status);
 create index products_categories_gin_idx
   on products using gin(categories);
+alter table products
+  add constraint products_versions_array_chk check (jsonb_typeof(versions) = 'array');
 create index inquiries_status_idx
   on inquiries(status, created_at desc);
 create index admin_login_challenges_user_idx

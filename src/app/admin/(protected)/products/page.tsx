@@ -9,6 +9,7 @@ import {
   type Product,
   type ProductKind,
 } from '@/lib/product-types';
+import { DashboardCard } from '@/components/admin/dashboard-card';
 import { cn } from '@/lib/utils';
 
 export const metadata = { title: 'Sản phẩm — Admin' };
@@ -63,6 +64,10 @@ export default async function AdminProductsPage({ searchParams }: PageProps) {
         >
           <Plus className="h-4 w-4" /> Tạo sản phẩm
         </Link>
+      </div>
+
+      <div className="mt-6 max-w-md">
+        <DashboardCard />
       </div>
 
       <div className="mt-6 flex flex-wrap gap-2">

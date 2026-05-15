@@ -6,6 +6,7 @@ import {
   extractYouTubeId,
   formatPriceVnd,
   productDetailHref,
+  visibleProductVersions,
   type Product,
 } from '@/lib/product-types';
 
@@ -25,6 +26,7 @@ export function ProductCard({ product, hideKind = false }: ProductCardProps) {
   const categoryLabels = product.categories.map((category) => categoryLabelFor(product.kind, category));
   const visibleCategoryLabels = categoryLabels.slice(0, 2);
   const hiddenCategoryCount = Math.max(categoryLabels.length - visibleCategoryLabels.length, 0);
+  const visibleVersions = product.kind === 'tool' ? visibleProductVersions(product) : [];
 
   return (
     <Link
@@ -90,8 +92,13 @@ export function ProductCard({ product, hideKind = false }: ProductCardProps) {
           <p className="mt-2 line-clamp-2 text-sm text-foreground/65 transition duration-300 group-hover:text-foreground/85">{product.tagline}</p>
         )}
 
-        {product.tags.length > 0 && (
+        {(product.tags.length > 0 || visibleVersions.length > 1) && (
           <div className="mt-4 flex flex-wrap gap-1.5">
+            {visibleVersions.length > 1 && (
+              <span className="rounded-full bg-brand-orange/10 px-2 py-0.5 text-[11px] text-brand-orange ring-1 ring-brand-orange/25">
+                {visibleVersions.length} phiên bản
+              </span>
+            )}
             {product.tags.slice(0, 4).map((s) => (
               <span
                 key={s}

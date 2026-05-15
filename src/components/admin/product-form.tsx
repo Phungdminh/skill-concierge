@@ -16,6 +16,8 @@ import {
   type ProductKind,
   type PricingMode,
   type SupportOption,
+  type ProductVersion,
+  type ProductVersionStatus,
 } from '@/lib/product-types';
 import { cn } from '@/lib/utils';
 
@@ -24,6 +26,10 @@ interface ProductFormProps {
   mode: 'create' | 'edit';
   defaultKind?: ProductKind;
 }
+
+type ProductVersionFormState = Omit<ProductVersion, 'price_vnd'> & {
+  price_vnd?: string;
+};
 
 const STATUS_OPTIONS: { value: ProductStatus; label: string }[] = [
   { value: 'draft', label: 'Bản nháp' },
@@ -38,12 +44,41 @@ const PRICING_OPTIONS: { value: PricingMode; label: string; hint: string }[] = [
   { value: 'quote', label: 'Liên hệ báo giá', hint: 'Ẩn giá, hiện "Liên hệ"' },
 ];
 
+const VERSION_STATUS_OPTIONS: { value: ProductVersionStatus; label: string }[] = [
+  { value: 'available', label: 'Đang bán' },
+  { value: 'beta', label: 'Beta' },
+  { value: 'deprecated', label: 'Ngừng khuyến nghị' },
+  { value: 'hidden', label: 'Ẩn khỏi public' },
+];
+
 const ALL_SUPPORT: SupportOption[] = [
   'drive_folder',
   'zalo_group',
   'one_on_one_call',
   'remote_setup',
 ];
+
+function toVersionFormState(version: ProductVersion): ProductVersionFormState {
+  return {
+    ...version,
+    price_vnd: version.price_vnd == null ? '' : String(version.price_vnd),
+    status: version.status ?? 'available',
+  };
+}
+
+function emptyVersion(): ProductVersionFormState {
+  return {
+    name: '',
+    slug: '',
+    description: '',
+    executable_label: '',
+    platform: 'Windows 10+ 64-bit',
+    price_vnd: '',
+    pricing_mode: undefined,
+    is_default: false,
+    status: 'available',
+  };
+}
 
 export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductFormProps) {
   const router = useRouter();
@@ -55,6 +90,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
   const [slugDirty, setSlugDirty] = useState(Boolean(initial?.slug));
   const [tagline, setTagline] = useState(initial?.tagline ?? '');
   const [description, setDescription] = useState(initial?.description ?? '');
+  const [notice, setNotice] = useState(initial?.notice ?? '');
   const [youtubeUrl, setYoutubeUrl] = useState(initial?.youtube_url ?? '');
   const [thumbnailUrl, setThumbnailUrl] = useState(initial?.thumbnail_url ?? '');
   const [gallery, setGallery] = useState((initial?.gallery ?? []).join('\n'));
@@ -70,6 +106,9 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const categoryDropdownRef = useRef<HTMLDivElement>(null);
   const [tags, setTags] = useState((initial?.tags ?? []).join(', '));
+  const [versions, setVersions] = useState<ProductVersionFormState[]>(
+    (initial?.versions ?? []).map(toVersionFormState),
+  );
   const [deliverables, setDeliverables] = useState(
     (initial?.deliverables ?? []).join('\n'),
   );
@@ -136,6 +175,35 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
     );
   }
 
+  function updateVersion(index: number, patch: Partial<ProductVersionFormState>) {
+    setVersions((curr) => curr.map((version, i) => (i === index ? { ...version, ...patch } : version)));
+  }
+
+  function removeVersion(index: number) {
+    setVersions((curr) => curr.filter((_, i) => i !== index));
+  }
+
+  function markDefaultVersion(index: number) {
+    setVersions((curr) => curr.map((version, i) => ({ ...version, is_default: i === index })));
+  }
+
+  function serializeVersions() {
+    if (kind !== 'tool') return [];
+    return versions
+      .map((version) => ({
+        name: version.name.trim(),
+        slug: version.slug?.trim() || undefined,
+        description: version.description?.trim() || null,
+        executable_label: version.executable_label?.trim() || null,
+        platform: version.platform?.trim() || null,
+        price_vnd: version.price_vnd?.trim() ? Number.parseInt(version.price_vnd, 10) : null,
+        pricing_mode: version.pricing_mode || undefined,
+        is_default: version.is_default ?? false,
+        status: version.status ?? 'available',
+      }))
+      .filter((version) => version.name.length > 0);
+  }
+
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (state === 'saving') return;
@@ -148,6 +216,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
       slug: slug.trim() || slugify(title),
       tagline: tagline.trim() || null,
       description: description.trim() || null,
+      notice: notice.trim() || null,
       youtube_url: youtubeUrl.trim() || null,
       thumbnail_url: thumbnailUrl.trim() || null,
       gallery: gallery.split('\n').map((s) => s.trim()).filter(Boolean),
@@ -159,6 +228,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
       is_free: kind === 'prompt' ? isFree : false,
       categories: selectedCategories,
       tags: tags.split(',').map((s) => s.trim()).filter(Boolean),
+      versions: serializeVersions(),
       deliverables: deliverables.split('\n').map((s) => s.trim()).filter(Boolean),
       support_options: supportOptions,
       duration_label: durationLabel.trim() || null,
@@ -325,6 +395,27 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
                 : '### Tính năng\n- Tự động hoá X\n- Generate Y'
             }
             className={cn(inputCls, 'font-mono text-[13px]')}
+          />
+        </FormField>
+
+        <FormField
+          label="Lưu ý cho khách"
+          htmlFor="notice"
+          hint="Hiện ở trang chi tiết để nói rõ giới hạn, cách dùng hoặc trường hợp cần liên hệ làm riêng."
+        >
+          <textarea
+            id="notice"
+            rows={3}
+            value={notice}
+            onChange={(e) => setNotice(e.target.value)}
+            placeholder={
+              kind === 'tool'
+                ? 'Ví dụ: File prompt có thể gồm nhiều prompt, nhưng mỗi lượt chạy chỉ dùng 1 ảnh. Nếu cần bản input nhiều ảnh, hãy liên hệ để làm riêng.'
+                : kind === 'prompt'
+                  ? 'Ví dụ: Bộ prompt có nhiều mẫu, nhưng bạn vẫn cần tự thay thông tin sản phẩm/khách hàng trước khi dùng.'
+                  : 'Ví dụ: Nếu quy trình của bạn khác mô tả, hãy liên hệ trước để mình kiểm tra scope.'
+            }
+            className={inputCls}
           />
         </FormField>
 
@@ -532,6 +623,155 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
           </FormField>
         </div>
       </FormSection>
+
+      {kind === 'tool' && (
+        <FormSection
+          title="Các phiên bản của tool"
+          description="Dùng khi một tool có nhiều file .exe hoặc nhiều gói tính năng. Video demo vẫn là demo chung của sản phẩm."
+        >
+          <div className="space-y-3">
+            {versions.length === 0 ? (
+              <div className="rounded-xl border border-dashed border-white/10 bg-white/[0.02] p-4 text-sm text-foreground/55">
+                Chưa có phiên bản nào. Nếu tool chỉ có một bản, bạn có thể để trống.
+              </div>
+            ) : (
+              versions.map((version, index) => (
+                <div key={index} className="rounded-2xl border border-white/8 bg-black/15 p-4">
+                  <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+                    <div className="text-sm font-medium text-foreground/90">Phiên bản {index + 1}</div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => markDefaultVersion(index)}
+                        className={cn(
+                          'rounded-full px-3 py-1 text-xs transition ring-1',
+                          version.is_default
+                            ? 'bg-brand-orange/10 text-brand-orange ring-brand-orange/35'
+                            : 'text-foreground/55 ring-white/10 hover:bg-white/[0.04] hover:text-foreground',
+                        )}
+                      >
+                        {version.is_default ? 'Mặc định' : 'Đặt mặc định'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => removeVersion(index)}
+                        className="rounded-full px-3 py-1 text-xs text-red-300 ring-1 ring-red-500/25 transition hover:bg-red-500/10"
+                      >
+                        Xoá
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <FormField label="Tên phiên bản" htmlFor={`version-name-${index}`} required>
+                      <input
+                        id={`version-name-${index}`}
+                        value={version.name}
+                        onChange={(e) => updateVersion(index, { name: e.target.value })}
+                        placeholder="MockupAutomation"
+                        className={inputCls}
+                      />
+                    </FormField>
+                    <FormField label="Slug/key" htmlFor={`version-slug-${index}`} hint="Dùng để nhận diện nội bộ, viết thường không dấu.">
+                      <input
+                        id={`version-slug-${index}`}
+                        value={version.slug ?? ''}
+                        onChange={(e) => updateVersion(index, { slug: e.target.value })}
+                        placeholder="mockup-automation"
+                        className={inputCls}
+                      />
+                    </FormField>
+                  </div>
+
+                  <FormField label="Mô tả ngắn" htmlFor={`version-description-${index}`}>
+                    <textarea
+                      id={`version-description-${index}`}
+                      rows={2}
+                      value={version.description ?? ''}
+                      onChange={(e) => updateVersion(index, { description: e.target.value })}
+                      placeholder="Phiên bản đầy đủ cho quy trình tạo mockup nhiều bước."
+                      className={inputCls}
+                    />
+                  </FormField>
+
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <FormField label="Tên file .exe" htmlFor={`version-exe-${index}`}>
+                      <input
+                        id={`version-exe-${index}`}
+                        value={version.executable_label ?? ''}
+                        onChange={(e) => updateVersion(index, { executable_label: e.target.value })}
+                        placeholder="MockupAutomation.exe"
+                        className={inputCls}
+                      />
+                    </FormField>
+                    <FormField label="Nền tảng" htmlFor={`version-platform-${index}`}>
+                      <input
+                        id={`version-platform-${index}`}
+                        value={version.platform ?? ''}
+                        onChange={(e) => updateVersion(index, { platform: e.target.value })}
+                        placeholder="Windows 10+ 64-bit"
+                        className={inputCls}
+                      />
+                    </FormField>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                    <FormField label="Giá riêng" htmlFor={`version-price-${index}`} hint="Để trống để dùng giá chung.">
+                      <input
+                        id={`version-price-${index}`}
+                        type="number"
+                        min={0}
+                        step={1000}
+                        value={version.price_vnd ?? ''}
+                        onChange={(e) => updateVersion(index, { price_vnd: e.target.value })}
+                        placeholder="1500000"
+                        className={inputCls}
+                      />
+                    </FormField>
+                    <FormField label="Kiểu giá riêng" htmlFor={`version-pricing-${index}`}>
+                      <select
+                        id={`version-pricing-${index}`}
+                        value={version.pricing_mode ?? ''}
+                        onChange={(e) => updateVersion(index, { pricing_mode: e.target.value ? e.target.value as PricingMode : undefined })}
+                        className={inputCls}
+                      >
+                        <option value="" className="bg-[#0d0d10]">Dùng giá chung</option>
+                        {PRICING_OPTIONS.map((o) => (
+                          <option key={o.value} value={o.value} className="bg-[#0d0d10]">
+                            {o.label}
+                          </option>
+                        ))}
+                      </select>
+                    </FormField>
+                    <FormField label="Trạng thái" htmlFor={`version-status-${index}`}>
+                      <select
+                        id={`version-status-${index}`}
+                        value={version.status ?? 'available'}
+                        onChange={(e) => updateVersion(index, { status: e.target.value as ProductVersionStatus })}
+                        className={inputCls}
+                      >
+                        {VERSION_STATUS_OPTIONS.map((o) => (
+                          <option key={o.value} value={o.value} className="bg-[#0d0d10]">
+                            {o.label}
+                          </option>
+                        ))}
+                      </select>
+                    </FormField>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setVersions((curr) => [...curr, emptyVersion()])}
+            className="rounded-xl border border-white/10 px-4 py-2.5 text-sm text-foreground/80 transition hover:bg-white/[0.04]"
+          >
+            Thêm phiên bản
+          </button>
+        </FormSection>
+      )}
 
       <FormSection
         title="Giao hàng & hỗ trợ"

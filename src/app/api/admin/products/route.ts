@@ -4,12 +4,25 @@ import { requireAdmin } from '@/lib/auth';
 import { categoriesFor, slugify } from '@/lib/product-types';
 import { createAdminClient } from '@/lib/supabase/admin';
 
+const productVersionSchema = z.object({
+  name: z.string().trim().min(1).max(80),
+  slug: z.string().trim().min(1).max(80).optional().or(z.literal('')),
+  description: z.string().trim().max(500).nullable().optional().or(z.literal('')),
+  executable_label: z.string().trim().max(160).nullable().optional().or(z.literal('')),
+  platform: z.string().trim().max(120).nullable().optional().or(z.literal('')),
+  price_vnd: z.number().int().min(0).nullable().optional(),
+  pricing_mode: z.enum(['fixed', 'from', 'quote']).optional(),
+  is_default: z.boolean().optional(),
+  status: z.enum(['available', 'beta', 'deprecated', 'hidden']).optional(),
+});
+
 const productInputSchema = z.object({
   kind: z.enum(['tool', 'setup', 'prompt', 'webwork']),
   title: z.string().trim().min(2).max(160),
   slug: z.string().trim().min(1).max(80).optional(),
   tagline: z.string().trim().max(300).nullable().optional(),
   description: z.string().max(20000).nullable().optional(),
+  notice: z.string().max(2000).nullable().optional(),
   youtube_url: z.string().trim().url().nullable().optional().or(z.literal('')),
   thumbnail_url: z.string().trim().url().nullable().optional().or(z.literal('')),
   gallery: z.array(z.string().url()).max(20).optional(),
@@ -18,6 +31,7 @@ const productInputSchema = z.object({
   is_free: z.boolean().optional(),
   categories: z.array(z.string().trim().min(1).max(40)).max(6).optional(),
   tags: z.array(z.string().max(40)).max(20).optional(),
+  versions: z.array(productVersionSchema).max(10).optional(),
   deliverables: z.array(z.string().max(200)).max(20).optional(),
   support_options: z
     .array(z.enum(['drive_folder', 'zalo_group', 'one_on_one_call', 'remote_setup']))
@@ -35,6 +49,39 @@ function emptyToNull<T extends string | null | undefined>(v: T): string | null {
   if (v == null) return null;
   const t = v.trim();
   return t.length === 0 ? null : t;
+}
+
+function normalizeVersions(versions: z.infer<typeof productVersionSchema>[]) {
+  const slugs = new Set<string>();
+  let defaultCount = 0;
+  const normalized = versions.map((version) => {
+    const slug = version.slug?.trim() || undefined;
+    if (slug) {
+      if (slugs.has(slug)) throw new Error('duplicate_version_slug');
+      slugs.add(slug);
+    }
+    if (version.is_default) defaultCount += 1;
+    return {
+      name: version.name.trim(),
+      ...(slug ? { slug } : {}),
+      ...(emptyToNull(version.description) ? { description: emptyToNull(version.description) } : {}),
+      ...(emptyToNull(version.executable_label) ? { executable_label: emptyToNull(version.executable_label) } : {}),
+      ...(emptyToNull(version.platform) ? { platform: emptyToNull(version.platform) } : {}),
+      price_vnd: version.pricing_mode === 'quote' ? null : (version.price_vnd ?? null),
+      ...(version.pricing_mode ? { pricing_mode: version.pricing_mode } : {}),
+      is_default: version.is_default ?? false,
+      status: version.status ?? 'available',
+    };
+  });
+  if (defaultCount > 1) throw new Error('multiple_default_versions');
+  return normalized;
+}
+
+function versionValidationResponse(message: string) {
+  return NextResponse.json(
+    { error: { code: 'validation_error', message } },
+    { status: 422 },
+  );
 }
 
 export async function POST(req: Request) {
@@ -78,6 +125,19 @@ export async function POST(req: Request) {
     );
   }
 
+  let versions: ReturnType<typeof normalizeVersions> = [];
+  try {
+    versions = normalizeVersions(parsed.data.versions ?? []);
+  } catch (err) {
+    const message = err instanceof Error && err.message === 'multiple_default_versions'
+      ? 'Chỉ được chọn một phiên bản mặc định.'
+      : 'Slug phiên bản không được trùng nhau.';
+    return versionValidationResponse(message);
+  }
+  if (parsed.data.kind !== 'tool' && versions.length > 0) {
+    return versionValidationResponse('Chỉ sản phẩm loại tool mới có phiên bản executable.');
+  }
+
   const supabase = createAdminClient();
   const slug = (parsed.data.slug?.trim() || slugify(parsed.data.title)).slice(0, 80);
 
@@ -88,6 +148,7 @@ export async function POST(req: Request) {
     slug,
     tagline: emptyToNull(parsed.data.tagline),
     description: emptyToNull(parsed.data.description),
+    notice: emptyToNull(parsed.data.notice),
     youtube_url: emptyToNull(parsed.data.youtube_url),
     thumbnail_url: emptyToNull(parsed.data.thumbnail_url),
     gallery: parsed.data.gallery ?? [],
@@ -95,6 +156,7 @@ export async function POST(req: Request) {
     price_vnd: parsed.data.price_vnd ?? null,
     categories: selectedCategories,
     tags: parsed.data.tags ?? [],
+    versions,
     deliverables: parsed.data.deliverables ?? [],
     support_options: parsed.data.support_options ?? [],
     duration_label: emptyToNull(parsed.data.duration_label),

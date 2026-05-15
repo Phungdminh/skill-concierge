@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
+import { DashboardCard } from '@/components/admin/dashboard-card';
 import { InquiryRow } from '@/components/admin/inquiry-row';
 import type { Inquiry, InquiryStatus } from '@/lib/product-types';
 import { cn } from '@/lib/utils';
@@ -52,6 +53,10 @@ export default async function AdminInquiriesPage({ searchParams }: PageProps) {
       <p className="mt-2 text-foreground/65">
         Khách hỏi mua / hỏi build riêng. Bấm để xem chi tiết, đánh dấu trạng thái.
       </p>
+
+      <div className="mt-6 max-w-md">
+        <DashboardCard />
+      </div>
 
       <div className="mt-6 flex flex-wrap gap-2">
         {FILTERS.map((f) => {

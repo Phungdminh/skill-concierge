@@ -6,6 +6,19 @@ export type ProductStatus = 'draft' | 'published' | 'sold_out' | 'archived';
 export type PricingMode = 'fixed' | 'from' | 'quote';
 export type InquiryStatus = 'new' | 'contacted' | 'closed';
 export type SupportOption = 'drive_folder' | 'zalo_group' | 'one_on_one_call' | 'remote_setup';
+export type ProductVersionStatus = 'available' | 'beta' | 'deprecated' | 'hidden';
+
+export interface ProductVersion {
+  name: string;
+  slug?: string;
+  description?: string | null;
+  executable_label?: string | null;
+  platform?: string | null;
+  price_vnd?: number | null;
+  pricing_mode?: PricingMode;
+  is_default?: boolean;
+  status?: ProductVersionStatus;
+}
 
 export interface Product {
   id: string;
@@ -15,6 +28,7 @@ export interface Product {
   title: string;
   tagline: string | null;
   description: string | null;
+  notice: string | null;
   youtube_url: string | null;
   thumbnail_url: string | null;
   gallery: string[];
@@ -23,6 +37,7 @@ export interface Product {
   is_free: boolean;
   categories: string[];
   tags: string[];
+  versions: ProductVersion[];
   deliverables: string[];
   support_options: SupportOption[];
   duration_label: string | null;
@@ -200,6 +215,21 @@ export function formatPriceVnd(price: number | null, mode: PricingMode = 'fixed'
   if (mode === 'quote' || price == null) return 'Liên hệ báo giá';
   const formatted = new Intl.NumberFormat('vi-VN').format(price) + 'đ';
   return mode === 'from' ? `Từ ${formatted}` : formatted;
+}
+
+export function visibleProductVersions(product: Pick<Product, 'versions'>): ProductVersion[] {
+  return product.versions.filter((version) => (version.status ?? 'available') !== 'hidden');
+}
+
+export function formatVersionPrice(
+  version: ProductVersion,
+  product: Pick<Product, 'price_vnd' | 'pricing_mode' | 'is_free'>,
+): string {
+  return formatPriceVnd(
+    version.price_vnd ?? product.price_vnd,
+    version.pricing_mode ?? product.pricing_mode,
+    product.is_free,
+  );
 }
 
 export function extractYouTubeId(url: string | null | undefined): string | null {

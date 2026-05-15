@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
+import { DashboardCard } from '@/components/admin/dashboard-card';
 import { ProductForm } from '@/components/admin/product-form';
 import { createClient } from '@/lib/supabase/server';
 import { KIND_META, type Product } from '@/lib/product-types';
@@ -41,6 +42,10 @@ export default async function EditProductPage({ params }: PageProps) {
           {meta.route}/{product.slug}
         </code>
       </p>
+
+      <div className="mt-6 max-w-md">
+        <DashboardCard />
+      </div>
 
       <div className="mt-8 max-w-4xl rounded-3xl border border-white/5 bg-[#0d0d10] p-6 md:p-8">
         <ProductForm mode="edit" initial={product} />

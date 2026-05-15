@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import { DashboardCard } from '@/components/admin/dashboard-card';
 import { ProductForm } from '@/components/admin/product-form';
 import { ALL_KINDS, type ProductKind } from '@/lib/product-types';
 
@@ -29,6 +30,10 @@ export default async function NewProductPage({ searchParams }: PageProps) {
       <p className="mt-2 max-w-2xl text-foreground/65">
         Chọn loại trước. Sau khi lưu, mặc định là &ldquo;Bản nháp&rdquo; — đổi sang &ldquo;Đang bán&rdquo; để hiện trên site.
       </p>
+
+      <div className="mt-6 max-w-md">
+        <DashboardCard />
+      </div>
 
       <div className="mt-8 max-w-4xl rounded-3xl border border-white/5 bg-[#0d0d10] p-6 md:p-8">
         <ProductForm mode="create" defaultKind={defaultKind} />
