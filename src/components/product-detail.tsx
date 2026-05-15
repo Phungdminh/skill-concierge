@@ -21,6 +21,14 @@ interface ProductDetailProps {
 
 const MOCKUP_AUTOMATION_NOTICE = 'Tool Mockup Automation có thể xuất ra nhiều ảnh mockup sau khi chạy, phù hợp khi bạn cần tạo hàng loạt ảnh sản phẩm từ cùng một quy trình.';
 const MOCKUP_COLLAGE_PROMPT_NOTICE = 'File prompt có thể có rất nhiều prompt, có thể lên đến 100 prompt, nhưng output chỉ là 1 ảnh. Trong ảnh đó sẽ bao gồm nhiều ảnh nhỏ được đặt trong các khung tách nhau. Nếu bạn muốn phiên bản xuất nhiều ảnh riêng lẻ, hãy liên hệ để mình làm riêng theo quy trình của bạn.';
+const AUTO_PROMPT_POSTING_NOTICE = 'File prompt có thể gồm nhiều prompt, nhưng mỗi lượt chạy chỉ dùng 1 ảnh. Nếu cần bản input nhiều ảnh, hãy liên hệ để làm riêng.';
+
+const PAYMENT_INFO = {
+  bank: 'Techcombank',
+  accountNumber: '9868886886',
+  accountName: 'PHUNG DUC MINH',
+  qrSrc: '/payment-qr.jpg',
+};
 
 const DEFAULT_BULLETS: Record<Product['kind'], string[]> = {
   tool: [
@@ -52,11 +60,16 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const bullets = product.deliverables.length > 0 ? product.deliverables : DEFAULT_BULLETS[product.kind];
   const versions = product.kind === 'tool' ? visibleProductVersions(product) : [];
   const normalizedSlug = product.slug.replace(/-/g, '').toLowerCase();
+  const normalizedTitle = product.title.replace(/\s/g, '').toLowerCase();
+  const isAutoPromptPosting = normalizedSlug.includes('dangprompt') || normalizedSlug.includes('autoprompt') || normalizedTitle.includes('đăngprompt') || normalizedTitle.includes('dangprompt');
   const notice = product.notice || (normalizedSlug === 'mockupautomation'
     ? MOCKUP_AUTOMATION_NOTICE
     : normalizedSlug === 'mockupcollageprompt'
       ? MOCKUP_COLLAGE_PROMPT_NOTICE
-      : null);
+      : isAutoPromptPosting
+        ? AUTO_PROMPT_POSTING_NOTICE
+        : null);
+  const showPaymentInfo = !product.is_free && product.pricing_mode !== 'quote';
 
   return (
     <>
@@ -160,6 +173,19 @@ export function ProductDetail({ product }: ProductDetailProps) {
                 </div>
               )}
 
+              {versions.length > 0 && (
+                <Link
+                  href={`/contact?kind=${product.kind}`}
+                  className="featured-cta group mt-4 flex items-center justify-between rounded-2xl border border-white/8 bg-white/[0.02] p-5"
+                >
+                  <div>
+                    <div className="text-sm font-medium">Cần khác đi 1 chút?</div>
+                    <div className="mt-0.5 text-xs text-foreground/55">{meta.ctaLabel}</div>
+                  </div>
+                  <ArrowUpRight className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </Link>
+              )}
+
               {product.prerequisites.length > 0 && (
                 <div className="mt-10 rounded-2xl border border-white/5 bg-white/[0.02] p-5">
                   <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
@@ -252,6 +278,43 @@ export function ProductDetail({ product }: ProductDetailProps) {
                   </ul>
                 </div>
 
+                {showPaymentInfo && (
+                  <div className="rounded-3xl border border-brand-orange/20 bg-[#0d0d10] p-6">
+                    <div className="text-[11px] uppercase tracking-widest text-brand-orange">
+                      Chuyển khoản
+                    </div>
+                    <div className="mt-4 overflow-hidden rounded-2xl border border-white/8 bg-white p-3">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={PAYMENT_INFO.qrSrc}
+                        alt="QR chuyển khoản SkillForge VN"
+                        className="aspect-square w-full object-contain"
+                      />
+                    </div>
+                    <dl className="mt-4 space-y-2.5 text-sm">
+                      <div className="flex justify-between gap-3">
+                        <dt className="text-foreground/55">Ngân hàng</dt>
+                        <dd className="text-right font-medium text-foreground/90">{PAYMENT_INFO.bank}</dd>
+                      </div>
+                      <div className="flex justify-between gap-3">
+                        <dt className="text-foreground/55">Số tài khoản</dt>
+                        <dd className="text-right font-semibold tabular-nums text-foreground/95">{PAYMENT_INFO.accountNumber}</dd>
+                      </div>
+                      <div className="flex justify-between gap-3">
+                        <dt className="text-foreground/55">Chủ tài khoản</dt>
+                        <dd className="text-right font-medium text-foreground/90">{PAYMENT_INFO.accountName}</dd>
+                      </div>
+                      <div className="rounded-2xl bg-white/[0.04] p-3 ring-1 ring-white/8">
+                        <dt className="text-[11px] uppercase tracking-widest text-muted-foreground">Nội dung chuyển khoản</dt>
+                        <dd className="mt-1 font-semibold text-foreground/95">Tên - chuyển khoản {product.title}</dd>
+                      </div>
+                    </dl>
+                    <p className="mt-4 text-xs leading-relaxed text-foreground/55">
+                      Vui lòng kiểm tra đúng tên chủ tài khoản trước khi chuyển khoản. Sau khi thanh toán, nhắn Zalo/Telegram kèm ảnh giao dịch để mình xác nhận và gửi file.
+                    </p>
+                  </div>
+                )}
+
                 {product.support_options.length > 0 && (
                   <div className="rounded-3xl border border-white/5 bg-[#0d0d10] p-6">
                     <div className="text-[11px] uppercase tracking-widest text-muted-foreground">
@@ -270,17 +333,6 @@ export function ProductDetail({ product }: ProductDetailProps) {
                     </ul>
                   </div>
                 )}
-
-                <Link
-                  href={`/contact?kind=${product.kind}`}
-                  className="featured-cta group flex items-center justify-between rounded-2xl border border-white/8 bg-white/[0.02] p-5"
-                >
-                  <div>
-                    <div className="text-sm font-medium">Cần khác đi 1 chút?</div>
-                    <div className="mt-0.5 text-xs text-foreground/55">{meta.ctaLabel}</div>
-                  </div>
-                  <ArrowUpRight className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                </Link>
               </div>
             </aside>
           </div>

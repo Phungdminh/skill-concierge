@@ -216,7 +216,6 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
       slug: slug.trim() || slugify(title),
       tagline: tagline.trim() || null,
       description: description.trim() || null,
-      notice: notice.trim() || null,
       youtube_url: youtubeUrl.trim() || null,
       thumbnail_url: thumbnailUrl.trim() || null,
       gallery: gallery.split('\n').map((s) => s.trim()).filter(Boolean),
