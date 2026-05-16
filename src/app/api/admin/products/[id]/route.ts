@@ -12,8 +12,6 @@ const productVersionSchema = z.object({
   description: z.string().trim().max(500).nullable().optional().or(z.literal('')),
   executable_label: z.string().trim().max(160).nullable().optional().or(z.literal('')),
   platform: z.string().trim().max(120).nullable().optional().or(z.literal('')),
-  price_vnd: z.number().int().min(0).nullable().optional(),
-  pricing_mode: z.enum(['fixed', 'from', 'quote']).optional(),
   is_default: z.boolean().optional(),
   status: z.enum(['available', 'beta', 'deprecated', 'hidden']).optional(),
 });
@@ -43,7 +41,6 @@ const patchSchema = z.object({
   status: z.enum(['draft', 'published', 'sold_out', 'archived']).optional(),
   featured: z.boolean().optional(),
   sort_order: z.number().int().optional(),
-  sales_count: z.number().int().min(0).optional(),
 });
 
 function emptyToNull<T extends string | null | undefined>(v: T): string | null {
@@ -68,8 +65,6 @@ function normalizeVersions(versions: z.infer<typeof productVersionSchema>[]) {
       ...(emptyToNull(version.description) ? { description: emptyToNull(version.description) } : {}),
       ...(emptyToNull(version.executable_label) ? { executable_label: emptyToNull(version.executable_label) } : {}),
       ...(emptyToNull(version.platform) ? { platform: emptyToNull(version.platform) } : {}),
-      price_vnd: version.pricing_mode === 'quote' ? null : (version.price_vnd ?? null),
-      ...(version.pricing_mode ? { pricing_mode: version.pricing_mode } : {}),
       is_default: version.is_default ?? false,
       status: version.status ?? 'available',
     };
@@ -209,7 +204,6 @@ export async function PATCH(
   if (d.featured !== undefined) update.featured = d.featured;
   if (d.is_free !== undefined) update.is_free = d.is_free;
   if (d.sort_order !== undefined) update.sort_order = d.sort_order;
-  if (d.sales_count !== undefined) update.sales_count = d.sales_count;
 
   const { data, error } = await supabase
     .from('products')

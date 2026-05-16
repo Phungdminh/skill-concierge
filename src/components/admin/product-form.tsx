@@ -27,9 +27,7 @@ interface ProductFormProps {
   defaultKind?: ProductKind;
 }
 
-type ProductVersionFormState = Omit<ProductVersion, 'price_vnd'> & {
-  price_vnd?: string;
-};
+type ProductVersionFormState = ProductVersion;
 
 const STATUS_OPTIONS: { value: ProductStatus; label: string }[] = [
   { value: 'draft', label: 'Bản nháp' },
@@ -61,7 +59,6 @@ const ALL_SUPPORT: SupportOption[] = [
 function toVersionFormState(version: ProductVersion): ProductVersionFormState {
   return {
     ...version,
-    price_vnd: version.price_vnd == null ? '' : String(version.price_vnd),
     status: version.status ?? 'available',
   };
 }
@@ -73,8 +70,6 @@ function emptyVersion(): ProductVersionFormState {
     description: '',
     executable_label: '',
     platform: 'Windows 10+ 64-bit',
-    price_vnd: '',
-    pricing_mode: undefined,
     is_default: false,
     status: 'available',
   };
@@ -127,9 +122,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
   const [sortOrder, setSortOrder] = useState<string>(
     initial?.sort_order == null ? '0' : String(initial.sort_order),
   );
-  const [salesCount, setSalesCount] = useState<string>(
-    initial?.sales_count == null ? '0' : String(initial.sales_count),
-  );
+  const viewCount = initial?.view_count ?? 0;
   const [state, setState] = useState<'idle' | 'saving' | 'deleting' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -196,8 +189,6 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
         description: version.description?.trim() || null,
         executable_label: version.executable_label?.trim() || null,
         platform: version.platform?.trim() || null,
-        price_vnd: version.price_vnd?.trim() ? Number.parseInt(version.price_vnd, 10) : null,
-        pricing_mode: version.pricing_mode || undefined,
         is_default: version.is_default ?? false,
         status: version.status ?? 'available',
       }))
@@ -210,7 +201,6 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
     setState('saving');
     setErrorMsg(null);
     const sortOrderNum = Number.parseInt(sortOrder, 10);
-    const salesCountNum = Number.parseInt(salesCount, 10);
     const basePayload = {
       title: title.trim(),
       slug: slug.trim() || slugify(title),
@@ -235,7 +225,6 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
       status,
       featured,
       sort_order: Number.isFinite(sortOrderNum) ? sortOrderNum : 0,
-      sales_count: Number.isFinite(salesCountNum) && salesCountNum > 0 ? salesCountNum : 0,
     };
     const payload =
       mode === 'create' ? { kind, ...basePayload } : basePayload;
@@ -608,16 +597,14 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
             htmlFor="price_vnd"
             hint={isFree ? 'Không dùng khi "Miễn phí"' : pricingMode === 'quote' ? 'Không dùng khi "Liên hệ báo giá"' : 'Nhập số nguyên, không phẩy'}
           >
-            <input
+            <NumberStepper
               id="price_vnd"
-              type="number"
               min={0}
               step={1000}
               value={priceVnd}
               disabled={isFree || pricingMode === 'quote'}
-              onChange={(e) => setPriceVnd(e.target.value)}
+              onChange={setPriceVnd}
               placeholder="1500000"
-              className={cn(inputCls, (isFree || pricingMode === 'quote') && 'opacity-40')}
             />
           </FormField>
         </div>
@@ -714,49 +701,20 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
                     </FormField>
                   </div>
 
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                    <FormField label="Giá riêng" htmlFor={`version-price-${index}`} hint="Để trống để dùng giá chung.">
-                      <input
-                        id={`version-price-${index}`}
-                        type="number"
-                        min={0}
-                        step={1000}
-                        value={version.price_vnd ?? ''}
-                        onChange={(e) => updateVersion(index, { price_vnd: e.target.value })}
-                        placeholder="1500000"
-                        className={inputCls}
-                      />
-                    </FormField>
-                    <FormField label="Kiểu giá riêng" htmlFor={`version-pricing-${index}`}>
-                      <select
-                        id={`version-pricing-${index}`}
-                        value={version.pricing_mode ?? ''}
-                        onChange={(e) => updateVersion(index, { pricing_mode: e.target.value ? e.target.value as PricingMode : undefined })}
-                        className={inputCls}
-                      >
-                        <option value="" className="bg-[#0d0d10]">Dùng giá chung</option>
-                        {PRICING_OPTIONS.map((o) => (
-                          <option key={o.value} value={o.value} className="bg-[#0d0d10]">
-                            {o.label}
-                          </option>
-                        ))}
-                      </select>
-                    </FormField>
-                    <FormField label="Trạng thái" htmlFor={`version-status-${index}`}>
-                      <select
-                        id={`version-status-${index}`}
-                        value={version.status ?? 'available'}
-                        onChange={(e) => updateVersion(index, { status: e.target.value as ProductVersionStatus })}
-                        className={inputCls}
-                      >
-                        {VERSION_STATUS_OPTIONS.map((o) => (
-                          <option key={o.value} value={o.value} className="bg-[#0d0d10]">
-                            {o.label}
-                          </option>
-                        ))}
-                      </select>
-                    </FormField>
-                  </div>
+                  <FormField label="Trạng thái" htmlFor={`version-status-${index}`} hint="Tất cả phiên bản dùng chung giá ở phần “Giá & cách bán” phía trên.">
+                    <select
+                      id={`version-status-${index}`}
+                      value={version.status ?? 'available'}
+                      onChange={(e) => updateVersion(index, { status: e.target.value as ProductVersionStatus })}
+                      className={inputCls}
+                    >
+                      {VERSION_STATUS_OPTIONS.map((o) => (
+                        <option key={o.value} value={o.value} className="bg-[#0d0d10]">
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  </FormField>
                 </div>
               ))
             )}
@@ -878,12 +836,11 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
             </select>
           </FormField>
           <FormField label="Thứ tự ưu tiên" htmlFor="sort_order" hint="Số lớn hiện trước. Mặc định là 0.">
-            <input
+            <NumberStepper
               id="sort_order"
-              type="number"
+              min={0}
               value={sortOrder}
-              onChange={(e) => setSortOrder(e.target.value)}
-              className={inputCls}
+              onChange={setSortOrder}
             />
           </FormField>
         </div>
@@ -901,16 +858,20 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
               <span className="text-foreground/55">— ưu tiên hiển thị ở landing page</span>
             </span>
           </label>
-          <FormField label="Số lượt bán" htmlFor="sales_count" hint="Dùng cho thống kê và chọn demo nổi bật trên landing page.">
-            <input
-              id="sales_count"
-              type="number"
-              min="0"
-              value={salesCount}
-              onChange={(e) => setSalesCount(e.target.value)}
-              className={inputCls}
-            />
-          </FormField>
+          <div className="flex flex-col justify-between rounded-xl border border-white/8 bg-white/[0.02] px-4 py-3">
+            <span className="text-[11px] uppercase tracking-widest text-muted-foreground">
+              Số lượt xem
+            </span>
+            <div className="mt-2 flex items-baseline gap-2">
+              <span className="text-2xl font-semibold tabular-nums text-foreground">
+                {viewCount.toLocaleString('vi-VN')}
+              </span>
+              <span className="text-xs text-foreground/55">lượt</span>
+            </div>
+            <span className="mt-1 block text-[11px] text-foreground/45">
+              Tự đếm theo mỗi lượt khách mở trang chi tiết. Không chỉnh sửa thủ công.
+            </span>
+          </div>
         </div>
       </FormSection>
 
@@ -1015,5 +976,81 @@ function FormField({
       {children}
       {hint && <span className="mt-1 block text-[11px] text-foreground/45">{hint}</span>}
     </label>
+  );
+}
+
+function NumberStepper({
+  id,
+  value,
+  onChange,
+  min,
+  max,
+  step = 1,
+  disabled,
+  placeholder,
+}: {
+  id?: string;
+  value: string;
+  onChange: (next: string) => void;
+  min?: number;
+  max?: number;
+  step?: number;
+  disabled?: boolean;
+  placeholder?: string;
+}) {
+  function clamp(n: number) {
+    let result = n;
+    if (min != null && result < min) result = min;
+    if (max != null && result > max) result = max;
+    return result;
+  }
+  function adjust(delta: number) {
+    if (disabled) return;
+    const parsed = Number.parseInt(value, 10);
+    const base = Number.isFinite(parsed) ? parsed : (min ?? 0);
+    onChange(String(clamp(base + delta)));
+  }
+  const allowNegative = min == null || min < 0;
+  return (
+    <div
+      className={cn(
+        'mt-2 flex w-full items-stretch overflow-hidden rounded-xl bg-white/[0.02] ring-1 ring-white/8 transition focus-within:ring-white/25',
+        disabled && 'opacity-40',
+      )}
+    >
+      <button
+        type="button"
+        tabIndex={-1}
+        aria-label="Giảm"
+        onClick={() => adjust(-step)}
+        disabled={disabled}
+        className="flex w-10 shrink-0 items-center justify-center border-r border-white/8 text-lg leading-none text-foreground/55 transition hover:bg-white/[0.05] hover:text-foreground disabled:cursor-not-allowed"
+      >
+        −
+      </button>
+      <input
+        id={id}
+        type="text"
+        inputMode="numeric"
+        value={value}
+        disabled={disabled}
+        placeholder={placeholder}
+        onChange={(e) => {
+          const pattern = allowNegative ? /[^\d-]/g : /[^\d]/g;
+          onChange(e.target.value.replace(pattern, ''));
+        }}
+        className="min-w-0 flex-1 bg-transparent px-2 py-2.5 text-center text-sm text-foreground placeholder:text-muted-foreground focus:outline-none disabled:cursor-not-allowed"
+      />
+      <button
+        type="button"
+        tabIndex={-1}
+        aria-label="Tăng"
+        onClick={() => adjust(step)}
+        disabled={disabled}
+        className="flex w-10 shrink-0 items-center justify-center border-l border-white/8 text-lg leading-none text-foreground/55 transition hover:bg-white/[0.05] hover:text-foreground disabled:cursor-not-allowed"
+      >
+        +
+      </button>
+    </div>
   );
 }

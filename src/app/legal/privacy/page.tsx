@@ -1,4 +1,3 @@
-import { Nav } from '@/components/nav';
 import { Footer } from '@/components/footer';
 import { PageHeader } from '@/components/page-header';
 
@@ -53,7 +52,6 @@ const SECTIONS = [
 export default function PrivacyPage() {
   return (
     <>
-      <Nav />
       <main className="min-h-svh">
         <PageHeader
           eyebrow="Pháp lý"

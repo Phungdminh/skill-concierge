@@ -19,6 +19,8 @@ create table profiles (
   email text not null,
   full_name text,
   avatar_url text,
+  gender text check (gender in ('male','female','other','prefer_not_to_say')),
+  job_title text,
   provider text default 'google' not null,
   role text default 'customer' not null check (role in ('customer','admin')),
   created_at timestamptz default now(),
@@ -50,7 +52,7 @@ create table products (
   status text default 'draft' check (status in ('draft','published','sold_out','archived')),
   featured boolean default false,
   sort_order integer default 0,
-  sales_count integer default 0 not null,
+  view_count integer default 0 not null,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
 );
@@ -84,8 +86,8 @@ create index profiles_email_idx
 
 create index products_published_idx
   on products(status, kind, featured desc, sort_order desc, created_at desc);
-create index products_best_seller_idx
-  on products(status, kind, sales_count desc, featured desc, sort_order desc, created_at desc);
+create index products_most_viewed_idx
+  on products(status, kind, view_count desc, featured desc, sort_order desc, created_at desc);
 create index products_kind_idx
   on products(kind, status);
 create index products_categories_gin_idx
@@ -147,6 +149,21 @@ create policy "products public read" on products
 create policy "products owner full" on products
   for all using (auth.uid() = owner_id) with check (auth.uid() = owner_id);
 
+-- atomic view-count increment for published products (anon-callable)
+create or replace function public.increment_product_view(p_id uuid)
+returns void
+language sql
+security definer
+set search_path = public
+as $$
+  update products
+  set view_count = view_count + 1
+  where id = p_id and status = 'published';
+$$;
+
+revoke all on function public.increment_product_view(uuid) from public;
+grant execute on function public.increment_product_view(uuid) to anon, authenticated;
+
 -- inquiries: anyone can submit, only the single creator (any row in products.owner_id) can read/update
 create policy "inquiries public insert" on inquiries
   for insert with check (true);
@@ -157,4 +174,29 @@ create policy "inquiries admin read" on inquiries
 create policy "inquiries admin update" on inquiries
   for update using (
     exists (select 1 from products where products.owner_id = auth.uid())
+  );
+
+-- avatars storage bucket: public read, user can write only to their own folder
+insert into storage.buckets (id, name, public)
+values ('avatars', 'avatars', true)
+on conflict (id) do nothing;
+
+drop policy if exists "avatars public read" on storage.objects;
+drop policy if exists "avatars owner write" on storage.objects;
+drop policy if exists "avatars owner update" on storage.objects;
+drop policy if exists "avatars owner delete" on storage.objects;
+
+create policy "avatars public read" on storage.objects
+  for select using (bucket_id = 'avatars');
+create policy "avatars owner write" on storage.objects
+  for insert with check (
+    bucket_id = 'avatars' and auth.uid()::text = (storage.foldername(name))[1]
+  );
+create policy "avatars owner update" on storage.objects
+  for update using (
+    bucket_id = 'avatars' and auth.uid()::text = (storage.foldername(name))[1]
+  );
+create policy "avatars owner delete" on storage.objects
+  for delete using (
+    bucket_id = 'avatars' and auth.uid()::text = (storage.foldername(name))[1]
   );

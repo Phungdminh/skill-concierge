@@ -1,4 +1,3 @@
-import { Nav } from '@/components/nav';
 import { Footer } from '@/components/footer';
 import { PageHeader } from '@/components/page-header';
 import { HowItWorks } from '@/components/how-it-works';
@@ -56,7 +55,6 @@ const DETAILS = [
 export default function ProcessPage() {
   return (
     <>
-      <Nav />
       <main className="min-h-svh">
         <PageHeader
           eyebrow="Cách mua tool"

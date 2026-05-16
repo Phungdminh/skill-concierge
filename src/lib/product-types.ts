@@ -14,8 +14,6 @@ export interface ProductVersion {
   description?: string | null;
   executable_label?: string | null;
   platform?: string | null;
-  price_vnd?: number | null;
-  pricing_mode?: PricingMode;
   is_default?: boolean;
   status?: ProductVersionStatus;
 }
@@ -45,7 +43,7 @@ export interface Product {
   status: ProductStatus;
   featured: boolean;
   sort_order: number;
-  sales_count: number;
+  view_count: number;
   created_at: string;
   updated_at: string;
 }
@@ -219,17 +217,6 @@ export function formatPriceVnd(price: number | null, mode: PricingMode = 'fixed'
 
 export function visibleProductVersions(product: Pick<Product, 'versions'>): ProductVersion[] {
   return product.versions.filter((version) => (version.status ?? 'available') !== 'hidden');
-}
-
-export function formatVersionPrice(
-  version: ProductVersion,
-  product: Pick<Product, 'price_vnd' | 'pricing_mode' | 'is_free'>,
-): string {
-  return formatPriceVnd(
-    version.price_vnd ?? product.price_vnd,
-    version.pricing_mode ?? product.pricing_mode,
-    product.is_free,
-  );
 }
 
 export function extractYouTubeId(url: string | null | undefined): string | null {

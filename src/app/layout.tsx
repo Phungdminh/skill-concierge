@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AnimatedBackground } from '@/components/animated-background';
+import { NavServer } from '@/components/nav-server';
+import { OnboardingModal } from '@/components/onboarding-modal';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -31,7 +33,9 @@ export default function RootLayout({
     >
       <body className="relative min-h-full">
         <AnimatedBackground />
+        <NavServer />
         <div className="relative z-10">{children}</div>
+        <OnboardingModal />
       </body>
     </html>
   );

@@ -14,12 +14,15 @@ function LoginForm() {
   const params = useSearchParams();
   const returnTo = params.get('returnTo') ?? '/contact';
   const safeReturnTo = returnTo.startsWith('/') ? returnTo : '/contact';
+  const urlError = params.get('error');
   const [mode, setMode] = useState<AuthMode>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [state, setState] = useState<SubmitState>('idle');
-  const [message, setMessage] = useState<string | null>(null);
+  const [state, setState] = useState<SubmitState>(() => (urlError ? 'error' : 'idle'));
+  const [message, setMessage] = useState<string | null>(() =>
+    urlError ? decodeURIComponent(urlError) : null,
+  );
 
   const isSending = state === 'sending';
 

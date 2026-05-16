@@ -44,7 +44,7 @@ export async function FeaturedTools() {
     .eq('kind', 'tool')
     .eq('status', 'published')
     .not('youtube_url', 'is', null)
-    .order('sales_count', { ascending: false })
+    .order('view_count', { ascending: false })
     .order('featured', { ascending: false })
     .order('sort_order', { ascending: false })
     .order('created_at', { ascending: false })
@@ -87,7 +87,7 @@ export async function FeaturedTools() {
           />
           <div className="flex flex-col justify-center p-1 md:p-3">
             <span className="inline-flex w-fit items-center gap-2 rounded-full border border-brand-orange/30 bg-brand-orange/10 px-3 py-1 text-[11px] font-medium uppercase tracking-widest text-brand-orange">
-              <Trophy className="h-3.5 w-3.5" /> Tool bán chạy nhất
+              <Trophy className="h-3.5 w-3.5" /> Tool được xem nhiều nhất
             </span>
             <h3 className="mt-4 text-2xl font-semibold tracking-tight md:text-3xl">
               {bestSeller.title}
@@ -109,9 +109,9 @@ export async function FeaturedTools() {
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-2">
-                {bestSeller.sales_count > 0 && (
+                {bestSeller.view_count > 0 && (
                   <span className="rounded-full bg-white/[0.04] px-3 py-1 text-xs text-foreground/75 ring-1 ring-white/8">
-                    {bestSeller.sales_count} lượt bán
+                    {bestSeller.view_count.toLocaleString('vi-VN')} lượt xem
                   </span>
                 )}
                 <span className="rounded-full bg-white/[0.04] px-3 py-1 text-xs text-foreground/75 ring-1 ring-white/8">

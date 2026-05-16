@@ -1,4 +1,3 @@
-import { Nav } from '@/components/nav';
 import { Footer } from '@/components/footer';
 import { PageHeader } from '@/components/page-header';
 import { Faq } from '@/components/faq';
@@ -128,7 +127,6 @@ const NOT_FIT = [
 export default function AboutPage() {
   return (
     <>
-      <Nav />
       <main className="min-h-svh">
         <PageHeader
           eyebrow="Giới thiệu"

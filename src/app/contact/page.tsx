@@ -1,4 +1,3 @@
-import { Nav } from '@/components/nav';
 import { Footer } from '@/components/footer';
 import { PageHeader } from '@/components/page-header';
 import { InquiryForm } from '@/components/inquiry-form';
@@ -85,7 +84,6 @@ export default async function ContactPage({ searchParams }: PageProps) {
 
   return (
     <>
-      <Nav />
       <main className="min-h-svh">
         <PageHeader
           eyebrow="Liên hệ"

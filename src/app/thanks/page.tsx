@@ -1,4 +1,3 @@
-import { Nav } from '@/components/nav';
 import { Footer } from '@/components/footer';
 import Link from 'next/link';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
@@ -26,7 +25,6 @@ const WHAT_NEXT = [
 export default function ThanksPage() {
   return (
     <>
-      <Nav />
       <main className="min-h-svh">
         <section className="relative mx-auto flex w-full max-w-3xl flex-col items-center px-6 pb-16 pt-40 text-center">
           <span className="grid h-16 w-16 place-items-center rounded-full bg-emerald-500/10 text-emerald-300 ring-1 ring-emerald-500/30">

@@ -1,14 +1,13 @@
 import Link from 'next/link';
 import { AlertTriangle, ArrowLeft, ArrowUpRight, CheckCircle2, Sparkles, Tag, Clock } from 'lucide-react';
-import { Nav } from '@/components/nav';
 import { Footer } from '@/components/footer';
 import { YouTubeEmbed } from '@/components/youtube-embed';
+import { ViewTracker } from '@/components/view-tracker';
 import {
   KIND_META,
   SUPPORT_META,
   categoryLabelFor,
   formatPriceVnd,
-  formatVersionPrice,
   visibleProductVersions,
   type Product,
   type ProductVersionStatus,
@@ -73,7 +72,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
   return (
     <>
-      <Nav />
+      <ViewTracker productId={product.id} />
       <main className="min-h-svh pb-16 pt-28">
         <div className="mx-auto w-full max-w-6xl px-6">
           <Link
@@ -159,14 +158,11 @@ export function ProductDetail({ product }: ProductDetailProps) {
                         {version.description && (
                           <p className="mt-3 text-sm leading-relaxed text-foreground/65">{version.description}</p>
                         )}
-                        <div className="mt-4 flex flex-wrap gap-2 text-xs text-foreground/60">
-                          {version.platform && (
+                        {version.platform && (
+                          <div className="mt-4 flex flex-wrap gap-2 text-xs text-foreground/60">
                             <span className="rounded-full bg-white/[0.04] px-2.5 py-1 ring-1 ring-white/8">{version.platform}</span>
-                          )}
-                          <span className="rounded-full bg-white/[0.04] px-2.5 py-1 font-medium text-foreground/80 ring-1 ring-white/8">
-                            {formatVersionPrice(version, product)}
-                          </span>
-                        </div>
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>

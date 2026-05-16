@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { Nav } from '@/components/nav';
 import { Footer } from '@/components/footer';
 import { Home, ArrowRight } from 'lucide-react';
 
@@ -13,7 +12,6 @@ const LINKS = [
 export default function NotFound() {
   return (
     <>
-      <Nav />
       <main className="grid min-h-[80svh] place-items-center px-6 pt-32">
         <div className="text-center">
           <p className="bg-brand-gradient mx-auto inline-block bg-clip-text font-mono text-8xl font-bold tabular-nums text-transparent md:text-9xl">

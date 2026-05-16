@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { Sparkles } from 'lucide-react';
-import { Nav } from '@/components/nav';
 import { Footer } from '@/components/footer';
 import { PageHeader } from '@/components/page-header';
 import { ProductCard } from '@/components/product-card';
@@ -44,7 +43,6 @@ export async function ProductListing({ kind, category, title, intro }: ProductLi
 
   return (
     <>
-      <Nav />
       <main className="min-h-svh">
         <PageHeader
           eyebrow={meta.pluralLabel}

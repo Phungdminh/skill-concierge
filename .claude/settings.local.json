@@ -8,7 +8,17 @@
       "PowerShell(Get-Process -Name node -ErrorAction SilentlyContinue)",
       "PowerShell(New-NetFirewallRule -DisplayName \"Next.js Dev 3000-3001\" -Direction Inbound -Protocol TCP -LocalPort 3000,3001 -Action Allow -Profile Any 2>&1)",
       "PowerShell(Get-NetTCPConnection -LocalPort 3001 -State Listen -ErrorAction SilentlyContinue)",
-      "PowerShell(taskkill /PID 14468 /F)"
+      "PowerShell(taskkill /PID 14468 /F)",
+      "Bash(dir c:\\\\Users\\\\Admin\\\\projects)",
+      "Bash(curl -sS -o nul -w \"HTTP %{http_code} in %{time_total}s\\\\n\" http://localhost:3000/)",
+      "Bash(curl -s -X POST http://localhost:3000/api/inquiries -H \"content-type: application/json\" -d '{\"name\":\"Nguyễn Văn Test\",\"email\":\"test.khach@example.com\",\"phone\":\"0901234567\",\"message\":\"Chào anh, mình thấy tool Sheet Cleaner trên web và muốn hỏi thêm: tool có chạy được trên Google Sheets dùng tài khoản công ty \\(Workspace\\) không, hay chỉ tài khoản cá nhân? Mình có khoảng 1500 dòng lead cần clean trong tuần này. Cảm ơn anh.\",\"product_kind\":\"tool\"}')",
+      "Bash(node scripts/reseed-test-inquiry.mjs)",
+      "Bash(netstat -ano)",
+      "Bash(findstr \":3000\")",
+      "Bash(findstr LISTENING)",
+      "Bash(node -e \"require\\('dotenv'\\).config\\({path:'.env.local'}\\); const {createClient}=require\\('@supabase/supabase-js'\\); const c=createClient\\(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY\\); c.from\\('profiles'\\).select\\('id,full_name,gender,job_title,role'\\).limit\\(1\\).then\\(r=>console.log\\(JSON.stringify\\(r,null,2\\)\\)\\);\")",
+      "Bash(node --env-file=.env.local -e \"const {createClient}=require\\('@supabase/supabase-js'\\); const c=createClient\\(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY\\); c.from\\('profiles'\\).select\\('id,full_name,gender,job_title,role'\\).limit\\(1\\).then\\(r=>console.log\\(JSON.stringify\\(r,null,2\\)\\)\\);\")",
+      "Bash(node --env-file=.env.local -e \"\\(async\\(\\)=>{ const r=await fetch\\(process.env.NEXT_PUBLIC_SUPABASE_URL+'/auth/v1/admin/users?per_page=10',{headers:{apikey:process.env.SUPABASE_SERVICE_ROLE_KEY,Authorization:'Bearer '+process.env.SUPABASE_SERVICE_ROLE_KEY}}\\); const j=await r.json\\(\\); console.log\\(JSON.stringify\\(j.users?.map\\(u=>\\({email:u.email,id:u.id,created:u.created_at,last_signin:u.last_sign_in_at}\\)\\), null, 2\\)\\);}\\)\\(\\);\")"
     ]
   }
 }

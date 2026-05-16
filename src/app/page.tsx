@@ -1,5 +1,4 @@
 import { Hero } from '@/components/hero';
-import { Nav } from '@/components/nav';
 import { HowItWorks } from '@/components/how-it-works';
 import { FeaturedTools } from '@/components/featured-tools';
 import { Categories } from '@/components/categories';
@@ -14,7 +13,6 @@ export const revalidate = 60;
 export default function Home() {
   return (
     <>
-      <Nav />
       <main className="relative min-h-svh">
         <Hero />
         <FeaturedTools />
