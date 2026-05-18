@@ -6,7 +6,6 @@ const COLS: { heading: string; links: { label: string; href: string }[] }[] = [
     heading: 'Sản phẩm',
     links: [
       { label: 'Tool desktop', href: '/tools' },
-      { label: 'Hướng dẫn setup', href: '/setup' },
       { label: 'Prompt mẫu', href: '/prompts' },
       { label: 'Web / portfolio cá nhân', href: '/web' },
     ],

@@ -13,7 +13,7 @@ import {
 export const metadata = {
   title: 'Liên hệ — SkillForge VN',
   description:
-    'Đặt mua tool, đặt setup, lấy prompt mẫu, hay yêu cầu làm web — rep trong 24h qua Zalo / Telegram / Email.',
+    'Đặt mua tool, lấy prompt mẫu, hay yêu cầu làm web — rep trong 24h qua Zalo / Telegram / Email.',
 };
 
 const CHANNELS = [
@@ -80,7 +80,7 @@ export default async function ContactPage({ searchParams }: PageProps) {
     ? 'Điền form bên dưới — mình rep trong 24h kèm thông tin thanh toán và bước tiếp theo.'
     : kindMeta
       ? `Mô tả nhu cầu ${kindMeta.shortLabel.toLowerCase()} riêng của bạn — mình rep trong 24h với hướng xử lý và quote sơ bộ.`
-      : 'Kể nhu cầu của bạn về tool, setup, prompt mẫu hoặc web — mình rep trong 24h với mức quote sơ bộ.';
+      : 'Kể nhu cầu của bạn về tool, prompt mẫu hoặc web — mình rep trong 24h với mức quote sơ bộ.';
 
   return (
     <>

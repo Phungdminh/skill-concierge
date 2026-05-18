@@ -27,7 +27,7 @@ const SECTIONS = [
   {
     h: '3. Dữ liệu được host ở đâu',
     p: [
-      'Mặc định: trên hạ tầng của BẠN (Supabase project, Vercel account, AWS account của bạn). Mình chỉ là người setup.',
+      'Mặc định: trên hạ tầng của BẠN (Supabase project, Vercel account, AWS account của bạn). Mình chỉ hỗ trợ cấu hình và bàn giao rõ ràng.',
       'Trường hợp bạn yêu cầu mình host hộ: dùng Vercel (US-East / SG region) + Supabase (Singapore). Tuân theo PDPA.',
       'Backup tự động hàng ngày, retain 30 ngày. Bạn có quyền yêu cầu xoá vĩnh viễn bất cứ lúc nào.',
     ],
@@ -36,7 +36,7 @@ const SECTIONS = [
     h: '4. Cookie & analytics',
     p: [
       'Website này dùng Vercel Analytics (anonymous, không gắn ID cá nhân) để biết page nào nhiều người xem.',
-      'Không có Google Analytics, không có Facebook Pixel trên domain marketing này. Nếu mình build website cho bạn và bạn yêu cầu pixel — mình setup theo yêu cầu.',
+      'Không có Google Analytics, không có Facebook Pixel trên domain marketing này. Nếu mình build website cho bạn và bạn yêu cầu pixel — mình cấu hình theo yêu cầu.',
     ],
   },
   {

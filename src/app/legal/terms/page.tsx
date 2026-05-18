@@ -18,15 +18,15 @@ const SECTIONS = [
   {
     h: '2. Thanh toán',
     p: [
-      'Mình KHÔNG yêu cầu đặt cọc. Bạn chỉ trả 100% phí setup SAU khi duyệt demo build trên dữ liệu thật.',
-      'Phí vận hành tháng thanh toán đầu mỗi tháng. Trễ 7 ngày → mình tạm pause skill cho đến khi thanh toán. Trễ 30 ngày → kết thúc hợp tác, bạn vẫn giữ source code.',
+      'Mình KHÔNG yêu cầu đặt cọc. Bạn chỉ trả 100% phí dự án SAU khi duyệt demo build trên dữ liệu thật.',
+      'Phí vận hành tháng thanh toán đầu mỗi tháng nếu hai bên có thoả thuận riêng. Trễ 7 ngày → mình tạm pause phần hỗ trợ cho đến khi thanh toán. Trễ 30 ngày → kết thúc hợp tác, bạn vẫn giữ source code đã bàn giao.',
       'Có xuất hoá đơn VAT 10% nếu cần. MST của mình: 0xxx-xxx-xxx (đăng ký hộ kinh doanh tại Hà Nội).',
     ],
   },
   {
     h: '3. Bàn giao & quyền sở hữu',
     p: [
-      'Source code, ảnh / nội dung do mình tạo cho bạn → thuộc về bạn 100% sau khi bạn thanh toán phí setup.',
+      'Source code, ảnh / nội dung do mình tạo cho bạn → thuộc về bạn 100% sau khi bạn thanh toán phí dự án.',
       'Mình giữ quyền dùng các đoạn code thư viện riêng (không chứa logic nghiệp vụ của bạn) cho project khác.',
       'Mình được phép share case study (đã ẩn thông tin nhạy cảm theo NDA) trên portfolio, trừ khi bạn yêu cầu rõ là không.',
     ],
@@ -34,7 +34,7 @@ const SECTIONS = [
   {
     h: '4. Bảo hành',
     p: [
-      '30 ngày bảo hành miễn phí kể từ ngày bàn giao: lỗi nào không-do-bạn (code mình viết, integration mình setup) — mình fix free.',
+      '30 ngày bảo hành miễn phí kể từ ngày bàn giao: lỗi nào không-do-bạn (code mình viết, cấu hình mình thực hiện) — mình fix free.',
       'Sau 30 ngày, bảo hành nằm trong gói vận hành tháng. Nếu bạn không mua gói vận hành: lỗi do code mình viết vẫn bảo hành miễn phí 90 ngày.',
       'Không bảo hành: thay đổi từ phía vendor (Shopee, TikTok, OpenAI… đổi API, đổi giá), yêu cầu thêm tính năng mới.',
     ],
@@ -43,7 +43,7 @@ const SECTIONS = [
     h: '5. Hủy & hoàn tiền',
     p: [
       'Trước khi duyệt demo: hủy free, không tốn gì.',
-      'Sau khi đã trả phí setup nhưng chưa bàn giao: hoàn 50% nếu mình chưa work, 0% nếu mình đã work >50% scope.',
+      'Sau khi đã trả phí dự án nhưng chưa bàn giao: hoàn 50% nếu mình chưa work, 0% nếu mình đã work >50% scope.',
       'Hủy gói vận hành: nghỉ bất cứ lúc nào, không phí hủy. Mình vẫn hỗ trợ migration nếu bạn chuyển sang dev khác.',
     ],
   },
@@ -52,7 +52,7 @@ const SECTIONS = [
     p: [
       'Mình bảo đảm code không vi phạm bản quyền của bên thứ ba.',
       'Bạn chịu trách nhiệm về nội dung / dữ liệu bạn cung cấp (ảnh, text, danh sách khách hàng…).',
-      'Tổng mức bồi thường tối đa, trong mọi trường hợp = phí setup case đó. Không bồi thường thiệt hại gián tiếp (doanh thu mất, cơ hội…).',
+      'Tổng mức bồi thường tối đa, trong mọi trường hợp = phí dự án case đó. Không bồi thường thiệt hại gián tiếp (doanh thu mất, cơ hội…).',
     ],
   },
   {

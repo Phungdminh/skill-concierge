@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Save, Trash2 } from 'lucide-react';
+import { ImagePlus, Loader2, Save, Trash2 } from 'lucide-react';
 import {
   slugify,
   categoriesFor,
@@ -53,7 +53,6 @@ const ALL_SUPPORT: SupportOption[] = [
   'drive_folder',
   'zalo_group',
   'one_on_one_call',
-  'remote_setup',
 ];
 
 function toVersionFormState(version: ProductVersion): ProductVersionFormState {
@@ -77,6 +76,7 @@ function emptyVersion(): ProductVersionFormState {
 
 export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductFormProps) {
   const router = useRouter();
+  const referenceImageInputRef = useRef<HTMLInputElement>(null);
   const [kind, setKind] = useState<ProductKind>(
     (initial?.kind as ProductKind) ?? defaultKind,
   );
@@ -89,6 +89,10 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
   const [youtubeUrl, setYoutubeUrl] = useState(initial?.youtube_url ?? '');
   const [thumbnailUrl, setThumbnailUrl] = useState(initial?.thumbnail_url ?? '');
   const [gallery, setGallery] = useState((initial?.gallery ?? []).join('\n'));
+  const [promptPreviewContent, setPromptPreviewContent] = useState(initial?.prompt_meta?.preview_content ?? '');
+  const [promptFullContent, setPromptFullContent] = useState(initial?.prompt_meta?.full_content ?? '');
+  const [promptExplanation, setPromptExplanation] = useState(initial?.prompt_meta?.explanation ?? '');
+  const [relatedPromptSlugs, setRelatedPromptSlugs] = useState((initial?.prompt_meta?.related_slugs ?? []).join('\n'));
   const [pricingMode, setPricingMode] = useState<PricingMode>(
     (initial?.pricing_mode as PricingMode) ?? 'fixed',
   );
@@ -118,12 +122,13 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
     (initial?.status as ProductStatus) ?? 'draft',
   );
   const [featured, setFeatured] = useState<boolean>(initial?.featured ?? false);
-  const [isFree, setIsFree] = useState<boolean>(initial?.is_free ?? false);
+  const [isFree] = useState<boolean>(initial?.is_free ?? false);
   const [sortOrder, setSortOrder] = useState<string>(
     initial?.sort_order == null ? '0' : String(initial.sort_order),
   );
   const viewCount = initial?.view_count ?? 0;
   const [state, setState] = useState<'idle' | 'saving' | 'deleting' | 'error'>('idle');
+  const [uploadingReference, setUploadingReference] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const meta = KIND_META[kind];
@@ -195,6 +200,42 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
       .filter((version) => version.name.length > 0);
   }
 
+  async function uploadReferenceImages(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? []);
+    e.target.value = '';
+    if (files.length === 0) return;
+
+    const tooLarge = files.find((file) => file.size > 5 * 1024 * 1024);
+    if (tooLarge) {
+      setErrorMsg(`Ảnh "${tooLarge.name}" phải nhỏ hơn 5MB.`);
+      setState('error');
+      return;
+    }
+
+    setUploadingReference(true);
+    setErrorMsg(null);
+    try {
+      const uploadedUrls: string[] = [];
+      for (const file of files) {
+        const fd = new FormData();
+        fd.append('file', file);
+        const res = await fetch('/api/admin/products/images', { method: 'POST', body: fd });
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          throw new Error(body?.error?.message ?? `Không tải được ảnh "${file.name}".`);
+        }
+        if (typeof body.url === 'string') uploadedUrls.push(body.url);
+      }
+      setGallery((curr) => [...curr.split('\n').map((s) => s.trim()).filter(Boolean), ...uploadedUrls].join('\n'));
+      setState('idle');
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : 'Không tải ảnh lên được.');
+      setState('error');
+    } finally {
+      setUploadingReference(false);
+    }
+  }
+
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (state === 'saving') return;
@@ -206,25 +247,39 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
       slug: slug.trim() || slugify(title),
       tagline: tagline.trim() || null,
       description: description.trim() || null,
-      youtube_url: youtubeUrl.trim() || null,
-      thumbnail_url: thumbnailUrl.trim() || null,
+      notice: kind === 'prompt' ? null : notice.trim() || null,
+      youtube_url: kind === 'prompt' ? null : youtubeUrl.trim() || null,
+      thumbnail_url: kind === 'prompt' ? null : thumbnailUrl.trim() || null,
       gallery: gallery.split('\n').map((s) => s.trim()).filter(Boolean),
-      pricing_mode: isFree ? 'fixed' : pricingMode,
+      pricing_mode: kind === 'prompt' || isFree ? 'fixed' : pricingMode,
       price_vnd:
-        isFree || pricingMode === 'quote' || priceVnd.trim() === ''
+        kind === 'prompt' || isFree || pricingMode === 'quote' || priceVnd.trim() === ''
           ? null
           : Number.parseInt(priceVnd, 10),
-      is_free: kind === 'prompt' ? isFree : false,
+      is_free: kind === 'prompt' ? true : false,
       categories: selectedCategories,
       tags: tags.split(',').map((s) => s.trim()).filter(Boolean),
       versions: serializeVersions(),
-      deliverables: deliverables.split('\n').map((s) => s.trim()).filter(Boolean),
-      support_options: supportOptions,
-      duration_label: durationLabel.trim() || null,
-      prerequisites: prerequisites.split('\n').map((s) => s.trim()).filter(Boolean),
-      status,
-      featured,
-      sort_order: Number.isFinite(sortOrderNum) ? sortOrderNum : 0,
+      deliverables: kind === 'prompt' ? [] : deliverables.split('\n').map((s) => s.trim()).filter(Boolean),
+      support_options: kind === 'prompt' ? [] : supportOptions,
+      duration_label: kind === 'prompt' ? null : durationLabel.trim() || null,
+      prerequisites: kind === 'prompt' ? [] : prerequisites.split('\n').map((s) => s.trim()).filter(Boolean),
+      status: kind === 'prompt' ? 'published' : status,
+      featured: kind === 'prompt' ? false : featured,
+      sort_order: kind === 'prompt' ? 0 : Number.isFinite(sortOrderNum) ? sortOrderNum : 0,
+      ...(kind === 'prompt'
+        ? {
+            prompt_meta: {
+              preview_content: promptPreviewContent.trim() || null,
+              full_content: promptFullContent.trim() || null,
+              explanation: promptExplanation.trim() || null,
+              related_slugs: relatedPromptSlugs
+                .split('\n')
+                .map((s) => s.trim())
+                .filter(Boolean),
+            },
+          }
+        : {}),
     };
     const payload =
       mode === 'create' ? { kind, ...basePayload } : basePayload;
@@ -275,7 +330,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
     <form onSubmit={submit} className="space-y-6">
       <FormSection
         title="Thông tin cơ bản"
-        description="Chọn loại sản phẩm, đặt tên dễ hiểu và kiểm tra đường dẫn công khai."
+        description={kind === 'prompt' ? 'Nhập tên prompt, slug và mô tả ngắn đúng như khách sẽ thấy trong kho prompt.' : 'Chọn loại sản phẩm, đặt tên dễ hiểu và kiểm tra đường dẫn công khai.'}
       >
         <FormField
           label="Loại sản phẩm"
@@ -287,7 +342,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
           }
           required
         >
-          <div className="mt-2 grid grid-cols-2 gap-2 md:grid-cols-4">
+          <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-3">
             {ALL_KINDS.map((k) => {
               const km = KIND_META[k];
               const KIcon = km.icon;
@@ -316,7 +371,12 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
         </FormField>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <FormField label="Tiêu đề" htmlFor="title" hint="Tên khách sẽ thấy ở card và trang chi tiết." required>
+          <FormField
+            label={kind === 'prompt' ? 'Tên prompt' : 'Tiêu đề'}
+            htmlFor="title"
+            hint={kind === 'prompt' ? 'Tên khách sẽ thấy trong kho prompt và trang chi tiết.' : 'Tên khách sẽ thấy ở card và trang chi tiết.'}
+            required
+          >
             <input
               id="title"
               required
@@ -325,11 +385,9 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
               placeholder={
                 kind === 'tool'
                   ? 'Sheet Cleaner'
-                  : kind === 'setup'
-                    ? 'Setup OpenClaw cho FX trader'
-                    : kind === 'prompt'
-                      ? 'Prompt mẫu cho content marketing'
-                      : 'Landing page cho coach 1-1'
+                  : kind === 'prompt'
+                    ? 'Prompt mẫu cho content marketing'
+                    : 'Landing page cho coach 1-1'
               }
               className={inputCls}
             />
@@ -368,9 +426,9 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
         </FormField>
 
         <FormField
-          label="Mô tả chi tiết (Markdown)"
+          label={kind === 'prompt' ? 'Mô tả prompt (Markdown)' : 'Mô tả chi tiết (Markdown)'}
           htmlFor="description"
-          hint="Có thể dùng tiêu đề, danh sách, link và code block Markdown."
+          hint={kind === 'prompt' ? 'Nói rõ prompt dùng để làm gì, ai nên dùng và kết quả khách nhận được.' : 'Có thể dùng tiêu đề, danh sách, link và code block Markdown.'}
         >
           <textarea
             id="description"
@@ -379,36 +437,40 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
             onChange={(e) => setDescription(e.target.value)}
             placeholder={
               kind === 'prompt'
-                ? '### Mô tả\n- Prompt dùng cho…\n- Cách chỉnh theo ngữ cảnh…'
+                ? '### Prompt này giúp gì?\n- Dành cho ai…\n- Kết quả tạo ra…\n- Cách chỉnh theo ngữ cảnh…'
                 : '### Tính năng\n- Tự động hoá X\n- Generate Y'
             }
             className={cn(inputCls, 'font-mono text-[13px]')}
           />
         </FormField>
 
-        <FormField
-          label="Lưu ý cho khách"
-          htmlFor="notice"
-          hint="Hiện ở trang chi tiết để nói rõ giới hạn, cách dùng hoặc trường hợp cần liên hệ làm riêng."
-        >
-          <textarea
-            id="notice"
-            rows={3}
-            value={notice}
-            onChange={(e) => setNotice(e.target.value)}
-            placeholder={
-              kind === 'tool'
-                ? 'Ví dụ: File prompt có thể gồm nhiều prompt, nhưng mỗi lượt chạy chỉ dùng 1 ảnh. Nếu cần bản input nhiều ảnh, hãy liên hệ để làm riêng.'
-                : kind === 'prompt'
-                  ? 'Ví dụ: Bộ prompt có nhiều mẫu, nhưng bạn vẫn cần tự thay thông tin sản phẩm/khách hàng trước khi dùng.'
+        {kind !== 'prompt' && (
+          <FormField
+            label="Lưu ý cho khách"
+            htmlFor="notice"
+            hint="Hiện ở trang chi tiết để nói rõ giới hạn, cách dùng hoặc trường hợp cần liên hệ làm riêng."
+          >
+            <textarea
+              id="notice"
+              rows={3}
+              value={notice}
+              onChange={(e) => setNotice(e.target.value)}
+              placeholder={
+                kind === 'tool'
+                  ? 'Ví dụ: File prompt có thể gồm nhiều prompt, nhưng mỗi lượt chạy chỉ dùng 1 ảnh. Nếu cần bản input nhiều ảnh, hãy liên hệ để làm riêng.'
                   : 'Ví dụ: Nếu quy trình của bạn khác mô tả, hãy liên hệ trước để mình kiểm tra scope.'
-            }
-            className={inputCls}
-          />
-        </FormField>
+              }
+              className={inputCls}
+            />
+          </FormField>
+        )}
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <FormField label="Danh mục" htmlFor="category-dropdown" hint="Có thể chọn nhiều danh mục để khách lọc sản phẩm dễ hơn.">
+        <div className={cn('grid grid-cols-1 gap-4', kind !== 'prompt' && 'md:grid-cols-2')}>
+          <FormField
+            label={kind === 'prompt' ? 'Đề tài' : 'Danh mục'}
+            htmlFor="category-dropdown"
+            hint={kind === 'prompt' ? 'Chọn đề tài chuyên ngành để khách lọc prompt trong marketplace dễ hơn.' : 'Có thể chọn nhiều danh mục để khách lọc sản phẩm dễ hơn.'}
+          >
             <div ref={categoryDropdownRef} className="relative mt-2">
               <button
                 id="category-dropdown"
@@ -465,35 +527,29 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
               )}
             </div>
           </FormField>
-          <FormField
-            label="Thời lượng / phạm vi"
-            htmlFor="duration_label"
-            hint={
-              kind === 'prompt'
-                ? 'Prompt chỉ cần copy là dùng — không cần điền thời lượng.'
-                : kind === 'setup'
-                  ? 'Vd: "30-60 phút remote setup"'
-                  : kind === 'webwork'
-                    ? 'Website: 7-14 ngày. Portfolio: 3-5 ngày.'
-                    : 'Tool có sẵn: giao ngay sau thanh toán. Tool làm riêng: 3-5 ngày.'
-            }
-          >
-            <input
-              id="duration_label"
-              value={durationLabel}
-              onChange={(e) => setDurationLabel(e.target.value)}
-              placeholder={
-                kind === 'prompt'
-                  ? 'Copy là dùng ngay (không cần)'
-                  : kind === 'setup'
-                    ? '30-60 phút remote setup'
-                    : kind === 'webwork'
-                      ? '7-14 ngày (website) · 3-5 ngày (portfolio)'
-                      : 'Giao ngay sau thanh toán · 3-5 ngày nếu làm riêng'
+          {kind !== 'prompt' && (
+            <FormField
+              label="Thời lượng / phạm vi"
+              htmlFor="duration_label"
+              hint={
+                kind === 'webwork'
+                  ? 'Website: 7-14 ngày. Portfolio: 3-5 ngày.'
+                  : 'Tool có sẵn: giao ngay sau thanh toán. Tool làm riêng: 3-5 ngày.'
               }
-              className={inputCls}
-            />
-          </FormField>
+            >
+              <input
+                id="duration_label"
+                value={durationLabel}
+                onChange={(e) => setDurationLabel(e.target.value)}
+                placeholder={
+                  kind === 'webwork'
+                    ? '7-14 ngày (website) · 3-5 ngày (portfolio)'
+                    : 'Giao ngay sau thanh toán · 3-5 ngày nếu làm riêng'
+                }
+                className={inputCls}
+              />
+            </FormField>
+          )}
         </div>
 
         <FormField
@@ -512,103 +568,191 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
       </FormSection>
 
       <FormSection
-        title="Media"
-        description="Thêm video, ảnh đại diện và ảnh minh hoạ để tăng độ tin cậy khi khách xem sản phẩm."
+        title={kind === 'prompt' ? 'Ảnh references' : 'Media'}
+        description={kind === 'prompt' ? 'Thêm ảnh tham khảo để khách hiểu prompt tạo ra kiểu kết quả nào.' : 'Thêm video, ảnh đại diện và ảnh minh hoạ để tăng độ tin cậy khi khách xem sản phẩm.'}
       >
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <FormField label="Video YouTube" htmlFor="youtube_url" hint="Video demo, walkthrough hoặc giới thiệu sản phẩm.">
-            <input
-              id="youtube_url"
-              type="url"
-              value={youtubeUrl}
-              onChange={(e) => setYoutubeUrl(e.target.value)}
-              placeholder="https://youtu.be/xxxxxxxxxxx"
-              className={inputCls}
-            />
-          </FormField>
-          <FormField label="Ảnh đại diện" htmlFor="thumbnail_url" hint="Nếu để trống, hệ thống có thể dùng thumbnail từ YouTube.">
-            <input
-              id="thumbnail_url"
-              type="url"
-              value={thumbnailUrl}
-              onChange={(e) => setThumbnailUrl(e.target.value)}
-              placeholder="https://example.com/cover.png"
-              className={inputCls}
-            />
-          </FormField>
-        </div>
+        {kind !== 'prompt' && (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <FormField label="Video YouTube" htmlFor="youtube_url" hint="Video demo, walkthrough hoặc giới thiệu sản phẩm.">
+              <input
+                id="youtube_url"
+                type="url"
+                value={youtubeUrl}
+                onChange={(e) => setYoutubeUrl(e.target.value)}
+                placeholder="https://youtu.be/xxxxxxxxxxx"
+                className={inputCls}
+              />
+            </FormField>
+            <FormField label="Ảnh đại diện" htmlFor="thumbnail_url" hint="Nếu để trống, hệ thống có thể dùng thumbnail từ YouTube.">
+              <input
+                id="thumbnail_url"
+                type="url"
+                value={thumbnailUrl}
+                onChange={(e) => setThumbnailUrl(e.target.value)}
+                placeholder="https://example.com/cover.png"
+                className={inputCls}
+              />
+            </FormField>
+          </div>
+        )}
 
         <FormField
-          label="Thư viện ảnh"
+          label={kind === 'prompt' ? 'Ảnh references' : 'Thư viện ảnh'}
           htmlFor="gallery"
-          hint="Mỗi URL ảnh trên một dòng. Nên dùng ảnh chụp màn hình thật hoặc kết quả mẫu."
+          hint={kind === 'prompt' ? 'Bấm tải ảnh từ máy lên, hoặc dán URL nếu ảnh đã có sẵn.' : 'Mỗi URL ảnh trên một dòng. Nên dùng ảnh chụp màn hình thật hoặc kết quả mẫu.'}
         >
+          {kind === 'prompt' && (
+            <div className="mt-2 flex flex-wrap items-center gap-2">
+              <input
+                ref={referenceImageInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                multiple
+                className="hidden"
+                onChange={uploadReferenceImages}
+              />
+              <button
+                type="button"
+                onClick={() => referenceImageInputRef.current?.click()}
+                disabled={uploadingReference}
+                className={cn(
+                  'inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm text-foreground/80 transition hover:bg-white/[0.04]',
+                  uploadingReference && 'cursor-wait opacity-60',
+                )}
+              >
+                {uploadingReference ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <ImagePlus className="h-4 w-4" />
+                )}
+                {uploadingReference ? 'Đang tải ảnh…' : 'Tải ảnh từ máy'}
+              </button>
+              <span className="text-xs text-foreground/45">JPG, PNG, WebP · tối đa 5MB/ảnh</span>
+            </div>
+          )}
           <textarea
             id="gallery"
-            rows={3}
+            rows={kind === 'prompt' ? 5 : 3}
             value={gallery}
             onChange={(e) => setGallery(e.target.value)}
-            placeholder="https://example.com/shot-1.png&#10;https://example.com/shot-2.png"
+            placeholder={kind === 'prompt' ? 'URL ảnh sau khi upload sẽ tự hiện ở đây' : 'https://example.com/shot-1.png&#10;https://example.com/shot-2.png'}
             className={inputCls}
           />
         </FormField>
       </FormSection>
 
-      <FormSection
-        title="Giá & cách bán"
-        description="Chọn cách hiển thị giá. Miễn phí hoặc báo giá sẽ tự ẩn ô nhập giá khi không cần."
-      >
-        {kind === 'prompt' && (
-          <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3">
-            <input
-              type="checkbox"
-              checked={isFree}
-              onChange={(e) => setIsFree(e.target.checked)}
-              className="h-4 w-4 accent-brand-orange"
-            />
-            <span className="text-sm">
-              <span className="font-medium">Miễn phí</span>{' '}
-              <span className="text-foreground/55">— prompt này không tính phí và sẽ hiển thị nhãn &quot;Miễn phí&quot;</span>
-            </span>
-          </label>
-        )}
-
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <FormField label="Cách hiển thị giá" htmlFor="pricing_mode">
-            <select
-              id="pricing_mode"
-              value={pricingMode}
-              disabled={isFree}
-              onChange={(e) => setPricingMode(e.target.value as PricingMode)}
-              className={cn(inputCls, isFree && 'opacity-40')}
-            >
-              {PRICING_OPTIONS.map((o) => (
-                <option key={o.value} value={o.value} className="bg-[#0d0d10]">
-                  {o.label}
-                </option>
-              ))}
-            </select>
-            <span className="mt-1 block text-[11px] text-foreground/45">
-              {PRICING_OPTIONS.find((o) => o.value === pricingMode)?.hint}
-            </span>
-          </FormField>
+      {kind === 'prompt' && (
+        <FormSection
+          title="Nội dung prompt"
+          description="Các ô này sẽ lưu vào prompt_meta: bản xem trước, bản đầy đủ sau đăng nhập, giải thích cách dùng và prompt liên quan."
+        >
           <FormField
-            label="Giá bán (VND)"
-            htmlFor="price_vnd"
-            hint={isFree ? 'Không dùng khi "Miễn phí"' : pricingMode === 'quote' ? 'Không dùng khi "Liên hệ báo giá"' : 'Nhập số nguyên, không phẩy'}
+            label="Bản xem trước công khai"
+            htmlFor="prompt_preview_content"
+            hint="Ai cũng xem được phần này. Chỉ dán một đoạn mẫu đủ để khách hiểu, không dán toàn bộ prompt có phí."
           >
-            <NumberStepper
-              id="price_vnd"
-              min={0}
-              step={1000}
-              value={priceVnd}
-              disabled={isFree || pricingMode === 'quote'}
-              onChange={setPriceVnd}
-              placeholder="1500000"
+            <textarea
+              id="prompt_preview_content"
+              rows={8}
+              value={promptPreviewContent}
+              onChange={(e) => setPromptPreviewContent(e.target.value)}
+              placeholder="Ví dụ: một đoạn prompt mẫu hoặc phần mở đầu để khách xem trước..."
+              className={cn(inputCls, 'font-mono text-[13px]')}
             />
           </FormField>
-        </div>
-      </FormSection>
+
+          <FormField
+            label="Prompt đầy đủ"
+            htmlFor="prompt_full_content"
+            hint="Đây là nội dung chính khách nhận được. Khách chưa đăng nhập sẽ không thấy phần này trên trang public."
+          >
+            <textarea
+              id="prompt_full_content"
+              rows={12}
+              value={promptFullContent}
+              onChange={(e) => setPromptFullContent(e.target.value)}
+              placeholder="Dán toàn bộ prompt hoàn chỉnh mà khách sẽ dùng ở đây..."
+              className={cn(inputCls, 'font-mono text-[13px]')}
+            />
+          </FormField>
+
+          <FormField
+            label="Giải thích cách dùng prompt"
+            htmlFor="prompt_explanation"
+            hint="Có thể dùng Markdown để giải thích khi nào dùng, cần thay biến nào, và cách chỉnh tone."
+          >
+            <textarea
+              id="prompt_explanation"
+              rows={7}
+              value={promptExplanation}
+              onChange={(e) => setPromptExplanation(e.target.value)}
+              placeholder="### Cách dùng&#10;- Thay [sản phẩm] bằng...&#10;- Chọn tone phù hợp..."
+              className={cn(inputCls, 'font-mono text-[13px]')}
+            />
+          </FormField>
+
+          <FormField
+            label="Prompt liên quan"
+            htmlFor="related_prompt_slugs"
+            hint="Mỗi dòng là một slug prompt khác. Không nhập slug của chính prompt này. Hệ thống sẽ tự loại trùng và tự gợi ý thêm nếu thiếu."
+          >
+            <textarea
+              id="related_prompt_slugs"
+              rows={4}
+              value={relatedPromptSlugs}
+              onChange={(e) => setRelatedPromptSlugs(e.target.value)}
+              placeholder="prompt-viet-bai-facebook&#10;prompt-seo-blog"
+              className={cn(inputCls, 'font-mono text-[13px]')}
+            />
+          </FormField>
+          <div className="rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3 text-sm text-foreground/65">
+            Đánh giá prompt không nhập ở đây. Khách đăng nhập và tự đánh giá thật trên trang chi tiết; dữ liệu đó lưu ở bảng <span className="font-mono text-xs text-foreground/80">product_reviews</span>.
+          </div>
+        </FormSection>
+      )}
+
+      {kind !== 'prompt' && (
+        <FormSection
+          title="Giá & cách bán"
+          description="Chọn cách hiển thị giá. Miễn phí hoặc báo giá sẽ tự ẩn ô nhập giá khi không cần."
+        >
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <FormField label="Cách hiển thị giá" htmlFor="pricing_mode">
+              <select
+                id="pricing_mode"
+                value={pricingMode}
+                disabled={isFree}
+                onChange={(e) => setPricingMode(e.target.value as PricingMode)}
+                className={cn(inputCls, isFree && 'opacity-40')}
+              >
+                {PRICING_OPTIONS.map((o) => (
+                  <option key={o.value} value={o.value} className="bg-[#0d0d10]">
+                    {o.label}
+                  </option>
+                ))}
+              </select>
+              <span className="mt-1 block text-[11px] text-foreground/45">
+                {PRICING_OPTIONS.find((o) => o.value === pricingMode)?.hint}
+              </span>
+            </FormField>
+            <FormField
+              label="Giá bán (VND)"
+              htmlFor="price_vnd"
+              hint={isFree ? 'Không dùng khi "Miễn phí"' : pricingMode === 'quote' ? 'Không dùng khi "Liên hệ báo giá"' : 'Nhập số nguyên, không phẩy'}
+            >
+              <NumberStepper
+                id="price_vnd"
+                min={0}
+                step={1000}
+                value={priceVnd}
+                disabled={isFree || pricingMode === 'quote'}
+                onChange={setPriceVnd}
+                placeholder="1500000"
+              />
+            </FormField>
+          </div>
+        </FormSection>
+      )}
 
       {kind === 'tool' && (
         <FormSection
@@ -730,10 +874,11 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
         </FormSection>
       )}
 
-      <FormSection
-        title="Giao hàng & hỗ trợ"
-        description="Nói rõ khách sẽ nhận gì, được hỗ trợ qua đâu và cần chuẩn bị gì trước khi mua."
-      >
+      {kind !== 'prompt' && (
+        <FormSection
+          title="Giao hàng & hỗ trợ"
+          description="Nói rõ khách sẽ nhận gì, được hỗ trợ qua đâu và cần chuẩn bị gì trước khi mua."
+        >
         <FormField
           label="Khách nhận được"
           htmlFor="deliverables"
@@ -746,12 +891,8 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
             onChange={(e) => setDeliverables(e.target.value)}
             placeholder={
               kind === 'tool'
-                ? 'File .exe + folder _internal/&#10;Hướng dẫn cài đặt PDF&#10;Bảo hành 30 ngày'
-                : kind === 'setup'
-                  ? 'Video screen-record các bước&#10;File config mẫu&#10;Hỗ trợ Zalo 7 ngày'
-                  : kind === 'prompt'
-                    ? 'File prompt (PDF/Notion)&#10;Hướng dẫn chỉnh theo ngữ cảnh&#10;Cập nhật mẫu mới miễn phí'
-                    : 'Source code (GitHub)&#10;Deploy Vercel/Netlify&#10;Domain setup hỗ trợ'
+                ? 'File .exe + folder _internal/&#10;Hướng dẫn sử dụng PDF&#10;Bảo hành 30 ngày'
+                : 'Source code (GitHub)&#10;Deploy Vercel/Netlify&#10;Hỗ trợ cấu hình domain'
             }
             className={inputCls}
           />
@@ -807,17 +948,17 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
             placeholder={
               kind === 'tool'
                 ? 'Windows 10+ 64-bit&#10;Trình duyệt Chrome'
-                : kind === 'prompt'
-                  ? 'Có tài khoản Claude/ChatGPT&#10;Biết copy và chỉnh thông tin cơ bản'
-                  : 'Không yêu cầu kiến thức trước'
+                : 'Không yêu cầu kiến thức trước'
             }
             className={inputCls}
           />
         </FormField>
-      </FormSection>
+        </FormSection>
+      )}
 
-      <FormSection
-        title="Hiển thị & vận hành"
+      {kind !== 'prompt' && (
+        <FormSection
+          title="Hiển thị & vận hành"
         description="Các thiết lập nội bộ quyết định sản phẩm có được hiển thị, ưu tiên và thống kê như thế nào."
       >
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -873,7 +1014,8 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
             </span>
           </div>
         </div>
-      </FormSection>
+        </FormSection>
+      )}
 
       {errorMsg && (
         <p className="rounded-lg bg-red-500/10 px-3 py-2 text-xs text-red-300 ring-1 ring-red-500/30">

@@ -12,21 +12,24 @@ export const dynamic = 'force-dynamic';
 export default async function AdminHome() {
   const supabase = await createClient();
   const [
-    { count: productsTotal },
-    { count: productsPublished },
-    { count: productsDraft },
+    { count: toolsCount },
+    { count: promptsCount },
+    { count: webworkCount },
     { count: inquiriesNew },
     { data: recentInquiries },
   ] = await Promise.all([
-    supabase.from('products').select('*', { count: 'exact', head: true }),
     supabase
       .from('products')
       .select('*', { count: 'exact', head: true })
-      .eq('status', 'published'),
+      .eq('kind', 'tool'),
     supabase
       .from('products')
       .select('*', { count: 'exact', head: true })
-      .eq('status', 'draft'),
+      .eq('kind', 'prompt'),
+    supabase
+      .from('products')
+      .select('*', { count: 'exact', head: true })
+      .eq('kind', 'webwork'),
     supabase
       .from('inquiries')
       .select('*', { count: 'exact', head: true })
@@ -45,13 +48,13 @@ export default async function AdminHome() {
       <p className="text-xs uppercase tracking-widest text-muted-foreground">Admin</p>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight md:text-4xl">Tổng quan</h1>
       <p className="mt-3 text-foreground/65">
-        Quản lý sản phẩm (tool / setup / prompt mẫu / web) và inquiry từ khách.
+        Quản lý sản phẩm (tool / prompt mẫu / web) và inquiry từ khách.
       </p>
 
       <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
-        <Stat label="Sản phẩm" value={productsTotal ?? 0} />
-        <Stat label="Đang bán" value={productsPublished ?? 0} accent />
-        <Stat label="Bản nháp" value={productsDraft ?? 0} />
+        <Stat label="Tool" value={toolsCount ?? 0} />
+        <Stat label="Prompt" value={promptsCount ?? 0} />
+        <Stat label="Web/Portfolio" value={webworkCount ?? 0} />
         <Stat label="Inquiry mới" value={inquiriesNew ?? 0} accent />
       </div>
 

@@ -3,23 +3,23 @@ import { ShieldCheck, Wrench, Lock, Package } from 'lucide-react';
 const PROMISES = [
   {
     icon: Package,
-    title: 'File .exe chạy ngay, không cần cài Python',
-    body: 'Tool đóng gói bằng PyInstaller — bạn nhận folder, double-click .exe là chạy. Windows 10/11 64-bit là đủ.',
+    title: 'Nhận file là mở dùng được',
+    body: 'Bạn nhận một thư mục có sẵn file chạy. Chỉ cần bấm đúp vào file là mở tool, không cần biết code hay cài thêm thứ phức tạp.',
   },
   {
     icon: ShieldCheck,
-    title: 'Xem demo thật rồi mới mua',
-    body: 'Mỗi tool có video YouTube quay thẳng màn hình, dùng data thật. Không demo dựng, không slide bóng bẩy.',
+    title: 'Xem video trước rồi hãy mua',
+    body: 'Mỗi tool đều có video quay màn hình thật. Bạn xem tool chạy như thế nào, thấy đúng nhu cầu thì mới mua.',
   },
   {
     icon: Wrench,
-    title: 'Sửa bug miễn phí 30 ngày',
-    body: 'Phát hiện lỗi trong 30 ngày sau khi nhận? Nhắn Zalo — mình fix và gửi build mới. Không cần lý do.',
+    title: 'Lỗi thì nhắn mình sửa',
+    body: 'Trong 30 ngày đầu, nếu tool bị lỗi, bạn chỉ cần nhắn Zalo kèm ảnh lỗi. Mình sửa và gửi lại bản mới miễn phí.',
   },
   {
     icon: Lock,
-    title: 'Không can thiệp app local nội bộ',
-    body: 'Mình chỉ làm automation cho các ứng dụng web như ChatGPT, Google Docs, Excel Online, Google Sheets, Gmail, CRM web. Không chạy hoặc truy cập phần mềm local/nội bộ của công ty bạn.',
+    title: 'Không đụng vào phần mềm riêng của công ty',
+    body: 'Tool chỉ làm việc với các trang web bạn được phép dùng như ChatGPT, Google Docs, Google Sheets, Gmail hoặc CRM web. Mình không truy cập phần mềm nội bộ trên máy công ty bạn.',
   },
 ];
 
@@ -32,10 +32,10 @@ export function Promises() {
             Cam kết
           </p>
           <h2 className="text-balance text-3xl font-semibold tracking-tight md:text-5xl">
-            Mua xong, không lo bị bỏ rơi.
+            Mua xong vẫn có người hỗ trợ.
           </h2>
           <p className="mt-5 text-foreground/65">
-            Không phải subscription, không phải SaaS bắt nâng cấp. Bạn mua 1 lần, tool thuộc về bạn.
+            Bạn mua một lần, nhận file về máy và dùng lâu dài. Có lỗi thì nhắn mình, không phải tự mò.
           </p>
         </div>
         <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:col-span-7">

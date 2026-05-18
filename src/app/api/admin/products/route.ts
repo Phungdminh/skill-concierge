@@ -14,8 +14,15 @@ const productVersionSchema = z.object({
   status: z.enum(['available', 'beta', 'deprecated', 'hidden']).optional(),
 });
 
+const promptMetaSchema = z.object({
+  preview_content: z.string().max(5000).nullable().optional(),
+  full_content: z.string().max(50000).nullable().optional(),
+  explanation: z.string().max(20000).nullable().optional(),
+  related_slugs: z.array(z.string().trim().min(1).max(80)).max(12).optional(),
+});
+
 const productInputSchema = z.object({
-  kind: z.enum(['tool', 'setup', 'prompt', 'webwork']),
+  kind: z.enum(['tool', 'prompt', 'webwork']),
   title: z.string().trim().min(2).max(160),
   slug: z.string().trim().min(1).max(80).optional(),
   tagline: z.string().trim().max(300).nullable().optional(),
@@ -32,11 +39,12 @@ const productInputSchema = z.object({
   versions: z.array(productVersionSchema).max(10).optional(),
   deliverables: z.array(z.string().max(200)).max(20).optional(),
   support_options: z
-    .array(z.enum(['drive_folder', 'zalo_group', 'one_on_one_call', 'remote_setup']))
-    .max(4)
+    .array(z.enum(['drive_folder', 'zalo_group', 'one_on_one_call']))
+    .max(3)
     .optional(),
   duration_label: z.string().trim().max(80).nullable().optional(),
   prerequisites: z.array(z.string().max(200)).max(20).optional(),
+  prompt_meta: promptMetaSchema.optional(),
   status: z.enum(['draft', 'published', 'sold_out', 'archived']).optional(),
   featured: z.boolean().optional(),
   sort_order: z.number().int().optional(),
@@ -46,6 +54,25 @@ function emptyToNull<T extends string | null | undefined>(v: T): string | null {
   if (v == null) return null;
   const t = v.trim();
   return t.length === 0 ? null : t;
+}
+
+function normalizePromptMeta(meta: z.infer<typeof promptMetaSchema> | undefined) {
+  return {
+    preview_content: emptyToNull(meta?.preview_content),
+    full_content: emptyToNull(meta?.full_content),
+    explanation: emptyToNull(meta?.explanation),
+    related_slugs: Array.from(new Set((meta?.related_slugs ?? []).map((slug) => slug.trim()).filter(Boolean))),
+  };
+}
+
+function hasPromptMeta(meta: z.infer<typeof promptMetaSchema> | undefined) {
+  if (!meta) return false;
+  return Boolean(
+    emptyToNull(meta.preview_content) ||
+    emptyToNull(meta.full_content) ||
+    emptyToNull(meta.explanation) ||
+    (meta.related_slugs ?? []).some((slug) => slug.trim()),
+  );
 }
 
 function normalizeVersions(versions: z.infer<typeof productVersionSchema>[]) {
@@ -132,6 +159,10 @@ export async function POST(req: Request) {
   if (parsed.data.kind !== 'tool' && versions.length > 0) {
     return versionValidationResponse('Chỉ sản phẩm loại tool mới có phiên bản executable.');
   }
+  if (parsed.data.kind !== 'prompt' && hasPromptMeta(parsed.data.prompt_meta)) {
+    return versionValidationResponse('Chỉ sản phẩm loại prompt mới có nội dung prompt riêng.');
+  }
+  const promptMeta = parsed.data.kind === 'prompt' ? normalizePromptMeta(parsed.data.prompt_meta) : {};
 
   const supabase = createAdminClient();
   const slug = (parsed.data.slug?.trim() || slugify(parsed.data.title)).slice(0, 80);
@@ -156,6 +187,7 @@ export async function POST(req: Request) {
     support_options: parsed.data.support_options ?? [],
     duration_label: emptyToNull(parsed.data.duration_label),
     prerequisites: parsed.data.prerequisites ?? [],
+    prompt_meta: promptMeta,
     status: parsed.data.status ?? 'draft',
     featured: parsed.data.featured ?? false,
     is_free: parsed.data.is_free ?? false,

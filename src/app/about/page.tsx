@@ -10,7 +10,6 @@ import {
   Globe,
   MousePointerClick,
   PackageCheck,
-  Settings2,
   ShieldCheck,
   Sparkles,
   Video,
@@ -21,13 +20,13 @@ import Link from 'next/link';
 export const metadata = {
   title: 'Giới thiệu — SkillForge VN',
   description:
-    'Tại sao SkillForge VN ra đời — tool tự động hoá, setup AI, website portfolio đẹp cho người tìm việc, và kho prompt thực chiến.',
+    'Tại sao SkillForge VN ra đời — tool tự động hoá, website portfolio đẹp cho người tìm việc, và kho prompt thực chiến.',
 };
 
 const STATS = [
   { label: 'Tool đã ship', value: '12+' },
   { label: 'Khách quay lại', value: '78%' },
-  { label: 'Setup thành công', value: '100%' },
+  { label: 'Prompt thực chiến', value: '100+' },
   { label: 'Bảo hành tool', value: '30d' },
 ];
 
@@ -39,14 +38,6 @@ const OFFERINGS = [
     title: 'Tự động hoá task lặp',
     body: 'File .exe đóng gói sẵn — double-click là chạy. Không cần cài Python, không cần biết code. Mỗi tool giải quyết một task cụ thể đang ngốn >3 giờ/tuần của bạn trên website hoặc app web.',
     cta: 'Xem tool',
-  },
-  {
-    icon: Settings2,
-    tag: 'Setup dịch vụ',
-    href: '/setup',
-    title: 'Setup AI cho non-IT',
-    body: 'Mình setup tận tay các công cụ AI như MCP, Claude Code, OpenClaw, FX broker API — qua remote màn hình. Bạn chỉ cần có máy tính, mình lo toàn bộ kỹ thuật và để lại video hướng dẫn.',
-    cta: 'Xem setup',
   },
   {
     icon: Globe,
@@ -85,7 +76,7 @@ const BENEFITS = [
   {
     icon: Sparkles,
     title: 'Dùng AI đúng cách từ ngày đầu',
-    body: 'Prompt mẫu thực chiến và setup AI tận tay giúp bạn khai thác ChatGPT, Claude đúng cách — không mất thời gian thử sai.',
+    body: 'Prompt mẫu thực chiến giúp bạn khai thác ChatGPT, Claude đúng cách — không mất thời gian thử sai.',
   },
   {
     icon: Video,
@@ -112,7 +103,6 @@ const BENEFITS = [
 const FIT = [
   'Bạn đang tốn >3 giờ/tuần làm task lặp lại trên máy tính',
   'Bạn đang tìm việc và muốn portfolio đẹp kết hợp cùng CV',
-  'Bạn muốn setup AI (MCP, Claude Code…) nhưng không rành kỹ thuật',
   'Bạn muốn dùng ChatGPT/Claude hiệu quả hơn với prompt đúng',
   'Bạn ngại subscription SaaS đắt và không muốn lock-in',
 ];
@@ -162,7 +152,7 @@ export default function AboutPage() {
                   Nhưng đó mới chỉ là một phần. Mình cũng thấy rất nhiều bạn đang tìm việc chỉ có một file CV PDF — trong khi một <strong className="text-foreground">website portfolio đẹp</strong> kết hợp cùng CV có thể tạo ấn tượng hoàn toàn khác với nhà tuyển dụng. Và ngày càng nhiều người muốn dùng AI nhưng không biết bắt đầu từ đâu, mất hàng giờ thử sai <strong className="text-foreground">prompt</strong> mà không ra kết quả.
                 </p>
                 <p>
-                  SkillForge VN gom cả bốn thứ đó lại: <strong className="text-foreground">tool tự động hoá</strong>, <strong className="text-foreground">setup AI tận tay</strong>, <strong className="text-foreground">website portfolio</strong> và <strong className="text-foreground">kho prompt thực chiến</strong>. Không có middleman, không agency markup — bạn làm việc trực tiếp với người build.
+                  SkillForge VN gom ba thứ đó lại: <strong className="text-foreground">tool tự động hoá</strong>, <strong className="text-foreground">website portfolio</strong> và <strong className="text-foreground">kho prompt thực chiến</strong>. Không có middleman, không agency markup — bạn làm việc trực tiếp với người build.
                 </p>
               </div>
             </div>
@@ -183,10 +173,6 @@ export default function AboutPage() {
                   </li>
                   <li className="flex gap-3 text-sm text-foreground/80">
                     <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-orange" />
-                    Bạn muốn setup AI nhưng không rành kỹ thuật
-                  </li>
-                  <li className="flex gap-3 text-sm text-foreground/80">
-                    <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-orange" />
                     Bạn muốn dùng AI hiệu quả hơn với prompt đúng
                   </li>
                 </ul>
@@ -201,12 +187,12 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* 4 offerings */}
+        {/* Offerings */}
         <section className="mx-auto w-full max-w-6xl px-6 pb-8">
           <div className="mb-10 text-center">
             <p className="mb-3 text-xs uppercase tracking-widest text-muted-foreground">Dịch vụ</p>
             <h2 className="text-balance text-2xl font-semibold tracking-tight md:text-3xl">
-              4 thứ mình có thể giúp bạn
+              3 thứ mình có thể giúp bạn
             </h2>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">

@@ -1,12 +1,20 @@
 import type { LucideIcon } from 'lucide-react';
-import { Bot, Wrench, LibraryBig, Globe } from 'lucide-react';
+import { Bot, LibraryBig, Globe } from 'lucide-react';
 
-export type ProductKind = 'tool' | 'setup' | 'prompt' | 'webwork';
+export type ProductKind = 'tool' | 'prompt' | 'webwork';
 export type ProductStatus = 'draft' | 'published' | 'sold_out' | 'archived';
 export type PricingMode = 'fixed' | 'from' | 'quote';
 export type InquiryStatus = 'new' | 'contacted' | 'closed';
-export type SupportOption = 'drive_folder' | 'zalo_group' | 'one_on_one_call' | 'remote_setup';
+export type SupportOption = 'drive_folder' | 'zalo_group' | 'one_on_one_call';
 export type ProductVersionStatus = 'available' | 'beta' | 'deprecated' | 'hidden';
+export type ProductReviewStatus = 'pending' | 'published' | 'hidden';
+
+export interface PromptMeta {
+  preview_content?: string | null;
+  full_content?: string | null;
+  explanation?: string | null;
+  related_slugs?: string[];
+}
 
 export interface ProductVersion {
   name: string;
@@ -40,12 +48,42 @@ export interface Product {
   support_options: SupportOption[];
   duration_label: string | null;
   prerequisites: string[];
+  prompt_meta: PromptMeta;
   status: ProductStatus;
   featured: boolean;
   sort_order: number;
   view_count: number;
   created_at: string;
   updated_at: string;
+}
+
+export interface ProductReview {
+  id: string;
+  product_id: string;
+  user_id: string;
+  rating: number;
+  title: string | null;
+  body: string | null;
+  status: ProductReviewStatus;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PublicProductReview {
+  id: string;
+  rating: number;
+  title: string | null;
+  body: string | null;
+  created_at: string;
+  profile?: {
+    full_name: string | null;
+    avatar_url: string | null;
+  } | null;
+}
+
+export interface ProductReviewSummary {
+  average: number | null;
+  count: number;
 }
 
 export interface Inquiry {
@@ -88,19 +126,6 @@ export const KIND_META: Record<ProductKind, KindMeta> = {
     emptyBody: 'Đang đóng gói tool tiếp theo — quay lại sớm nhé. Hoặc nói với mình bạn cần tool gì.',
     ctaLabel: 'Đặt tool riêng',
   },
-  setup: {
-    kind: 'setup',
-    label: 'Hướng dẫn setup',
-    shortLabel: 'Setup',
-    pluralLabel: 'Setup guides',
-    description: 'Setup giúp non-IT: MCP server, plugin AI, OpenClaw, FX broker API, Claude Code, v.v. — bạn không phải tự đọc docs.',
-    route: '/setup',
-    icon: Wrench,
-    accent: 'from-brand-orange/70 to-brand-amber/40',
-    emptyTitle: 'Setup guide đang biên soạn',
-    emptyBody: 'Đang ghi hình các bộ setup guide đầu tiên. Bạn cần setup gì cụ thể? Ping mình.',
-    ctaLabel: 'Đặt setup riêng',
-  },
   prompt: {
     kind: 'prompt',
     label: 'Prompt mẫu',
@@ -129,7 +154,7 @@ export const KIND_META: Record<ProductKind, KindMeta> = {
   },
 };
 
-export const ALL_KINDS: ProductKind[] = ['tool', 'setup', 'prompt', 'webwork'];
+export const ALL_KINDS: ProductKind[] = ['tool', 'prompt', 'webwork'];
 
 export const SUPPORT_META: Record<SupportOption, { label: string; description: string }> = {
   drive_folder: {
@@ -144,10 +169,6 @@ export const SUPPORT_META: Record<SupportOption, { label: string; description: s
     label: '1-on-1 call 30 phút',
     description: 'Zoom hoặc Zalo video, share màn hình hướng dẫn',
   },
-  remote_setup: {
-    label: 'Remote setup',
-    description: 'TeamViewer / AnyDesk — mình vào máy bạn setup luôn',
-  },
 };
 
 export const TOOL_CATEGORIES = [
@@ -159,22 +180,26 @@ export const TOOL_CATEGORIES = [
   { value: 'other', label: 'Khác' },
 ] as const;
 
-export const SETUP_CATEGORIES = [
-  { value: 'mcp', label: 'MCP server' },
-  { value: 'plugin', label: 'Plugin / Extension' },
-  { value: 'openclaw', label: 'OpenClaw / FX' },
-  { value: 'broker-api', label: 'Broker API' },
-  { value: 'claude-code', label: 'Claude Code / AI agent' },
-  { value: 'integration', label: 'API integration' },
-  { value: 'other', label: 'Khác' },
-] as const;
-
 export const PROMPT_CATEGORIES = [
-  { value: 'cong-viec', label: 'Công việc' },
-  { value: 'kinh-doanh', label: 'Kinh doanh' },
-  { value: 'sang-tao', label: 'Sáng tạo nội dung' },
-  { value: 'hoc-tap', label: 'Học tập' },
-  { value: 'automation', label: 'Automation' },
+  { value: 'content-creator', label: 'Content creator' },
+  { value: 'social-media', label: 'Social media' },
+  { value: 'seo-blog', label: 'SEO / Blog' },
+  { value: 'video-tiktok', label: 'Video / TikTok' },
+  { value: 'giao-vien', label: 'Giáo viên' },
+  { value: 'hoc-sinh-sinh-vien', label: 'Học sinh / Sinh viên' },
+  { value: 'ke-toan-tai-chinh', label: 'Kế toán / Tài chính' },
+  { value: 'nhan-su-tuyen-dung', label: 'Nhân sự / Tuyển dụng' },
+  { value: 'ban-hang-sales', label: 'Bán hàng / Sales' },
+  { value: 'ecommerce-shop', label: 'Shop online / TMĐT' },
+  { value: 'cham-soc-khach-hang', label: 'Chăm sóc khách hàng' },
+  { value: 'bat-dong-san', label: 'Bất động sản' },
+  { value: 'luat-hop-dong', label: 'Luật / Hợp đồng' },
+  { value: 'y-te-suc-khoe', label: 'Y tế / Sức khỏe' },
+  { value: 'du-lich-khach-san', label: 'Du lịch / Khách sạn' },
+  { value: 'nha-hang-fnb', label: 'Nhà hàng / F&B' },
+  { value: 'thiet-ke-hinh-anh', label: 'Thiết kế / Hình ảnh' },
+  { value: 'lap-trinh', label: 'Lập trình' },
+  { value: 'dich-thuat-ngon-ngu', label: 'Dịch thuật / Ngôn ngữ' },
   { value: 'other', label: 'Khác' },
 ] as const;
 
@@ -190,8 +215,6 @@ export function categoriesFor(kind: ProductKind) {
   switch (kind) {
     case 'tool':
       return TOOL_CATEGORIES;
-    case 'setup':
-      return SETUP_CATEGORIES;
     case 'prompt':
       return PROMPT_CATEGORIES;
     case 'webwork':
@@ -217,6 +240,16 @@ export function formatPriceVnd(price: number | null, mode: PricingMode = 'fixed'
 
 export function visibleProductVersions(product: Pick<Product, 'versions'>): ProductVersion[] {
   return product.versions.filter((version) => (version.status ?? 'available') !== 'hidden');
+}
+
+export function getPromptMeta(product: Pick<Product, 'prompt_meta'>): PromptMeta {
+  const meta = product.prompt_meta ?? {};
+  return {
+    preview_content: meta.preview_content ?? null,
+    full_content: meta.full_content ?? null,
+    explanation: meta.explanation ?? null,
+    related_slugs: Array.isArray(meta.related_slugs) ? meta.related_slugs : [],
+  };
 }
 
 export function extractYouTubeId(url: string | null | undefined): string | null {

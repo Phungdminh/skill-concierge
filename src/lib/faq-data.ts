@@ -11,7 +11,7 @@ export const FAQ_GENERAL: FaqItem[] = [
   },
   {
     q: 'Cách thanh toán?',
-    a: 'Hiện tại sau khi bạn liên hệ qua form, mình gửi thông tin chuyển khoản (VCB / Techcombank / Momo / Zalo Pay). Xác nhận xong mình gửi link Drive tải tool. Payment online tự động đang được setup, sẽ có sớm.',
+    a: 'Hiện tại sau khi bạn liên hệ qua form, mình gửi thông tin chuyển khoản. Xác nhận xong mình gửi link Drive tải tool hoặc nội dung bạn đã mua.',
   },
   {
     q: 'Mất bao lâu từ lúc liên hệ đến lúc nhận tool?',
@@ -28,10 +28,6 @@ export const FAQ_GENERAL: FaqItem[] = [
   {
     q: 'Có thể đặt tool riêng theo nhu cầu không?',
     a: 'Có. Mô tả use case → mình quote. Giá custom thường 1.5–10tr tuỳ phức tạp. Mình build & test trước, bạn xem demo qua YouTube → ưng mới trả tiền.',
-  },
-  {
-    q: 'Dịch vụ setup phù hợp với ai?',
-    a: 'Phù hợp nếu bạn muốn dùng MCP, plugin AI, OpenClaw, Claude Code hoặc công cụ AI khác nhưng không muốn tự cấu hình. Mình setup từ xa, giải thích ngắn cách dùng và gửi lại hướng dẫn để bạn xem lại.',
   },
   {
     q: 'Làm web ở đây gồm những loại nào?',

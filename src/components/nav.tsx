@@ -12,7 +12,6 @@ const HIDDEN_PREFIXES = ['/admin', '/login', '/signup', '/auth'];
 
 const LINKS = [
   { href: '/tools', label: 'Tools' },
-  { href: '/setup', label: 'Setup' },
   { href: '/prompts', label: 'Prompt mẫu' },
   { href: '/web', label: 'Web / Portfolio' },
   { href: '/about', label: 'Giới thiệu' },

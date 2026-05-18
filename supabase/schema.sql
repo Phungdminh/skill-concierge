@@ -1,5 +1,5 @@
 -- Run in Supabase SQL editor after creating the project.
--- SkillForge VN — single-creator multi-kind storefront (tool / setup / prompt / webwork).
+-- SkillForge VN — single-creator multi-kind storefront (tool / prompt / webwork).
 
 -- Clean slate (idempotent re-runs)
 -- Dropping tables with cascade also removes their policies, indexes, and foreign keys.
@@ -30,7 +30,7 @@ create table profiles (
 create table products (
   id uuid primary key default gen_random_uuid(),
   owner_id uuid references auth.users(id) on delete cascade not null,
-  kind text not null check (kind in ('tool','setup','prompt','webwork')),
+  kind text not null check (kind in ('tool','prompt','webwork')),
   slug text unique not null,
   title text not null,
   tagline text,
@@ -46,15 +46,29 @@ create table products (
   tags text[] default '{}',                                          -- stack/topic chips
   versions jsonb not null default '[]'::jsonb,                       -- tool version objects
   deliverables jsonb default '[]'::jsonb,                            -- array of strings (bullet list shown on detail page)
-  support_options text[] default '{}',                               -- subset of: drive_folder, zalo_group, one_on_one_call, remote_setup
+  support_options text[] default '{}',                               -- subset of: drive_folder, zalo_group, one_on_one_call
   duration_label text,                                               -- "5 bài × ~30 phút", "Giao 3 ngày", v.v.
-  prerequisites jsonb default '[]'::jsonb,                           -- array of strings shown for setup/prompt kinds
+  prerequisites jsonb default '[]'::jsonb,                           -- array of strings shown before purchase/use
+  prompt_meta jsonb not null default '{}'::jsonb,                     -- prompt-only content: preview, full prompt, explanation, related slugs
   status text default 'draft' check (status in ('draft','published','sold_out','archived')),
   featured boolean default false,
   sort_order integer default 0,
   view_count integer default 0 not null,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
+);
+
+create table product_reviews (
+  id uuid primary key default gen_random_uuid(),
+  product_id uuid not null references products(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  rating integer not null check (rating between 1 and 5),
+  title text,
+  body text,
+  status text not null default 'published' check (status in ('pending','published','hidden')),
+  created_at timestamptz default now() not null,
+  updated_at timestamptz default now() not null,
+  unique (product_id, user_id)
 );
 
 create table inquiries (
@@ -92,8 +106,26 @@ create index products_kind_idx
   on products(kind, status);
 create index products_categories_gin_idx
   on products using gin(categories);
+create index products_tags_gin_idx
+  on products using gin(tags);
 alter table products
   add constraint products_versions_array_chk check (jsonb_typeof(versions) = 'array');
+alter table products
+  add constraint products_prompt_meta_object_chk check (jsonb_typeof(prompt_meta) = 'object');
+alter table products
+  add constraint products_support_options_check check (
+    support_options is null
+    or support_options <@ array['drive_folder', 'zalo_group', 'one_on_one_call']::text[]
+  );
+alter table inquiries
+  add constraint inquiries_product_kind_check check (
+    product_kind is null
+    or product_kind in ('tool', 'prompt', 'webwork')
+  );
+create index product_reviews_product_status_idx
+  on product_reviews(product_id, status, created_at desc);
+create index product_reviews_user_idx
+  on product_reviews(user_id, created_at desc);
 create index inquiries_status_idx
   on inquiries(status, created_at desc);
 create index admin_login_challenges_user_idx
@@ -104,6 +136,7 @@ create index admin_login_challenges_active_idx
 
 alter table profiles enable row level security;
 alter table products enable row level security;
+alter table product_reviews enable row level security;
 alter table inquiries enable row level security;
 alter table admin_login_challenges enable row level security;
 
@@ -164,6 +197,16 @@ $$;
 revoke all on function public.increment_product_view(uuid) from public;
 grant execute on function public.increment_product_view(uuid) to anon, authenticated;
 
+-- product reviews: public reads published reviews; logged-in users manage only their own review
+create policy "product_reviews public read" on product_reviews
+  for select using (status = 'published');
+create policy "product_reviews own insert" on product_reviews
+  for insert with check (auth.uid() = user_id);
+create policy "product_reviews own update" on product_reviews
+  for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
+create policy "product_reviews own delete" on product_reviews
+  for delete using (auth.uid() = user_id);
+
 -- inquiries: anyone can submit, only the single creator (any row in products.owner_id) can read/update
 create policy "inquiries public insert" on inquiries
   for insert with check (true);
@@ -200,3 +243,13 @@ create policy "avatars owner delete" on storage.objects
   for delete using (
     bucket_id = 'avatars' and auth.uid()::text = (storage.foldername(name))[1]
   );
+
+-- product images bucket: public read; uploads are handled by admin API using service role
+insert into storage.buckets (id, name, public)
+values ('product-images', 'product-images', true)
+on conflict (id) do nothing;
+
+drop policy if exists "product_images public read" on storage.objects;
+
+create policy "product_images public read" on storage.objects
+  for select using (bucket_id = 'product-images');

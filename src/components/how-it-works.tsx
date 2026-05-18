@@ -4,19 +4,19 @@ const STEPS = [
   {
     icon: Play,
     title: 'Xem video demo',
-    desc: 'Mỗi tool có video YouTube chạy thật với một task hằng ngày tương đương, gần giống hoặc cùng concept với việc bạn đang làm. Bạn xem được tool xử lý ra sao, giao diện thế nào và output cuối cùng là gì — trước khi quyết định.',
+    desc: 'Bạn xem video để biết tool chạy như thế nào. Thấy phù hợp thì mới mua.',
     badge: 'Bước 1',
   },
   {
     icon: MessageSquare,
-    title: 'Liên hệ qua form',
-    desc: 'Ưng tool nào → bấm "Mua / Đặt câu hỏi", điền form. Mình rep trong 24h qua Zalo / Email với thông tin thanh toán và hướng dẫn.',
+    title: 'Bấm mua và nhắn mình',
+    desc: 'Bạn bấm “Mua / Đặt câu hỏi”. Mình gửi cách chuyển khoản và trả lời nếu bạn còn thắc mắc.',
     badge: 'Bước 2',
   },
   {
     icon: Download,
     title: 'Nhận file + chạy ngay',
-    desc: 'Sau khi xác nhận, mình gửi link Drive folder gồm app .exe + hướng dẫn ngắn. Bạn kích đúp để mở tool trên máy; tool sẽ hỗ trợ thao tác với website/app web phù hợp, không can thiệp vào phần mềm local hoặc hệ thống nội bộ công ty.',
+    desc: 'Chuyển khoản xong, bạn nhắn ảnh giao dịch. Mình gửi file và hướng dẫn. Bạn chỉ cần mở file để dùng.',
     badge: 'Bước 3',
   },
 ];
@@ -32,7 +32,7 @@ export function HowItWorks() {
           3 bước. Không cần biết code.
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-foreground/60">
-          Tool phù hợp cho các use case thao tác trên website/app web như ChatGPT, Google Docs, Excel Online, Google Sheets, Gmail hoặc CRM web. Mình không chạy hay can thiệp vào phần mềm local/nội bộ của công ty bạn.
+          Xem demo trước. Nếu thấy đúng nhu cầu thì mua. Mua xong mình gửi file và hướng dẫn cách dùng.
         </p>
       </div>
 

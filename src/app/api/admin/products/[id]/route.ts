@@ -16,6 +16,13 @@ const productVersionSchema = z.object({
   status: z.enum(['available', 'beta', 'deprecated', 'hidden']).optional(),
 });
 
+const promptMetaSchema = z.object({
+  preview_content: z.string().max(5000).nullable().optional(),
+  full_content: z.string().max(50000).nullable().optional(),
+  explanation: z.string().max(20000).nullable().optional(),
+  related_slugs: z.array(z.string().trim().min(1).max(80)).max(12).optional(),
+});
+
 const patchSchema = z.object({
   title: z.string().trim().min(2).max(160).optional(),
   slug: z.string().trim().min(1).max(80).optional(),
@@ -33,11 +40,12 @@ const patchSchema = z.object({
   versions: z.array(productVersionSchema).max(10).optional(),
   deliverables: z.array(z.string().max(200)).max(20).optional(),
   support_options: z
-    .array(z.enum(['drive_folder', 'zalo_group', 'one_on_one_call', 'remote_setup']))
-    .max(4)
+    .array(z.enum(['drive_folder', 'zalo_group', 'one_on_one_call']))
+    .max(3)
     .optional(),
   duration_label: z.string().max(80).nullable().optional(),
   prerequisites: z.array(z.string().max(200)).max(20).optional(),
+  prompt_meta: promptMetaSchema.optional(),
   status: z.enum(['draft', 'published', 'sold_out', 'archived']).optional(),
   featured: z.boolean().optional(),
   sort_order: z.number().int().optional(),
@@ -47,6 +55,27 @@ function emptyToNull<T extends string | null | undefined>(v: T): string | null {
   if (v == null) return null;
   const t = v.trim();
   return t.length === 0 ? null : t;
+}
+
+function normalizePromptMeta(meta: z.infer<typeof promptMetaSchema> | undefined, currentSlug?: string) {
+  const relatedSlugs = Array.from(new Set((meta?.related_slugs ?? []).map((slug) => slug.trim()).filter(Boolean)))
+    .filter((slug) => slug !== currentSlug);
+  return {
+    preview_content: emptyToNull(meta?.preview_content),
+    full_content: emptyToNull(meta?.full_content),
+    explanation: emptyToNull(meta?.explanation),
+    related_slugs: relatedSlugs,
+  };
+}
+
+function hasPromptMeta(meta: z.infer<typeof promptMetaSchema> | undefined) {
+  if (!meta) return false;
+  return Boolean(
+    emptyToNull(meta.preview_content) ||
+    emptyToNull(meta.full_content) ||
+    emptyToNull(meta.explanation) ||
+    (meta.related_slugs ?? []).some((slug) => slug.trim()),
+  );
 }
 
 function normalizeVersions(versions: z.infer<typeof productVersionSchema>[]) {
@@ -139,10 +168,11 @@ export async function PATCH(
   }
 
   let existingKind: ProductKind | undefined;
-  if (parsed.data.categories !== undefined || versions !== undefined) {
+  let existingSlug: string | undefined;
+  if (parsed.data.categories !== undefined || versions !== undefined || parsed.data.prompt_meta !== undefined) {
     const { data: existing, error: existingError } = await supabase
       .from('products')
-      .select('kind')
+      .select('kind, slug')
       .eq('id', parsedId.data)
       .single();
 
@@ -164,6 +194,7 @@ export async function PATCH(
     }
 
     existingKind = existing.kind as ProductKind;
+    existingSlug = existing.slug;
   }
 
   if (parsed.data.categories !== undefined) {
@@ -180,6 +211,12 @@ export async function PATCH(
   if (versions !== undefined && existingKind !== 'tool' && versions.length > 0) {
     return versionValidationResponse('Chỉ sản phẩm loại tool mới có phiên bản executable.');
   }
+  if (existingKind !== 'prompt' && hasPromptMeta(parsed.data.prompt_meta)) {
+    return versionValidationResponse('Chỉ sản phẩm loại prompt mới có nội dung prompt riêng.');
+  }
+  const promptMeta = parsed.data.prompt_meta !== undefined && existingKind === 'prompt'
+    ? normalizePromptMeta(parsed.data.prompt_meta, parsed.data.slug?.trim() ?? existingSlug)
+    : undefined;
 
   const update: Record<string, unknown> = { updated_at: new Date().toISOString() };
   const d = parsed.data;
@@ -200,6 +237,7 @@ export async function PATCH(
   if (d.support_options !== undefined) update.support_options = d.support_options;
   if (d.duration_label !== undefined) update.duration_label = emptyToNull(d.duration_label);
   if (d.prerequisites !== undefined) update.prerequisites = d.prerequisites;
+  if (promptMeta !== undefined) update.prompt_meta = promptMeta;
   if (d.status !== undefined) update.status = d.status;
   if (d.featured !== undefined) update.featured = d.featured;
   if (d.is_free !== undefined) update.is_free = d.is_free;
