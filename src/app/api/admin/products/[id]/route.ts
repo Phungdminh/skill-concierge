@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { requireAdmin } from '@/lib/auth';
 import { categoriesFor, type ProductKind } from '@/lib/product-types';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { httpUrl } from '@/lib/url-safety';
 
 const idSchema = z.string().uuid();
 
@@ -29,9 +30,10 @@ const patchSchema = z.object({
   tagline: z.string().max(300).nullable().optional(),
   description: z.string().max(20000).nullable().optional(),
   notice: z.string().max(2000).nullable().optional(),
-  youtube_url: z.string().url().nullable().optional().or(z.literal('')),
-  thumbnail_url: z.string().url().nullable().optional().or(z.literal('')),
-  gallery: z.array(z.string().url()).max(20).optional(),
+  youtube_url: httpUrl().nullable().optional().or(z.literal('')),
+  thumbnail_url: httpUrl().nullable().optional().or(z.literal('')),
+  repo_url: httpUrl({ max: 300 }).nullable().optional().or(z.literal('')),
+  gallery: z.array(httpUrl()).max(20).optional(),
   pricing_mode: z.enum(['fixed', 'from', 'quote']).optional(),
   price_vnd: z.number().int().min(0).nullable().optional(),
   is_free: z.boolean().optional(),
@@ -40,7 +42,7 @@ const patchSchema = z.object({
   versions: z.array(productVersionSchema).max(10).optional(),
   deliverables: z.array(z.string().max(200)).max(20).optional(),
   support_options: z
-    .array(z.enum(['drive_folder', 'zalo_group', 'one_on_one_call']))
+    .array(z.enum(['drive_folder', 'zalo_group', 'github_repo']))
     .max(3)
     .optional(),
   duration_label: z.string().max(80).nullable().optional(),
@@ -169,7 +171,12 @@ export async function PATCH(
 
   let existingKind: ProductKind | undefined;
   let existingSlug: string | undefined;
-  if (parsed.data.categories !== undefined || versions !== undefined || parsed.data.prompt_meta !== undefined) {
+  if (
+    parsed.data.categories !== undefined ||
+    versions !== undefined ||
+    parsed.data.prompt_meta !== undefined ||
+    parsed.data.repo_url !== undefined
+  ) {
     const { data: existing, error: existingError } = await supabase
       .from('products')
       .select('kind, slug')
@@ -214,6 +221,9 @@ export async function PATCH(
   if (existingKind !== 'prompt' && hasPromptMeta(parsed.data.prompt_meta)) {
     return versionValidationResponse('Chỉ sản phẩm loại prompt mới có nội dung prompt riêng.');
   }
+  if (parsed.data.repo_url !== undefined && emptyToNull(parsed.data.repo_url) && existingKind !== 'webwork') {
+    return versionValidationResponse('Repo URL chỉ áp dụng cho web/portfolio.');
+  }
   const promptMeta = parsed.data.prompt_meta !== undefined && existingKind === 'prompt'
     ? normalizePromptMeta(parsed.data.prompt_meta, parsed.data.slug?.trim() ?? existingSlug)
     : undefined;
@@ -227,6 +237,7 @@ export async function PATCH(
   if (d.notice !== undefined) update.notice = emptyToNull(d.notice);
   if (d.youtube_url !== undefined) update.youtube_url = emptyToNull(d.youtube_url);
   if (d.thumbnail_url !== undefined) update.thumbnail_url = emptyToNull(d.thumbnail_url);
+  if (d.repo_url !== undefined) update.repo_url = emptyToNull(d.repo_url);
   if (d.gallery !== undefined) update.gallery = d.gallery;
   if (d.pricing_mode !== undefined) update.pricing_mode = d.pricing_mode;
   if (d.price_vnd !== undefined) update.price_vnd = d.price_vnd;

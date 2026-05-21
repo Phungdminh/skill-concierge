@@ -2,10 +2,11 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { httpUrl } from '@/lib/url-safety';
 
 const patchSchema = z.object({
   full_name: z.string().trim().min(1).max(120).nullable().optional(),
-  avatar_url: z.string().trim().url().max(2000).nullable().optional().or(z.literal('')),
+  avatar_url: httpUrl({ max: 2000 }).nullable().optional().or(z.literal('')),
   gender: z.enum(['male', 'female', 'other', 'prefer_not_to_say']).nullable().optional(),
   job_title: z.string().trim().max(120).nullable().optional(),
 });

@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { ProductDetail } from '@/components/product-detail';
 import { createClient } from '@/lib/supabase/server';
+import { getRelatedPromptsTfIdf } from '@/lib/recommendations-prompt';
 import { getPromptMeta, type Product, type PublicProductReview } from '@/lib/product-types';
 
 interface PageProps {
@@ -65,47 +66,12 @@ export default async function PromptDetailPage({ params }: PageProps) {
     count: reviews.length,
   };
 
-  const relatedBySlug: Product[] = [];
-  if (promptMeta.related_slugs && promptMeta.related_slugs.length > 0) {
-    const { data: manualRelated } = await supabase
-      .from('products')
-      .select('*')
-      .eq('kind', 'prompt')
-      .eq('status', 'published')
-      .in('slug', promptMeta.related_slugs)
-      .neq('id', product.id);
-    const bySlug = new Map((manualRelated ?? []).map((item) => [item.slug, item as Product]));
-    for (const relatedSlug of promptMeta.related_slugs) {
-      const related = bySlug.get(relatedSlug);
-      if (related) relatedBySlug.push(related);
-    }
-  }
-
-  const relatedProducts = [...relatedBySlug];
-  if (relatedProducts.length < 4) {
-    let fallbackQuery = supabase
-      .from('products')
-      .select('*')
-      .eq('kind', 'prompt')
-      .eq('status', 'published')
-      .neq('id', product.id)
-      .order('featured', { ascending: false })
-      .order('sort_order', { ascending: false })
-      .order('created_at', { ascending: false })
-      .limit(12);
-
-    if (product.categories.length > 0) {
-      fallbackQuery = fallbackQuery.overlaps('categories', product.categories);
-    }
-
-    const { data: fallbackRows } = await fallbackQuery;
-    for (const item of fallbackRows ?? []) {
-      if (relatedProducts.length >= 4) break;
-      if (!relatedProducts.some((related) => related.id === item.id)) {
-        relatedProducts.push(item as Product);
-      }
-    }
-  }
+  const relatedProducts = await getRelatedPromptsTfIdf({
+    product,
+    supabase,
+    limit: 4,
+    manualSlugs: promptMeta.related_slugs ?? [],
+  });
 
   return (
     <ProductDetail

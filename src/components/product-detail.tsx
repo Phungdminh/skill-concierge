@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { AlertTriangle, ArrowLeft, ArrowUpRight, CheckCircle2, LockKeyhole, Sparkles, Star, Tag, Clock } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, ArrowUpRight, CheckCircle2, Globe, LockKeyhole, Sparkles, Star, Tag, Clock } from 'lucide-react';
 import { Footer } from '@/components/footer';
 import { ProductCard } from '@/components/product-card';
+import { PromptCopyButton } from '@/components/prompt-copy-button';
 import { ProductReviewForm } from '@/components/product-review-form';
 import { YouTubeEmbed } from '@/components/youtube-embed';
 import { ViewTracker } from '@/components/view-tracker';
@@ -18,6 +19,7 @@ import {
   type PublicProductReview,
 } from '@/lib/product-types';
 import { renderMarkdown } from '@/lib/markdown';
+import { safeHttpUrl } from '@/lib/url-safety';
 
 interface ProductDetailProps {
   product: Product;
@@ -83,7 +85,14 @@ export function ProductDetail({
   const showPaymentInfo = !product.is_free && product.pricing_mode !== 'quote';
   const promptMeta = product.kind === 'prompt' ? getPromptMeta(product) : null;
   const promptExplanationHtml = promptMeta?.explanation ? renderMarkdown(promptMeta.explanation) : '';
-  const hasPromptFullContent = Boolean(promptMeta?.full_content?.trim());
+  const promptFullContent = promptMeta?.full_content?.trim() ?? '';
+  const promptPreviewContent = promptMeta?.preview_content?.trim() ?? '';
+  const promptDisplayContent = viewerId
+    ? promptFullContent || promptPreviewContent
+    : promptPreviewContent || promptFullContent;
+  const hasPromptBody = Boolean(promptDisplayContent);
+  const shouldLockPrompt = !viewerId && Boolean(promptFullContent);
+  const safeRepoUrl = safeHttpUrl(product.repo_url);
 
   return (
     <>
@@ -124,10 +133,45 @@ export function ProductDetail({
                 </p>
               )}
 
+              {product.kind === 'prompt' && product.gallery[0] && (
+                <div className="mt-8 overflow-hidden rounded-2xl border border-white/5">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={product.gallery[0]}
+                    alt={`${product.title} ảnh tham khảo`}
+                    loading="lazy"
+                    className="w-full object-cover"
+                  />
+                </div>
+              )}
+
               {product.youtube_url && (
                 <div className="mt-8">
                   <YouTubeEmbed url={product.youtube_url} title={product.title} />
                 </div>
+              )}
+
+              {product.kind === 'webwork' && safeRepoUrl && (
+                <a
+                  href={safeRepoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Mở link source / demo: ${safeRepoUrl.replace(/^https?:\/\//, '')}`}
+                  className="mt-8 flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition hover:border-white/25 hover:bg-white/[0.06]"
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <Globe aria-hidden="true" className="h-5 w-5 shrink-0 text-foreground/85" strokeWidth={1.75} />
+                    <div className="min-w-0">
+                      <div className="text-xs uppercase tracking-widest text-muted-foreground">
+                        Source / Demo
+                      </div>
+                      <div className="mt-0.5 truncate text-sm font-medium text-foreground/90">
+                        {safeRepoUrl.replace(/^https?:\/\//, '')}
+                      </div>
+                    </div>
+                  </div>
+                  <ArrowUpRight aria-hidden="true" className="h-4 w-4 shrink-0 text-foreground/55" strokeWidth={2} />
+                </a>
               )}
 
               {product.tags.length > 0 && (
@@ -213,7 +257,7 @@ export function ProductDetail({
                 </div>
               )}
 
-              {notice && (
+              {notice && product.kind !== 'prompt' && (
                 <div className="mt-10 rounded-2xl border border-brand-orange/25 bg-brand-orange/10 p-5">
                   <div className="flex items-start gap-3">
                     <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-brand-orange" strokeWidth={2} />
@@ -238,44 +282,45 @@ export function ProductDetail({
 
               {promptMeta && (
                 <div className="mt-10 space-y-6">
-                  {promptMeta.preview_content && (
+                  {hasPromptBody && (
                     <section className="rounded-2xl border border-white/8 bg-white/[0.02] p-5">
-                      <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                        Xem trước prompt
-                      </h2>
-                      <pre className="mt-4 whitespace-pre-wrap rounded-2xl bg-black/25 p-4 font-mono text-sm leading-relaxed text-foreground/80 ring-1 ring-white/8">
-                        {promptMeta.preview_content}
-                      </pre>
-                    </section>
-                  )}
-
-                  {hasPromptFullContent && (
-                    <section className="rounded-2xl border border-white/8 bg-white/[0.02] p-5">
-                      <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                        Prompt đầy đủ
-                      </h2>
-                      {viewerId ? (
-                        <pre className="mt-4 whitespace-pre-wrap rounded-2xl bg-black/25 p-4 font-mono text-sm leading-relaxed text-foreground/80 ring-1 ring-white/8">
-                          {promptMeta.full_content}
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                          Nội dung prompt
+                        </h2>
+                        {!shouldLockPrompt && (
+                          <PromptCopyButton content={promptDisplayContent} />
+                        )}
+                      </div>
+                      <div className="relative mt-4">
+                        <pre
+                          className={`whitespace-pre-wrap rounded-2xl bg-black/25 p-4 font-mono text-sm leading-relaxed text-foreground/80 ring-1 ring-white/8 ${
+                            shouldLockPrompt ? 'max-h-72 overflow-hidden' : ''
+                          }`}
+                        >
+                          {promptDisplayContent}
                         </pre>
-                      ) : (
-                        <div className="mt-4 rounded-2xl border border-brand-orange/25 bg-brand-orange/10 p-5">
+                        {shouldLockPrompt && (
+                          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 rounded-b-2xl bg-gradient-to-t from-[#0d0d10] via-[#0d0d10]/85 to-transparent" />
+                        )}
+                      </div>
+
+                      {shouldLockPrompt && (
+                        <Link
+                          href={loginHref}
+                          className="group mt-4 flex items-center justify-between gap-4 rounded-2xl border border-brand-orange/25 bg-brand-orange/10 p-5 transition hover:border-brand-orange/45 hover:bg-brand-orange/15"
+                        >
                           <div className="flex items-start gap-3">
                             <LockKeyhole className="mt-0.5 h-5 w-5 shrink-0 text-brand-orange" strokeWidth={2} />
                             <div>
-                              <div className="text-sm font-semibold text-foreground">Đăng nhập để xem bản full</div>
+                              <div className="text-sm font-semibold text-foreground">Xem thêm prompt đầy đủ</div>
                               <p className="mt-1 text-sm leading-relaxed text-foreground/65">
-                                Bản preview ở trên là công khai. Nội dung prompt đầy đủ chỉ tải lên trang sau khi bạn đăng nhập.
+                                Đăng nhập (miễn phí) để mở khóa toàn bộ nội dung prompt và lưu lại cho lần sau.
                               </p>
-                              <Link
-                                href={loginHref}
-                                className="mt-4 inline-flex rounded-xl bg-brand-gradient px-4 py-2 text-sm font-semibold text-black transition hover:brightness-110"
-                              >
-                                Đăng nhập để xem prompt
-                              </Link>
                             </div>
                           </div>
-                        </div>
+                          <ArrowUpRight className="h-5 w-5 shrink-0 text-brand-orange transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                        </Link>
                       )}
                     </section>
                   )}
@@ -294,10 +339,10 @@ export function ProductDetail({
                 </div>
               )}
 
-              {product.gallery.length > 0 && (
+              {product.kind !== 'prompt' && product.gallery.length > 0 && (
                 <div className="mt-12">
                   <h2 className="text-base font-semibold uppercase tracking-widest text-muted-foreground">
-                    {product.kind === 'prompt' ? 'Ảnh tham khảo' : 'Screenshots'}
+                    Screenshots
                   </h2>
                   <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
                     {product.gallery.map((src) => (
@@ -305,7 +350,7 @@ export function ProductDetail({
                       <img
                         key={src}
                         src={src}
-                        alt={product.kind === 'prompt' ? `${product.title} ảnh tham khảo` : `${product.title} screenshot`}
+                        alt={`${product.title} screenshot`}
                         loading="lazy"
                         className="rounded-2xl border border-white/5"
                       />
@@ -359,7 +404,11 @@ export function ProductDetail({
               {relatedProducts.length > 0 && (
                 <section className="mt-12">
                   <h2 className="text-base font-semibold uppercase tracking-widest text-muted-foreground">
-                    Prompt liên quan
+                    {product.kind === 'tool'
+                      ? 'Tool liên quan'
+                      : product.kind === 'prompt'
+                        ? 'Prompt liên quan'
+                        : 'Project tương tự'}
                   </h2>
                   <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
                     {relatedProducts.map((related) => (

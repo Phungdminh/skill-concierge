@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { requireAdmin } from '@/lib/auth';
 import { categoriesFor, slugify } from '@/lib/product-types';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { httpUrl } from '@/lib/url-safety';
 
 const productVersionSchema = z.object({
   name: z.string().trim().min(1).max(80),
@@ -28,9 +29,10 @@ const productInputSchema = z.object({
   tagline: z.string().trim().max(300).nullable().optional(),
   description: z.string().max(20000).nullable().optional(),
   notice: z.string().max(2000).nullable().optional(),
-  youtube_url: z.string().trim().url().nullable().optional().or(z.literal('')),
-  thumbnail_url: z.string().trim().url().nullable().optional().or(z.literal('')),
-  gallery: z.array(z.string().url()).max(20).optional(),
+  youtube_url: httpUrl().nullable().optional().or(z.literal('')),
+  thumbnail_url: httpUrl().nullable().optional().or(z.literal('')),
+  repo_url: httpUrl({ max: 300 }).nullable().optional().or(z.literal('')),
+  gallery: z.array(httpUrl()).max(20).optional(),
   pricing_mode: z.enum(['fixed', 'from', 'quote']).optional(),
   price_vnd: z.number().int().min(0).nullable().optional(),
   is_free: z.boolean().optional(),
@@ -39,7 +41,7 @@ const productInputSchema = z.object({
   versions: z.array(productVersionSchema).max(10).optional(),
   deliverables: z.array(z.string().max(200)).max(20).optional(),
   support_options: z
-    .array(z.enum(['drive_folder', 'zalo_group', 'one_on_one_call']))
+    .array(z.enum(['drive_folder', 'zalo_group', 'github_repo']))
     .max(3)
     .optional(),
   duration_label: z.string().trim().max(80).nullable().optional(),
@@ -162,6 +164,12 @@ export async function POST(req: Request) {
   if (parsed.data.kind !== 'prompt' && hasPromptMeta(parsed.data.prompt_meta)) {
     return versionValidationResponse('Chỉ sản phẩm loại prompt mới có nội dung prompt riêng.');
   }
+  if (parsed.data.kind !== 'webwork' && emptyToNull(parsed.data.repo_url)) {
+    return versionValidationResponse('Repo URL chỉ áp dụng cho web/portfolio.');
+  }
+  if (parsed.data.kind === 'webwork' && (parsed.data.gallery?.length ?? 0) > 0) {
+    return versionValidationResponse('Sản phẩm web/portfolio không có gallery — chỉ dùng YouTube hoặc repo URL.');
+  }
   const promptMeta = parsed.data.kind === 'prompt' ? normalizePromptMeta(parsed.data.prompt_meta) : {};
 
   const supabase = createAdminClient();
@@ -177,7 +185,8 @@ export async function POST(req: Request) {
     notice: emptyToNull(parsed.data.notice),
     youtube_url: emptyToNull(parsed.data.youtube_url),
     thumbnail_url: emptyToNull(parsed.data.thumbnail_url),
-    gallery: parsed.data.gallery ?? [],
+    repo_url: parsed.data.kind === 'webwork' ? emptyToNull(parsed.data.repo_url) : null,
+    gallery: parsed.data.kind === 'webwork' ? [] : (parsed.data.gallery ?? []),
     pricing_mode: parsed.data.pricing_mode ?? 'fixed',
     price_vnd: parsed.data.price_vnd ?? null,
     categories: selectedCategories,

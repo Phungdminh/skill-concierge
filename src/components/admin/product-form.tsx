@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ImagePlus, Loader2, Save, Trash2 } from 'lucide-react';
+import { Globe, ImagePlus, Loader2, Save, Search, Trash2 } from 'lucide-react';
 import {
   slugify,
   categoriesFor,
@@ -20,6 +20,41 @@ import {
   type ProductVersionStatus,
 } from '@/lib/product-types';
 import { cn } from '@/lib/utils';
+import { isSafeHttpUrl } from '@/lib/url-safety';
+
+interface RepoUrlSummary {
+  kind: 'github' | 'generic';
+  host: string;
+  primary: string;
+  secondary: string | null;
+}
+
+function summarizeRepoUrl(raw: string): RepoUrlSummary | null {
+  const trimmed = raw.trim();
+  if (!isSafeHttpUrl(trimmed)) return null;
+  let url: URL;
+  try {
+    url = new URL(trimmed);
+  } catch {
+    return null;
+  }
+  const host = url.hostname.replace(/^www\./, '');
+  const segments = url.pathname.split('/').filter(Boolean);
+  if (host === 'github.com' && segments.length >= 2) {
+    return {
+      kind: 'github',
+      host,
+      primary: `${segments[0]}/${segments[1]}`,
+      secondary: segments.length > 2 ? '/' + segments.slice(2).join('/') : null,
+    };
+  }
+  return {
+    kind: 'generic',
+    host,
+    primary: host,
+    secondary: segments.length > 0 ? '/' + segments.join('/') : null,
+  };
+}
 
 interface ProductFormProps {
   initial?: Partial<Product>;
@@ -52,8 +87,10 @@ const VERSION_STATUS_OPTIONS: { value: ProductVersionStatus; label: string }[] =
 const ALL_SUPPORT: SupportOption[] = [
   'drive_folder',
   'zalo_group',
-  'one_on_one_call',
+  'github_repo',
 ];
+
+const WEBWORK_DEFAULT_SUPPORT: SupportOption[] = ['drive_folder', 'zalo_group', 'github_repo'];
 
 function toVersionFormState(version: ProductVersion): ProductVersionFormState {
   return {
@@ -88,11 +125,15 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
   const [notice, setNotice] = useState(initial?.notice ?? '');
   const [youtubeUrl, setYoutubeUrl] = useState(initial?.youtube_url ?? '');
   const [thumbnailUrl, setThumbnailUrl] = useState(initial?.thumbnail_url ?? '');
-  const [gallery, setGallery] = useState((initial?.gallery ?? []).join('\n'));
+  const [repoUrl, setRepoUrl] = useState(initial?.repo_url ?? '');
+  const [gallery, setGallery] = useState(
+    initial?.kind === 'prompt'
+      ? (initial?.gallery?.[0] ?? '')
+      : (initial?.gallery ?? []).join('\n'),
+  );
   const [promptPreviewContent, setPromptPreviewContent] = useState(initial?.prompt_meta?.preview_content ?? '');
   const [promptFullContent, setPromptFullContent] = useState(initial?.prompt_meta?.full_content ?? '');
   const [promptExplanation, setPromptExplanation] = useState(initial?.prompt_meta?.explanation ?? '');
-  const [relatedPromptSlugs, setRelatedPromptSlugs] = useState((initial?.prompt_meta?.related_slugs ?? []).join('\n'));
   const [pricingMode, setPricingMode] = useState<PricingMode>(
     (initial?.pricing_mode as PricingMode) ?? 'fixed',
   );
@@ -103,6 +144,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
     normalizeCategories(initial?.categories ?? [], (initial?.kind as ProductKind) ?? defaultKind),
   );
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
+  const [categoryQuery, setCategoryQuery] = useState('');
   const categoryDropdownRef = useRef<HTMLDivElement>(null);
   const [tags, setTags] = useState((initial?.tags ?? []).join(', '));
   const [versions, setVersions] = useState<ProductVersionFormState[]>(
@@ -133,6 +175,12 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
 
   const meta = KIND_META[kind];
   const categories = categoriesFor(kind);
+  const normalizedCategoryQuery = categoryQuery.trim().toLowerCase();
+  const visibleCategories = normalizedCategoryQuery
+    ? categories.filter((category) =>
+        `${category.label} ${category.value}`.toLowerCase().includes(normalizedCategoryQuery),
+      )
+    : categories;
   const categorySummary =
     selectedCategories.length === 0
       ? '— Chọn danh mục —'
@@ -154,6 +202,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
   function onKindChange(nextKind: ProductKind) {
     setKind(nextKind);
     setSelectedCategories((curr) => normalizeCategories(curr, nextKind));
+    setCategoryQuery('');
   }
 
   function toggleCategory(value: string) {
@@ -205,9 +254,9 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
     e.target.value = '';
     if (files.length === 0) return;
 
-    const tooLarge = files.find((file) => file.size > 5 * 1024 * 1024);
-    if (tooLarge) {
-      setErrorMsg(`Ảnh "${tooLarge.name}" phải nhỏ hơn 5MB.`);
+    const file = files[0];
+    if (file.size > 5 * 1024 * 1024) {
+      setErrorMsg(`Ảnh "${file.name}" phải nhỏ hơn 5MB.`);
       setState('error');
       return;
     }
@@ -215,18 +264,16 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
     setUploadingReference(true);
     setErrorMsg(null);
     try {
-      const uploadedUrls: string[] = [];
-      for (const file of files) {
-        const fd = new FormData();
-        fd.append('file', file);
-        const res = await fetch('/api/admin/products/images', { method: 'POST', body: fd });
-        const body = await res.json().catch(() => ({}));
-        if (!res.ok) {
-          throw new Error(body?.error?.message ?? `Không tải được ảnh "${file.name}".`);
-        }
-        if (typeof body.url === 'string') uploadedUrls.push(body.url);
+      const fd = new FormData();
+      fd.append('file', file);
+      const res = await fetch('/api/admin/products/images', { method: 'POST', body: fd });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(body?.error?.message ?? `Không tải được ảnh "${file.name}".`);
       }
-      setGallery((curr) => [...curr.split('\n').map((s) => s.trim()).filter(Boolean), ...uploadedUrls].join('\n'));
+      if (typeof body.url === 'string') {
+        setGallery(body.url);
+      }
       setState('idle');
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : 'Không tải ảnh lên được.');
@@ -244,39 +291,69 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
     const sortOrderNum = Number.parseInt(sortOrder, 10);
     const basePayload = {
       title: title.trim(),
-      slug: slug.trim() || slugify(title),
+      slug: kind === 'webwork' ? slugify(title) : slug.trim() || slugify(title),
       tagline: tagline.trim() || null,
       description: description.trim() || null,
-      notice: kind === 'prompt' ? null : notice.trim() || null,
+      notice: kind === 'prompt' || kind === 'webwork' ? null : notice.trim() || null,
       youtube_url: kind === 'prompt' ? null : youtubeUrl.trim() || null,
-      thumbnail_url: kind === 'prompt' ? null : thumbnailUrl.trim() || null,
-      gallery: gallery.split('\n').map((s) => s.trim()).filter(Boolean),
-      pricing_mode: kind === 'prompt' || isFree ? 'fixed' : pricingMode,
+      thumbnail_url:
+        kind === 'prompt'
+          ? gallery.trim() || null
+          : thumbnailUrl.trim() || null,
+      repo_url: kind === 'webwork' ? repoUrl.trim() || null : null,
+      gallery:
+        kind === 'prompt'
+          ? [gallery.trim()].filter(Boolean)
+          : kind === 'webwork'
+            ? []
+            : gallery.split('\n').map((s) => s.trim()).filter(Boolean),
+      pricing_mode:
+        kind === 'webwork' ? 'quote' : kind === 'prompt' || isFree ? 'fixed' : pricingMode,
       price_vnd:
-        kind === 'prompt' || isFree || pricingMode === 'quote' || priceVnd.trim() === ''
+        kind === 'webwork' ||
+        kind === 'prompt' ||
+        isFree ||
+        pricingMode === 'quote' ||
+        priceVnd.trim() === ''
           ? null
           : Number.parseInt(priceVnd, 10),
       is_free: kind === 'prompt' ? true : false,
-      categories: selectedCategories,
-      tags: tags.split(',').map((s) => s.trim()).filter(Boolean),
+      categories: kind === 'webwork' ? [] : selectedCategories,
+      tags:
+        kind === 'webwork'
+          ? []
+          : tags.split(',').map((s) => s.trim()).filter(Boolean),
       versions: serializeVersions(),
-      deliverables: kind === 'prompt' ? [] : deliverables.split('\n').map((s) => s.trim()).filter(Boolean),
-      support_options: kind === 'prompt' ? [] : supportOptions,
-      duration_label: kind === 'prompt' ? null : durationLabel.trim() || null,
-      prerequisites: kind === 'prompt' ? [] : prerequisites.split('\n').map((s) => s.trim()).filter(Boolean),
+      deliverables:
+        kind === 'prompt' || kind === 'webwork'
+          ? []
+          : deliverables.split('\n').map((s) => s.trim()).filter(Boolean),
+      support_options:
+        kind === 'prompt'
+          ? []
+          : kind === 'webwork'
+            ? WEBWORK_DEFAULT_SUPPORT
+            : supportOptions,
+      duration_label:
+        kind === 'prompt' || kind === 'webwork' ? null : durationLabel.trim() || null,
+      prerequisites:
+        kind === 'prompt' || kind === 'webwork'
+          ? []
+          : prerequisites.split('\n').map((s) => s.trim()).filter(Boolean),
       status: kind === 'prompt' ? 'published' : status,
-      featured: kind === 'prompt' ? false : featured,
-      sort_order: kind === 'prompt' ? 0 : Number.isFinite(sortOrderNum) ? sortOrderNum : 0,
+      featured: kind === 'prompt' || kind === 'webwork' ? false : featured,
+      sort_order:
+        kind === 'prompt' || kind === 'webwork'
+          ? 0
+          : Number.isFinite(sortOrderNum)
+            ? sortOrderNum
+            : 0,
       ...(kind === 'prompt'
         ? {
             prompt_meta: {
               preview_content: promptPreviewContent.trim() || null,
               full_content: promptFullContent.trim() || null,
               explanation: promptExplanation.trim() || null,
-              related_slugs: relatedPromptSlugs
-                .split('\n')
-                .map((s) => s.trim())
-                .filter(Boolean),
             },
           }
         : {}),
@@ -370,11 +447,17 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
           </div>
         </FormField>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className={cn('grid grid-cols-1 gap-4', kind !== 'webwork' && 'md:grid-cols-2')}>
           <FormField
             label={kind === 'prompt' ? 'Tên prompt' : 'Tiêu đề'}
             htmlFor="title"
-            hint={kind === 'prompt' ? 'Tên khách sẽ thấy trong kho prompt và trang chi tiết.' : 'Tên khách sẽ thấy ở card và trang chi tiết.'}
+            hint={
+              kind === 'prompt'
+                ? 'Tên khách sẽ thấy trong kho prompt và trang chi tiết.'
+                : kind === 'webwork'
+                  ? `Tên web khách sẽ thấy ở danh sách. Slug tự tạo: ${meta.route}/${slug || slugify(title) || '<slug>'}`
+                  : 'Tên khách sẽ thấy ở card và trang chi tiết.'
+            }
             required
           >
             <input
@@ -392,22 +475,24 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
               className={inputCls}
             />
           </FormField>
-          <FormField
-            label="Slug"
-            htmlFor="slug"
-            hint={`Đường dẫn: ${meta.route}/${slug || '<slug>'}. Để trống để tự tạo từ tiêu đề.`}
-          >
-            <input
-              id="slug"
-              value={slug}
-              onChange={(e) => {
-                setSlugDirty(true);
-                setSlug(e.target.value);
-              }}
-              placeholder="vd: sheet-cleaner"
-              className={inputCls}
-            />
-          </FormField>
+          {kind !== 'webwork' && (
+            <FormField
+              label="Slug"
+              htmlFor="slug"
+              hint={`Đường dẫn: ${meta.route}/${slug || '<slug>'}. Để trống để tự tạo từ tiêu đề.`}
+            >
+              <input
+                id="slug"
+                value={slug}
+                onChange={(e) => {
+                  setSlugDirty(true);
+                  setSlug(e.target.value);
+                }}
+                placeholder="vd: sheet-cleaner"
+                className={inputCls}
+              />
+            </FormField>
+          )}
         </div>
       </FormSection>
 
@@ -444,7 +529,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
           />
         </FormField>
 
-        {kind !== 'prompt' && (
+        {kind === 'tool' && (
           <FormField
             label="Lưu ý cho khách"
             htmlFor="notice"
@@ -465,7 +550,8 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
           </FormField>
         )}
 
-        <div className={cn('grid grid-cols-1 gap-4', kind !== 'prompt' && 'md:grid-cols-2')}>
+        {kind !== 'webwork' && (
+        <div className={cn('grid grid-cols-1 gap-4', kind === 'tool' && 'md:grid-cols-2')}>
           <FormField
             label={kind === 'prompt' ? 'Đề tài' : 'Danh mục'}
             htmlFor="category-dropdown"
@@ -487,71 +573,82 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
               </button>
 
               {categoryDropdownOpen && (
-                <div
-                  role="listbox"
-                  aria-multiselectable="true"
-                  className="absolute z-20 mt-2 max-h-72 w-full overflow-y-auto rounded-xl border border-white/10 bg-[#0d0d10] p-2 shadow-2xl shadow-black/40"
-                >
-                  <button
-                    type="button"
-                    onClick={() => setSelectedCategories([])}
-                    className="mb-1 w-full rounded-lg px-3 py-2 text-left text-sm text-foreground/60 transition hover:bg-white/[0.04] hover:text-foreground"
+                <div className="absolute z-20 mt-2 w-full rounded-xl border border-white/10 bg-[#0d0d10] p-2 shadow-2xl shadow-black/40">
+                  <div className="relative mb-2">
+                    <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/40" strokeWidth={1.75} />
+                    <input
+                      type="search"
+                      value={categoryQuery}
+                      onChange={(e) => setCategoryQuery(e.target.value)}
+                      placeholder={kind === 'prompt' ? 'Tìm đề tài…' : 'Tìm danh mục…'}
+                      aria-label={kind === 'prompt' ? 'Tìm đề tài' : 'Tìm danh mục'}
+                      className="w-full rounded-lg bg-white/[0.03] px-9 py-2 text-sm text-foreground ring-1 ring-white/8 transition placeholder:text-foreground/35 focus:outline-none focus:ring-white/25"
+                    />
+                  </div>
+                  <div
+                    role="listbox"
+                    aria-multiselectable="true"
+                    className="max-h-60 overflow-y-auto"
                   >
-                    Không chọn danh mục
-                  </button>
-                  {categories.map((c) => {
-                    const checked = selectedCategories.includes(c.value);
-                    return (
-                      <label
-                        key={c.value}
-                        role="option"
-                        aria-selected={checked}
-                        className={cn(
-                          'flex cursor-pointer items-center gap-3 rounded-lg border px-3 py-2 text-sm transition',
-                          checked
-                            ? 'border-brand-orange/40 bg-brand-orange/10 text-foreground'
-                            : 'border-transparent text-foreground/75 hover:border-white/10 hover:bg-white/[0.04] hover:text-foreground',
-                        )}
-                      >
-                        <input
-                          type="checkbox"
-                          checked={checked}
-                          onChange={() => toggleCategory(c.value)}
-                          className="h-4 w-4 accent-brand-orange"
-                        />
-                        <span>{c.label}</span>
-                      </label>
-                    );
-                  })}
+                    <button
+                      type="button"
+                      onClick={() => setSelectedCategories([])}
+                      className="mb-1 w-full rounded-lg px-3 py-2 text-left text-sm text-foreground/60 transition hover:bg-white/[0.04] hover:text-foreground"
+                    >
+                      Không chọn danh mục
+                    </button>
+                    {visibleCategories.length === 0 ? (
+                      <p className="px-3 py-3 text-sm text-foreground/50">Không tìm thấy danh mục phù hợp.</p>
+                    ) : (
+                      visibleCategories.map((c) => {
+                        const checked = selectedCategories.includes(c.value);
+                        return (
+                          <label
+                            key={c.value}
+                            role="option"
+                            aria-selected={checked}
+                            className={cn(
+                              'flex cursor-pointer items-center gap-3 rounded-lg border px-3 py-2 text-sm transition',
+                              checked
+                                ? 'border-brand-orange/40 bg-brand-orange/10 text-foreground'
+                                : 'border-transparent text-foreground/75 hover:border-white/10 hover:bg-white/[0.04] hover:text-foreground',
+                            )}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={checked}
+                              onChange={() => toggleCategory(c.value)}
+                              className="h-4 w-4 accent-brand-orange"
+                            />
+                            <span>{c.label}</span>
+                          </label>
+                        );
+                      })
+                    )}
+                  </div>
                 </div>
               )}
             </div>
           </FormField>
-          {kind !== 'prompt' && (
+          {kind === 'tool' && (
             <FormField
               label="Thời lượng / phạm vi"
               htmlFor="duration_label"
-              hint={
-                kind === 'webwork'
-                  ? 'Website: 7-14 ngày. Portfolio: 3-5 ngày.'
-                  : 'Tool có sẵn: giao ngay sau thanh toán. Tool làm riêng: 3-5 ngày.'
-              }
+              hint="Tool có sẵn: giao ngay sau thanh toán. Tool làm riêng: 3-5 ngày."
             >
               <input
                 id="duration_label"
                 value={durationLabel}
                 onChange={(e) => setDurationLabel(e.target.value)}
-                placeholder={
-                  kind === 'webwork'
-                    ? '7-14 ngày (website) · 3-5 ngày (portfolio)'
-                    : 'Giao ngay sau thanh toán · 3-5 ngày nếu làm riêng'
-                }
+                placeholder="Giao ngay sau thanh toán · 3-5 ngày nếu làm riêng"
                 className={inputCls}
               />
             </FormField>
           )}
         </div>
+        )}
 
+        {kind !== 'webwork' && (
         <FormField
           label="Thẻ tìm kiếm"
           htmlFor="tags"
@@ -565,11 +662,18 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
             className={inputCls}
           />
         </FormField>
+        )}
       </FormSection>
 
       <FormSection
         title={kind === 'prompt' ? 'Ảnh references' : 'Media'}
-        description={kind === 'prompt' ? 'Thêm ảnh tham khảo để khách hiểu prompt tạo ra kiểu kết quả nào.' : 'Thêm video, ảnh đại diện và ảnh minh hoạ để tăng độ tin cậy khi khách xem sản phẩm.'}
+        description={
+          kind === 'prompt'
+            ? 'Thêm ảnh tham khảo để khách hiểu prompt tạo ra kiểu kết quả nào.'
+            : kind === 'webwork'
+              ? 'Một URL YouTube demo hoặc một GitHub repo public để khách xem trực tiếp.'
+              : 'Thêm video, ảnh đại diện và ảnh minh hoạ để tăng độ tin cậy khi khách xem sản phẩm.'
+        }
       >
         {kind !== 'prompt' && (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -596,55 +700,145 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
           </div>
         )}
 
+        {kind === 'webwork' && (
+          <div className="space-y-3">
+            <FormField
+              label="Link source / demo"
+              htmlFor="repo_url"
+              hint="Dán link repo public hoặc demo trực tiếp để khách xem. Có thể bỏ trống nếu chỉ dùng video YouTube. Bắt buộc bắt đầu bằng https://."
+            >
+              <input
+                id="repo_url"
+                type="url"
+                inputMode="url"
+                value={repoUrl}
+                onChange={(e) => setRepoUrl(e.target.value)}
+                placeholder="https://github.com/username/repo hoặc https://demo.example.com"
+                className={inputCls}
+              />
+            </FormField>
+            {(() => {
+              const summary = summarizeRepoUrl(repoUrl);
+              if (!summary) {
+                return repoUrl.trim().length > 0 ? (
+                  <p className="rounded-2xl border border-red-400/30 bg-red-500/10 px-3 py-2 text-xs text-red-200">
+                    URL chưa hợp lệ — chỉ chấp nhận https:// hoặc http://. Kiểm tra lại trước khi lưu.
+                  </p>
+                ) : null;
+              }
+              return (
+                <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-3 py-2.5">
+                  <Globe aria-hidden="true" className="h-4 w-4 shrink-0 text-foreground/60" strokeWidth={1.75} />
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="rounded-full bg-white/[0.06] px-2 py-0.5 text-[10px] uppercase tracking-widest text-muted-foreground ring-1 ring-white/8">
+                        {summary.kind === 'github' ? 'GitHub repo' : summary.host}
+                      </span>
+                      <span className="truncate text-sm font-medium text-foreground/90">{summary.primary}</span>
+                    </div>
+                    {summary.secondary && (
+                      <div className="mt-0.5 truncate text-xs text-foreground/55">{summary.secondary}</div>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
+          </div>
+        )}
+
+        {kind === 'webwork' && (
+          <div className="rounded-2xl border border-brand-orange/20 bg-brand-orange/[0.06] p-4">
+            <div className="text-[11px] font-semibold uppercase tracking-widest text-brand-orange">
+              Hình thức bàn giao mặc định
+            </div>
+            <p className="mt-2 text-xs leading-relaxed text-foreground/65">
+              Với sản phẩm web/portfolio, khách luôn nhận tất cả các kênh sau — không cần tick chọn:
+            </p>
+            <ul className="mt-3 space-y-1.5">
+              {WEBWORK_DEFAULT_SUPPORT.map((opt) => {
+                const m = SUPPORT_META[opt];
+                return (
+                  <li key={opt} className="flex items-start gap-2 text-xs">
+                    <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-brand-orange" />
+                    <span className="text-foreground/85">
+                      <span className="font-medium text-foreground/95">{m.label}</span>
+                      <span className="text-foreground/55"> — {m.description}</span>
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
+
+        {kind !== 'webwork' && (
         <FormField
-          label={kind === 'prompt' ? 'Ảnh references' : 'Thư viện ảnh'}
+          label={kind === 'prompt' ? 'Ảnh prompt' : 'Thư viện ảnh'}
           htmlFor="gallery"
-          hint={kind === 'prompt' ? 'Bấm tải ảnh từ máy lên, hoặc dán URL nếu ảnh đã có sẵn.' : 'Mỗi URL ảnh trên một dòng. Nên dùng ảnh chụp màn hình thật hoặc kết quả mẫu.'}
+          hint={kind === 'prompt' ? 'Mỗi prompt chỉ cần 1 ảnh. Bấm tải ảnh từ máy hoặc dán URL nếu ảnh đã có sẵn.' : 'Mỗi URL ảnh trên một dòng. Nên dùng ảnh chụp màn hình thật hoặc kết quả mẫu.'}
         >
           {kind === 'prompt' && (
-            <div className="mt-2 flex flex-wrap items-center gap-2">
+            <>
+              <div className="mt-2 flex flex-wrap items-center gap-2">
+                <input
+                  ref={referenceImageInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  className="hidden"
+                  onChange={uploadReferenceImages}
+                />
+                <button
+                  type="button"
+                  onClick={() => referenceImageInputRef.current?.click()}
+                  disabled={uploadingReference}
+                  className={cn(
+                    'inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm text-foreground/80 transition hover:bg-white/[0.04]',
+                    uploadingReference && 'cursor-wait opacity-60',
+                  )}
+                >
+                  {uploadingReference ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <ImagePlus className="h-4 w-4" />
+                  )}
+                  {uploadingReference ? 'Đang tải ảnh…' : gallery ? 'Đổi ảnh khác' : 'Tải ảnh từ máy'}
+                </button>
+                <span className="text-xs text-foreground/45">JPG, PNG, WebP · tối đa 5MB</span>
+              </div>
               <input
-                ref={referenceImageInputRef}
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                multiple
-                className="hidden"
-                onChange={uploadReferenceImages}
+                id="gallery"
+                type="url"
+                value={gallery}
+                onChange={(e) => setGallery(e.target.value)}
+                placeholder="URL ảnh sau khi upload sẽ tự hiện ở đây"
+                className={cn(inputCls, 'mt-3')}
               />
-              <button
-                type="button"
-                onClick={() => referenceImageInputRef.current?.click()}
-                disabled={uploadingReference}
-                className={cn(
-                  'inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm text-foreground/80 transition hover:bg-white/[0.04]',
-                  uploadingReference && 'cursor-wait opacity-60',
-                )}
-              >
-                {uploadingReference ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <ImagePlus className="h-4 w-4" />
-                )}
-                {uploadingReference ? 'Đang tải ảnh…' : 'Tải ảnh từ máy'}
-              </button>
-              <span className="text-xs text-foreground/45">JPG, PNG, WebP · tối đa 5MB/ảnh</span>
-            </div>
+              {gallery.trim() && (
+                <div className="mt-3 overflow-hidden rounded-2xl border border-white/8">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={gallery.trim()} alt="Xem trước ảnh prompt" className="max-h-64 w-full object-cover" />
+                </div>
+              )}
+            </>
           )}
-          <textarea
-            id="gallery"
-            rows={kind === 'prompt' ? 5 : 3}
-            value={gallery}
-            onChange={(e) => setGallery(e.target.value)}
-            placeholder={kind === 'prompt' ? 'URL ảnh sau khi upload sẽ tự hiện ở đây' : 'https://example.com/shot-1.png&#10;https://example.com/shot-2.png'}
-            className={inputCls}
-          />
+          {kind !== 'prompt' && (
+            <textarea
+              id="gallery"
+              rows={3}
+              value={gallery}
+              onChange={(e) => setGallery(e.target.value)}
+              placeholder="https://example.com/shot-1.png&#10;https://example.com/shot-2.png"
+              className={inputCls}
+            />
+          )}
         </FormField>
+        )}
       </FormSection>
 
       {kind === 'prompt' && (
         <FormSection
           title="Nội dung prompt"
-          description="Các ô này sẽ lưu vào prompt_meta: bản xem trước, bản đầy đủ sau đăng nhập, giải thích cách dùng và prompt liên quan."
+          description="Các ô này sẽ lưu vào prompt_meta: bản xem trước, bản đầy đủ sau đăng nhập, và giải thích cách dùng. Prompt liên quan được hệ thống tự gợi ý theo nội dung."
         >
           <FormField
             label="Bản xem trước công khai"
@@ -691,27 +885,18 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
             />
           </FormField>
 
-          <FormField
-            label="Prompt liên quan"
-            htmlFor="related_prompt_slugs"
-            hint="Mỗi dòng là một slug prompt khác. Không nhập slug của chính prompt này. Hệ thống sẽ tự loại trùng và tự gợi ý thêm nếu thiếu."
-          >
-            <textarea
-              id="related_prompt_slugs"
-              rows={4}
-              value={relatedPromptSlugs}
-              onChange={(e) => setRelatedPromptSlugs(e.target.value)}
-              placeholder="prompt-viet-bai-facebook&#10;prompt-seo-blog"
-              className={cn(inputCls, 'font-mono text-[13px]')}
-            />
-          </FormField>
           <div className="rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3 text-sm text-foreground/65">
-            Đánh giá prompt không nhập ở đây. Khách đăng nhập và tự đánh giá thật trên trang chi tiết; dữ liệu đó lưu ở bảng <span className="font-mono text-xs text-foreground/80">product_reviews</span>.
+            <p>
+              <span className="font-medium text-foreground/85">Prompt liên quan:</span> hệ thống tự tính độ tương đồng theo nội dung (TF-IDF) để gợi ý 4 prompt gần nhất ở trang chi tiết. Bạn không cần nhập slug bằng tay.
+            </p>
+            <p className="mt-2">
+              Đánh giá prompt cũng không nhập ở đây. Khách đăng nhập và tự đánh giá trên trang chi tiết; dữ liệu lưu ở bảng <span className="font-mono text-xs text-foreground/80">product_reviews</span>.
+            </p>
           </div>
         </FormSection>
       )}
 
-      {kind !== 'prompt' && (
+      {kind === 'tool' && (
         <FormSection
           title="Giá & cách bán"
           description="Chọn cách hiển thị giá. Miễn phí hoặc báo giá sẽ tự ẩn ô nhập giá khi không cần."
@@ -874,7 +1059,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
         </FormSection>
       )}
 
-      {kind !== 'prompt' && (
+      {kind === 'tool' && (
         <FormSection
           title="Giao hàng & hỗ trợ"
           description="Nói rõ khách sẽ nhận gì, được hỗ trợ qua đâu và cần chuẩn bị gì trước khi mua."
@@ -959,9 +1144,13 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
       {kind !== 'prompt' && (
         <FormSection
           title="Hiển thị & vận hành"
-        description="Các thiết lập nội bộ quyết định sản phẩm có được hiển thị, ưu tiên và thống kê như thế nào."
+        description={
+          kind === 'webwork'
+            ? 'Chọn trạng thái hiển thị của web showcase. Để Bản nháp nếu chưa muốn cho khách xem.'
+            : 'Các thiết lập nội bộ quyết định sản phẩm có được hiển thị, ưu tiên và thống kê như thế nào.'
+        }
       >
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className={cn('grid grid-cols-1 gap-4', kind === 'tool' && 'md:grid-cols-2')}>
           <FormField label="Trạng thái" htmlFor="status">
             <select
               id="status"
@@ -976,44 +1165,48 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
               ))}
             </select>
           </FormField>
-          <FormField label="Thứ tự ưu tiên" htmlFor="sort_order" hint="Số lớn hiện trước. Mặc định là 0.">
-            <NumberStepper
-              id="sort_order"
-              min={0}
-              value={sortOrder}
-              onChange={setSortOrder}
-            />
-          </FormField>
+          {kind === 'tool' && (
+            <FormField label="Thứ tự ưu tiên" htmlFor="sort_order" hint="Số lớn hiện trước. Mặc định là 0.">
+              <NumberStepper
+                id="sort_order"
+                min={0}
+                value={sortOrder}
+                onChange={setSortOrder}
+              />
+            </FormField>
+          )}
         </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3">
-            <input
-              type="checkbox"
-              checked={featured}
-              onChange={(e) => setFeatured(e.target.checked)}
-              className="h-4 w-4 accent-brand-orange"
-            />
-            <span className="text-sm">
-              <span className="font-medium">Nổi bật</span>{' '}
-              <span className="text-foreground/55">— ưu tiên hiển thị ở landing page</span>
-            </span>
-          </label>
-          <div className="flex flex-col justify-between rounded-xl border border-white/8 bg-white/[0.02] px-4 py-3">
-            <span className="text-[11px] uppercase tracking-widest text-muted-foreground">
-              Số lượt xem
-            </span>
-            <div className="mt-2 flex items-baseline gap-2">
-              <span className="text-2xl font-semibold tabular-nums text-foreground">
-                {viewCount.toLocaleString('vi-VN')}
+        {kind === 'tool' && (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3">
+              <input
+                type="checkbox"
+                checked={featured}
+                onChange={(e) => setFeatured(e.target.checked)}
+                className="h-4 w-4 accent-brand-orange"
+              />
+              <span className="text-sm">
+                <span className="font-medium">Nổi bật</span>{' '}
+                <span className="text-foreground/55">— ưu tiên hiển thị ở landing page</span>
               </span>
-              <span className="text-xs text-foreground/55">lượt</span>
+            </label>
+            <div className="flex flex-col justify-between rounded-xl border border-white/8 bg-white/[0.02] px-4 py-3">
+              <span className="text-[11px] uppercase tracking-widest text-muted-foreground">
+                Số lượt xem
+              </span>
+              <div className="mt-2 flex items-baseline gap-2">
+                <span className="text-2xl font-semibold tabular-nums text-foreground">
+                  {viewCount.toLocaleString('vi-VN')}
+                </span>
+                <span className="text-xs text-foreground/55">lượt</span>
+              </div>
+              <span className="mt-1 block text-[11px] text-foreground/45">
+                Tự đếm theo mỗi lượt khách mở trang chi tiết. Không chỉnh sửa thủ công.
+              </span>
             </div>
-            <span className="mt-1 block text-[11px] text-foreground/45">
-              Tự đếm theo mỗi lượt khách mở trang chi tiết. Không chỉnh sửa thủ công.
-            </span>
           </div>
-        </div>
+        )}
         </FormSection>
       )}
 

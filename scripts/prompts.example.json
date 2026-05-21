@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Tên prompt hiển thị cho khách",
+    "slug": "tu-de-trong-de-tu-tao-tu-title",
+    "tagline": "Một câu pitch ngắn — hiện ở card list và đầu trang chi tiết.",
+    "description": "Mô tả ngắn dạng Markdown (tuỳ chọn) — hiện ở trang chi tiết phía trên Bản xem trước.",
+    "categories": ["seo-blog", "content-creator"],
+    "tags": ["meta-description", "seo-onpage"],
+    "previewContent": "Đoạn mẫu khách chưa đăng nhập sẽ thấy. Có thể là vài dòng đầu của prompt + dòng '…đăng nhập để xem đầy đủ'.",
+    "fullContent": "Toàn bộ prompt khách đã đăng nhập sẽ copy. Đây là nội dung chính khách trả tiền/đăng ký để xem.",
+    "explanation": "### Mục đích\nGiải thích prompt làm gì.\n\n### Cách dùng\n- Bước 1: ...\n- Bước 2: ...\n\n### Ví dụ\nVí dụ cụ thể.\n\n### Tình huống phù hợp\n- Đối tượng A\n- Đối tượng B",
+    "thumbnailUrl": null,
+    "status": "published",
+    "featured": false,
+    "sortOrder": 0
+  }
+]

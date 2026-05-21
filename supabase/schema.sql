@@ -38,6 +38,7 @@ create table products (
   notice text,                                                       -- customer-facing limitation or usage note
   youtube_url text,
   thumbnail_url text,
+  repo_url text,                                                     -- webwork only: public github repo URL to showcase source
   gallery jsonb default '[]'::jsonb,                                 -- array of image URLs
   pricing_mode text default 'fixed' check (pricing_mode in ('fixed','from','quote')),
   price_vnd integer,                                                 -- nullable when pricing_mode='quote'
@@ -46,7 +47,7 @@ create table products (
   tags text[] default '{}',                                          -- stack/topic chips
   versions jsonb not null default '[]'::jsonb,                       -- tool version objects
   deliverables jsonb default '[]'::jsonb,                            -- array of strings (bullet list shown on detail page)
-  support_options text[] default '{}',                               -- subset of: drive_folder, zalo_group, one_on_one_call
+  support_options text[] default '{}',                               -- subset of: drive_folder, zalo_group, github_repo
   duration_label text,                                               -- "5 bài × ~30 phút", "Giao 3 ngày", v.v.
   prerequisites jsonb default '[]'::jsonb,                           -- array of strings shown before purchase/use
   prompt_meta jsonb not null default '{}'::jsonb,                     -- prompt-only content: preview, full prompt, explanation, related slugs
@@ -115,7 +116,7 @@ alter table products
 alter table products
   add constraint products_support_options_check check (
     support_options is null
-    or support_options <@ array['drive_folder', 'zalo_group', 'one_on_one_call']::text[]
+    or support_options <@ array['drive_folder', 'zalo_group', 'github_repo']::text[]
   );
 alter table inquiries
   add constraint inquiries_product_kind_check check (

@@ -22,6 +22,7 @@ export function ProductCard({ product, hideKind = false }: ProductCardProps) {
   const videoId = extractYouTubeId(product.youtube_url);
   const cover =
     product.thumbnail_url ??
+    product.gallery[0] ??
     (videoId ? `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg` : null);
   const categoryLabels = product.categories.map((category) => categoryLabelFor(product.kind, category));
   const visibleCategoryLabels = categoryLabels.slice(0, 2);

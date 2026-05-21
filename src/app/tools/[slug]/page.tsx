@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { ProductDetail } from '@/components/product-detail';
 import { createClient } from '@/lib/supabase/server';
+import { getRelatedProducts } from '@/lib/recommendations';
 import type { Product } from '@/lib/product-types';
 
 interface PageProps {
@@ -36,5 +37,7 @@ export default async function ToolDetailPage({ params }: PageProps) {
     .maybeSingle();
 
   if (error || !data) notFound();
-  return <ProductDetail product={data as Product} />;
+  const product = data as Product;
+  const relatedProducts = await getRelatedProducts({ product, supabase, limit: 4 });
+  return <ProductDetail product={product} relatedProducts={relatedProducts} />;
 }

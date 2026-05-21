@@ -5,7 +5,7 @@ export type ProductKind = 'tool' | 'prompt' | 'webwork';
 export type ProductStatus = 'draft' | 'published' | 'sold_out' | 'archived';
 export type PricingMode = 'fixed' | 'from' | 'quote';
 export type InquiryStatus = 'new' | 'contacted' | 'closed';
-export type SupportOption = 'drive_folder' | 'zalo_group' | 'one_on_one_call';
+export type SupportOption = 'drive_folder' | 'zalo_group' | 'github_repo';
 export type ProductVersionStatus = 'available' | 'beta' | 'deprecated' | 'hidden';
 export type ProductReviewStatus = 'pending' | 'published' | 'hidden';
 
@@ -37,6 +37,7 @@ export interface Product {
   notice: string | null;
   youtube_url: string | null;
   thumbnail_url: string | null;
+  repo_url: string | null;
   gallery: string[];
   pricing_mode: PricingMode;
   price_vnd: number | null;
@@ -165,9 +166,9 @@ export const SUPPORT_META: Record<SupportOption, { label: string; description: s
     label: 'Zalo group',
     description: 'Group riêng cho khách của tool/prompt mẫu — hỏi đáp trực tiếp',
   },
-  one_on_one_call: {
-    label: '1-on-1 call 30 phút',
-    description: 'Zoom hoặc Zalo video, share màn hình hướng dẫn',
+  github_repo: {
+    label: 'GitHub repo',
+    description: 'Source code đẩy lên repo riêng — bạn được add làm collaborator',
   },
 };
 
