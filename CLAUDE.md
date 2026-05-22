@@ -127,7 +127,9 @@ Các tool nên ưu tiên vì dễ demo bằng video, khách văn phòng dễ hi�
   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
   - `SUPABASE_SERVICE_ROLE_KEY`
   - `ADMIN_EMAIL`
-- Never commit `.env.local` or expose `SUPABASE_SERVICE_ROLE_KEY`.
+- Optional local env vars:
+  - `GOOGLE_API_KEY` for Google Sheets API usage and public Google Drive link normalization in imports.
+- Never commit `.env.local` or expose `SUPABASE_SERVICE_ROLE_KEY`, Google API keys, or other secrets.
 
 ## Next.js 16 notes
 

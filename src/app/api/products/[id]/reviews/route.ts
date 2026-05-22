@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { emptyToNull } from '@/lib/string-normalization';
 
 const idSchema = z.string().uuid();
 
@@ -13,12 +14,6 @@ const reviewSchema = z.object({
 
 interface RouteContext {
   params: Promise<{ id: string }>;
-}
-
-function emptyToNull(v: string | null | undefined): string | null {
-  if (v == null) return null;
-  const t = v.trim();
-  return t.length === 0 ? null : t;
 }
 
 export async function POST(req: Request, { params }: RouteContext) {

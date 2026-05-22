@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Plus, Pencil, ExternalLink } from 'lucide-react';
+import { Plus, Pencil, ExternalLink, Upload } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import {
   formatPriceVnd,
@@ -58,12 +58,20 @@ export default async function AdminProductsPage({ searchParams }: PageProps) {
             Tool, prompt mẫu, web/portfolio — tất cả nháp và đang bán.
           </p>
         </div>
-        <Link
-          href="/admin/products/new"
-          className="bg-brand-gradient inline-flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-semibold text-black"
-        >
-          <Plus className="h-4 w-4" /> Tạo sản phẩm
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <Link
+            href="/admin/products/import"
+            className="inline-flex items-center gap-2 rounded-2xl border border-white/12 bg-white/[0.04] px-5 py-2.5 text-sm font-semibold text-foreground/85 transition hover:border-white/25 hover:bg-white/[0.07]"
+          >
+            <Upload className="h-4 w-4" /> Import CSV
+          </Link>
+          <Link
+            href="/admin/products/new"
+            className="bg-brand-gradient inline-flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-semibold text-black"
+          >
+            <Plus className="h-4 w-4" /> Tạo sản phẩm
+          </Link>
+        </div>
       </div>
 
       <div className="mt-6 max-w-md">

@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import { ArrowUpRight, Play } from 'lucide-react';
+import { ProductImage } from '@/components/product-image';
+import { productCardImage } from '@/lib/product-images';
 import {
   KIND_META,
   categoryLabelFor,
@@ -20,10 +22,7 @@ export function ProductCard({ product, hideKind = false }: ProductCardProps) {
   const meta = KIND_META[product.kind];
   const KindIcon = meta.icon;
   const videoId = extractYouTubeId(product.youtube_url);
-  const cover =
-    product.thumbnail_url ??
-    product.gallery[0] ??
-    (videoId ? `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg` : null);
+  const cover = productCardImage(product);
   const categoryLabels = product.categories.map((category) => categoryLabelFor(product.kind, category));
   const visibleCategoryLabels = categoryLabels.slice(0, 2);
   const hiddenCategoryCount = Math.max(categoryLabels.length - visibleCategoryLabels.length, 0);
@@ -44,19 +43,13 @@ export function ProductCard({ product, hideKind = false }: ProductCardProps) {
       />
 
       <div className="relative aspect-video w-full overflow-hidden bg-[#0a0a0b]">
-        {cover ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={cover}
-            alt={product.title}
-            loading="lazy"
-            className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
-          />
-        ) : (
-          <div className="absolute inset-0 grid place-items-center text-xs uppercase tracking-widest text-muted-foreground">
-            {meta.shortLabel}
-          </div>
-        )}
+        <ProductImage
+          src={cover}
+          alt={product.title}
+          kind={product.kind}
+          className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+          fallbackClassName="absolute inset-0 overflow-hidden transition duration-500 group-hover:scale-[1.04]"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
 
         {!hideKind && (

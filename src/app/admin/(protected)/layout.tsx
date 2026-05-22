@@ -1,7 +1,13 @@
+import { Be_Vietnam_Pro } from 'next/font/google';
 import { redirect } from 'next/navigation';
 import { Sidebar } from '@/components/admin/sidebar';
 import { isAdminEmailVerified } from '@/lib/admin-verification';
 import { getCurrentUser, isAdmin } from '@/lib/auth';
+
+const adminFont = Be_Vietnam_Pro({
+  subsets: ['latin', 'latin-ext', 'vietnamese'],
+  weight: ['400', '500', '600', '700'],
+});
 
 export default async function AdminLayout({
   children,
@@ -30,7 +36,7 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="min-h-svh bg-[#070708] text-foreground">
+    <div className={`${adminFont.className} min-h-svh bg-[#070708] text-foreground`}>
       <Sidebar />
       <div className="lg:pl-64">
         <main className="px-6 pb-12 lg:px-10">{children}</main>

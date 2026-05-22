@@ -9,15 +9,19 @@ interface YouTubeEmbedProps {
   url: string;
   title?: string;
   className?: string;
+  bare?: boolean;
+  fill?: boolean;
 }
 
-export function YouTubeEmbed({ url, title = 'Video demo', className }: YouTubeEmbedProps) {
+export function YouTubeEmbed({ url, title = 'Video demo', className, bare = false, fill = false }: YouTubeEmbedProps) {
   const [active, setActive] = useState(false);
   const videoId = extractYouTubeId(url);
+  const chrome = bare ? '' : 'rounded-2xl border border-white/5';
+  const sizing = fill ? '' : 'aspect-video';
 
   if (!videoId) {
     return (
-      <div className={`grid aspect-video place-items-center rounded-2xl border border-white/5 bg-[#0d0d10] text-sm text-muted-foreground ${className ?? ''}`}>
+      <div className={`grid place-items-center bg-[#0d0d10] text-sm text-muted-foreground ${sizing} ${chrome} ${className ?? ''}`}>
         Video chưa khả dụng
       </div>
     );
@@ -29,7 +33,7 @@ export function YouTubeEmbed({ url, title = 'Video demo', className }: YouTubeEm
   const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
 
   return (
-    <div className={`relative aspect-video w-full overflow-hidden rounded-2xl border border-white/5 bg-[#0a0a0b] ${className ?? ''}`}>
+    <div className={`relative w-full overflow-hidden bg-[#0a0a0b] ${sizing} ${chrome} ${className ?? ''}`}>
       {active ? (
         <>
           <iframe

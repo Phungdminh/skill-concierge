@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { AlertTriangle, ArrowLeft, ArrowUpRight, CheckCircle2, Globe, LockKeyhole, Sparkles, Star, Tag, Clock } from 'lucide-react';
 import { Footer } from '@/components/footer';
 import { ProductCard } from '@/components/product-card';
+import { ProductImage } from '@/components/product-image';
 import { PromptCopyButton } from '@/components/prompt-copy-button';
 import { ProductReviewForm } from '@/components/product-review-form';
 import { YouTubeEmbed } from '@/components/youtube-embed';
@@ -133,14 +134,14 @@ export function ProductDetail({
                 </p>
               )}
 
-              {product.kind === 'prompt' && product.gallery[0] && (
-                <div className="mt-8 overflow-hidden rounded-2xl border border-white/5">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={product.gallery[0]}
+              {product.kind === 'prompt' && (
+                <div className="mt-8 aspect-video overflow-hidden rounded-2xl border border-white/5">
+                  <ProductImage
+                    src={product.gallery[0] ?? product.thumbnail_url}
                     alt={`${product.title} ảnh tham khảo`}
-                    loading="lazy"
-                    className="w-full object-cover"
+                    kind={product.kind}
+                    className="h-full w-full object-cover"
+                    fallbackClassName="relative h-full w-full overflow-hidden"
                   />
                 </div>
               )}
@@ -346,14 +347,15 @@ export function ProductDetail({
                   </h2>
                   <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
                     {product.gallery.map((src) => (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        key={src}
-                        src={src}
-                        alt={`${product.title} screenshot`}
-                        loading="lazy"
-                        className="rounded-2xl border border-white/5"
-                      />
+                      <div key={src} className="aspect-video overflow-hidden rounded-2xl border border-white/5">
+                        <ProductImage
+                          src={src}
+                          alt={`${product.title} screenshot`}
+                          kind={product.kind}
+                          className="h-full w-full object-cover"
+                          fallbackClassName="relative h-full w-full overflow-hidden"
+                        />
+                      </div>
                     ))}
                   </div>
                 </div>

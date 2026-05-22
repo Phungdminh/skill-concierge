@@ -1,7 +1,5 @@
 import { Hero } from '@/components/hero';
-import { HowItWorks } from '@/components/how-it-works';
-import { FeaturedTools } from '@/components/featured-tools';
-import { Categories } from '@/components/categories';
+import { LandingShowcase } from '@/components/landing-showcase';
 import { Promises } from '@/components/promises';
 import { Faq } from '@/components/faq';
 import { Contact } from '@/components/contact';
@@ -15,9 +13,7 @@ export default function Home() {
     <>
       <main className="relative min-h-svh">
         <Hero />
-        <FeaturedTools />
-        <HowItWorks />
-        <Categories />
+        <LandingShowcase />
         <Promises />
         <Contact />
         <Faq items={FAQ_GENERAL.slice(0, 6)} id="faq" />

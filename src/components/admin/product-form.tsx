@@ -432,10 +432,10 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
                   onClick={() => !disabled && onKindChange(k)}
                   disabled={disabled && !active}
                   className={cn(
-                    'flex items-center gap-2 rounded-xl border px-3 py-2.5 text-sm transition',
+                    'flex min-h-12 items-center gap-2 rounded-xl border px-3 py-2.5 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-brand-orange/45',
                     active
-                      ? 'border-brand-orange/40 bg-brand-orange/10 text-foreground'
-                      : 'border-white/10 bg-white/[0.02] text-foreground/65 hover:bg-white/[0.06]',
+                      ? 'border-brand-orange/70 bg-brand-orange/15 text-foreground shadow-[0_0_0_1px_rgba(255,122,24,0.18)]'
+                      : 'border-white/14 bg-white/[0.045] text-foreground/75 hover:border-white/25 hover:bg-white/[0.075] hover:text-foreground',
                     disabled && !active && 'cursor-not-allowed opacity-30',
                   )}
                 >
@@ -564,7 +564,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
                 aria-haspopup="listbox"
                 aria-expanded={categoryDropdownOpen}
                 onClick={() => setCategoryDropdownOpen((open) => !open)}
-                className="flex w-full items-center justify-between rounded-xl bg-white/[0.02] px-3 py-2.5 text-left text-sm text-foreground ring-1 ring-white/8 transition hover:bg-white/[0.04] focus:outline-none focus:ring-white/25"
+                className="flex min-h-12 w-full items-center justify-between rounded-xl border border-white/14 bg-[#141418] px-3.5 py-2.5 text-left text-sm text-foreground shadow-inner shadow-white/[0.03] transition hover:border-white/25 hover:bg-[#18181d] focus:outline-none focus:ring-2 focus:ring-brand-orange/45"
               >
                 <span className={selectedCategories.length === 0 ? 'text-muted-foreground' : undefined}>
                   {categorySummary}
@@ -582,7 +582,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
                       onChange={(e) => setCategoryQuery(e.target.value)}
                       placeholder={kind === 'prompt' ? 'Tìm đề tài…' : 'Tìm danh mục…'}
                       aria-label={kind === 'prompt' ? 'Tìm đề tài' : 'Tìm danh mục'}
-                      className="w-full rounded-lg bg-white/[0.03] px-9 py-2 text-sm text-foreground ring-1 ring-white/8 transition placeholder:text-foreground/35 focus:outline-none focus:ring-white/25"
+                      className="w-full rounded-lg border border-white/14 bg-[#15151a] px-9 py-2.5 text-sm text-foreground shadow-inner shadow-black/20 transition placeholder:text-foreground/42 focus:outline-none focus:ring-2 focus:ring-brand-orange/45"
                     />
                   </div>
                   <div
@@ -608,17 +608,17 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
                             role="option"
                             aria-selected={checked}
                             className={cn(
-                              'flex cursor-pointer items-center gap-3 rounded-lg border px-3 py-2 text-sm transition',
+                              'flex min-h-11 cursor-pointer items-center gap-3 rounded-lg border px-3 py-2 text-sm transition',
                               checked
-                                ? 'border-brand-orange/40 bg-brand-orange/10 text-foreground'
-                                : 'border-transparent text-foreground/75 hover:border-white/10 hover:bg-white/[0.04] hover:text-foreground',
+                                ? 'border-brand-orange/70 bg-brand-orange/15 text-foreground shadow-[0_0_0_1px_rgba(255,122,24,0.14)]'
+                                : 'border-transparent text-foreground/78 hover:border-white/18 hover:bg-white/[0.06] hover:text-foreground',
                             )}
                           >
                             <input
                               type="checkbox"
                               checked={checked}
                               onChange={() => toggleCategory(c.value)}
-                              className="h-4 w-4 accent-brand-orange"
+                              className={checkboxCls}
                             />
                             <span>{c.label}</span>
                           </label>
@@ -792,7 +792,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
                   onClick={() => referenceImageInputRef.current?.click()}
                   disabled={uploadingReference}
                   className={cn(
-                    'inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm text-foreground/80 transition hover:bg-white/[0.04]',
+                    'inline-flex min-h-11 items-center gap-2 rounded-xl border border-white/16 bg-white/[0.045] px-4 py-2 text-sm font-medium text-foreground/85 transition hover:border-white/25 hover:bg-white/[0.075] focus:outline-none focus:ring-2 focus:ring-brand-orange/45',
                     uploadingReference && 'cursor-wait opacity-60',
                   )}
                 >
@@ -1096,17 +1096,17 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
                 <label
                   key={opt}
                   className={cn(
-                    'flex cursor-pointer items-start gap-3 rounded-xl border px-3 py-2.5 text-sm transition',
+                    'flex min-h-16 cursor-pointer items-start gap-3 rounded-xl border px-3.5 py-3 text-sm transition',
                     checked
-                      ? 'border-brand-orange/40 bg-brand-orange/10'
-                      : 'border-white/10 bg-white/[0.02] hover:bg-white/[0.06]',
+                      ? 'border-brand-orange/70 bg-brand-orange/15 shadow-[0_0_0_1px_rgba(255,122,24,0.14)]'
+                      : 'border-white/14 bg-white/[0.045] hover:border-white/25 hover:bg-white/[0.075]',
                   )}
                 >
                   <input
                     type="checkbox"
                     checked={checked}
                     onChange={() => toggleSupport(opt)}
-                    className="mt-0.5 h-4 w-4 accent-brand-orange"
+                    className={cn(checkboxCls, 'mt-0.5')}
                   />
                   <div className="flex-1 leading-tight">
                     <div className="font-medium">{sm.label}</div>
@@ -1179,12 +1179,12 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
 
         {kind === 'tool' && (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3">
+            <label className="flex min-h-14 cursor-pointer items-center gap-3 rounded-xl border border-white/14 bg-white/[0.045] px-4 py-3 transition hover:border-white/25 hover:bg-white/[0.075]">
               <input
                 type="checkbox"
                 checked={featured}
                 onChange={(e) => setFeatured(e.target.checked)}
-                className="h-4 w-4 accent-brand-orange"
+                className={checkboxCls}
               />
               <span className="text-sm">
                 <span className="font-medium">Nổi bật</span>{' '}
@@ -1268,11 +1268,13 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
 }
 
 const inputCls =
-  'mt-2 w-full rounded-xl bg-white/[0.02] px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground ring-1 ring-white/8 transition focus:outline-none focus:ring-white/25';
+  'mt-2 w-full rounded-xl border border-white/14 bg-[#141418] px-3.5 py-3 text-sm text-foreground shadow-inner shadow-white/[0.03] transition placeholder:text-foreground/42 hover:border-white/22 hover:bg-[#18181d] focus:border-brand-orange/55 focus:outline-none focus:ring-2 focus:ring-brand-orange/45 disabled:cursor-not-allowed disabled:opacity-45';
+
+const checkboxCls =
+  'h-5 w-5 shrink-0 rounded border-white/30 bg-[#141418] accent-brand-orange focus:outline-none focus:ring-2 focus:ring-brand-orange/50 focus:ring-offset-2 focus:ring-offset-[#0d0d10]';
 
 function FormSection({
   title,
-  description,
   children,
 }: {
   title: string;
@@ -1280,10 +1282,9 @@ function FormSection({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-2xl border border-white/8 bg-white/[0.02] p-4 md:p-5">
+    <section className="rounded-2xl border border-brand-orange/18 bg-[#15110d] p-4 shadow-[0_18px_60px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.05)] md:p-5">
       <div className="mb-4">
         <h2 className="text-sm font-semibold tracking-tight text-foreground">{title}</h2>
-        <p className="mt-1 text-xs leading-relaxed text-foreground/55">{description}</p>
       </div>
       <div className="space-y-4">{children}</div>
     </section>
@@ -1293,7 +1294,6 @@ function FormSection({
 function FormField({
   label,
   htmlFor,
-  hint,
   required,
   children,
 }: {
@@ -1309,7 +1309,6 @@ function FormField({
         {label} {required && <span className="text-brand-orange">*</span>}
       </span>
       {children}
-      {hint && <span className="mt-1 block text-[11px] text-foreground/45">{hint}</span>}
     </label>
   );
 }
@@ -1349,7 +1348,7 @@ function NumberStepper({
   return (
     <div
       className={cn(
-        'mt-2 flex w-full items-stretch overflow-hidden rounded-xl bg-white/[0.02] ring-1 ring-white/8 transition focus-within:ring-white/25',
+        'mt-2 flex w-full items-stretch overflow-hidden rounded-xl border border-white/14 bg-[#141418] shadow-inner shadow-white/[0.03] transition hover:border-white/22 hover:bg-[#18181d] focus-within:border-brand-orange/55 focus-within:ring-2 focus-within:ring-brand-orange/45',
         disabled && 'opacity-40',
       )}
     >
@@ -1359,7 +1358,7 @@ function NumberStepper({
         aria-label="Giảm"
         onClick={() => adjust(-step)}
         disabled={disabled}
-        className="flex w-10 shrink-0 items-center justify-center border-r border-white/8 text-lg leading-none text-foreground/55 transition hover:bg-white/[0.05] hover:text-foreground disabled:cursor-not-allowed"
+        className="flex w-11 shrink-0 items-center justify-center border-r border-white/12 text-lg leading-none text-foreground/70 transition hover:bg-white/[0.08] hover:text-foreground disabled:cursor-not-allowed"
       >
         −
       </button>
@@ -1374,7 +1373,7 @@ function NumberStepper({
           const pattern = allowNegative ? /[^\d-]/g : /[^\d]/g;
           onChange(e.target.value.replace(pattern, ''));
         }}
-        className="min-w-0 flex-1 bg-transparent px-2 py-2.5 text-center text-sm text-foreground placeholder:text-muted-foreground focus:outline-none disabled:cursor-not-allowed"
+        className="min-w-0 flex-1 bg-transparent px-2 py-3 text-center text-sm text-foreground placeholder:text-foreground/42 focus:outline-none disabled:cursor-not-allowed"
       />
       <button
         type="button"
@@ -1382,7 +1381,7 @@ function NumberStepper({
         aria-label="Tăng"
         onClick={() => adjust(step)}
         disabled={disabled}
-        className="flex w-10 shrink-0 items-center justify-center border-l border-white/8 text-lg leading-none text-foreground/55 transition hover:bg-white/[0.05] hover:text-foreground disabled:cursor-not-allowed"
+        className="flex w-11 shrink-0 items-center justify-center border-l border-white/12 text-lg leading-none text-foreground/70 transition hover:bg-white/[0.08] hover:text-foreground disabled:cursor-not-allowed"
       >
         +
       </button>

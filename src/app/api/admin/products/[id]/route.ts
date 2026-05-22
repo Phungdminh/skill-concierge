@@ -1,28 +1,20 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
+import {
+  hasPromptMeta,
+  normalizePromptMeta,
+  normalizeVersions,
+  productVersionSchema,
+  productVersionValidationMessage,
+  promptMetaSchema,
+} from '@/lib/admin-product-validation';
 import { requireAdmin } from '@/lib/auth';
 import { categoriesFor, type ProductKind } from '@/lib/product-types';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { emptyToNull } from '@/lib/string-normalization';
 import { httpUrl } from '@/lib/url-safety';
 
 const idSchema = z.string().uuid();
-
-const productVersionSchema = z.object({
-  name: z.string().trim().min(1).max(80),
-  slug: z.string().trim().min(1).max(80).optional().or(z.literal('')),
-  description: z.string().trim().max(500).nullable().optional().or(z.literal('')),
-  executable_label: z.string().trim().max(160).nullable().optional().or(z.literal('')),
-  platform: z.string().trim().max(120).nullable().optional().or(z.literal('')),
-  is_default: z.boolean().optional(),
-  status: z.enum(['available', 'beta', 'deprecated', 'hidden']).optional(),
-});
-
-const promptMetaSchema = z.object({
-  preview_content: z.string().max(5000).nullable().optional(),
-  full_content: z.string().max(50000).nullable().optional(),
-  explanation: z.string().max(20000).nullable().optional(),
-  related_slugs: z.array(z.string().trim().min(1).max(80)).max(12).optional(),
-});
 
 const patchSchema = z.object({
   title: z.string().trim().min(2).max(160).optional(),
@@ -52,57 +44,6 @@ const patchSchema = z.object({
   featured: z.boolean().optional(),
   sort_order: z.number().int().optional(),
 });
-
-function emptyToNull<T extends string | null | undefined>(v: T): string | null {
-  if (v == null) return null;
-  const t = v.trim();
-  return t.length === 0 ? null : t;
-}
-
-function normalizePromptMeta(meta: z.infer<typeof promptMetaSchema> | undefined, currentSlug?: string) {
-  const relatedSlugs = Array.from(new Set((meta?.related_slugs ?? []).map((slug) => slug.trim()).filter(Boolean)))
-    .filter((slug) => slug !== currentSlug);
-  return {
-    preview_content: emptyToNull(meta?.preview_content),
-    full_content: emptyToNull(meta?.full_content),
-    explanation: emptyToNull(meta?.explanation),
-    related_slugs: relatedSlugs,
-  };
-}
-
-function hasPromptMeta(meta: z.infer<typeof promptMetaSchema> | undefined) {
-  if (!meta) return false;
-  return Boolean(
-    emptyToNull(meta.preview_content) ||
-    emptyToNull(meta.full_content) ||
-    emptyToNull(meta.explanation) ||
-    (meta.related_slugs ?? []).some((slug) => slug.trim()),
-  );
-}
-
-function normalizeVersions(versions: z.infer<typeof productVersionSchema>[]) {
-  const slugs = new Set<string>();
-  let defaultCount = 0;
-  const normalized = versions.map((version) => {
-    const slug = version.slug?.trim() || undefined;
-    if (slug) {
-      if (slugs.has(slug)) throw new Error('duplicate_version_slug');
-      slugs.add(slug);
-    }
-    if (version.is_default) defaultCount += 1;
-    return {
-      name: version.name.trim(),
-      ...(slug ? { slug } : {}),
-      ...(emptyToNull(version.description) ? { description: emptyToNull(version.description) } : {}),
-      ...(emptyToNull(version.executable_label) ? { executable_label: emptyToNull(version.executable_label) } : {}),
-      ...(emptyToNull(version.platform) ? { platform: emptyToNull(version.platform) } : {}),
-      is_default: version.is_default ?? false,
-      status: version.status ?? 'available',
-    };
-  });
-  if (defaultCount > 1) throw new Error('multiple_default_versions');
-  return normalized;
-}
 
 function versionValidationResponse(message: string) {
   return NextResponse.json(
@@ -162,10 +103,7 @@ export async function PATCH(
     try {
       versions = normalizeVersions(parsed.data.versions);
     } catch (err) {
-      const message = err instanceof Error && err.message === 'multiple_default_versions'
-        ? 'Chỉ được chọn một phiên bản mặc định.'
-        : 'Slug phiên bản không được trùng nhau.';
-      return versionValidationResponse(message);
+      return versionValidationResponse(productVersionValidationMessage(err));
     }
   }
 

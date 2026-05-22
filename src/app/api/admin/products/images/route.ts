@@ -11,6 +11,33 @@ const EXT_BY_MIME: Record<string, string> = {
   'image/webp': 'webp',
 };
 
+function detectImageMime(bytes: Uint8Array) {
+  if (bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff) return 'image/jpeg';
+  if (
+    bytes.length >= 8 &&
+    bytes[0] === 0x89 &&
+    bytes[1] === 0x50 &&
+    bytes[2] === 0x4e &&
+    bytes[3] === 0x47 &&
+    bytes[4] === 0x0d &&
+    bytes[5] === 0x0a &&
+    bytes[6] === 0x1a &&
+    bytes[7] === 0x0a
+  ) return 'image/png';
+  if (
+    bytes.length >= 12 &&
+    bytes[0] === 0x52 &&
+    bytes[1] === 0x49 &&
+    bytes[2] === 0x46 &&
+    bytes[3] === 0x46 &&
+    bytes[8] === 0x57 &&
+    bytes[9] === 0x45 &&
+    bytes[10] === 0x42 &&
+    bytes[11] === 0x50
+  ) return 'image/webp';
+  return null;
+}
+
 export async function POST(req: Request) {
   const user = await requireAdmin();
   if (!user) {
@@ -37,6 +64,12 @@ export async function POST(req: Request) {
       { status: 400 },
     );
   }
+  if (file.size === 0) {
+    return NextResponse.json(
+      { error: { code: 'empty_file', message: 'Tệp ảnh đang trống.' } },
+      { status: 400 },
+    );
+  }
   if (!ALLOWED_MIME.has(file.type)) {
     return NextResponse.json(
       { error: { code: 'invalid_type', message: 'Chỉ hỗ trợ ảnh JPG, PNG hoặc WebP.' } },
@@ -50,9 +83,24 @@ export async function POST(req: Request) {
     );
   }
 
+  const arrayBuffer = await file.arrayBuffer();
+  const detectedMime = detectImageMime(new Uint8Array(arrayBuffer));
+  if (detectedMime !== file.type) {
+    console.warn('Rejected product image with invalid signature', {
+      userId: user.id,
+      declaredMime: file.type,
+      detectedMime,
+      size: file.size,
+      name: file.name,
+    });
+    return NextResponse.json(
+      { error: { code: 'invalid_image_signature', message: 'Tệp không đúng định dạng ảnh JPG, PNG hoặc WebP.' } },
+      { status: 415 },
+    );
+  }
+
   const ext = EXT_BY_MIME[file.type];
   const path = `${user.id}/products/${randomUUID()}.${ext}`;
-  const arrayBuffer = await file.arrayBuffer();
   const supabase = createAdminClient();
 
   const { error: uploadError } = await supabase.storage
@@ -63,7 +111,14 @@ export async function POST(req: Request) {
     });
 
   if (uploadError) {
-    console.error('Failed to upload product image', uploadError);
+    console.error('Failed to upload product image', {
+      userId: user.id,
+      path,
+      mime: file.type,
+      size: file.size,
+      code: uploadError.name,
+      message: uploadError.message,
+    });
     return NextResponse.json(
       { error: { code: 'upload_failed', message: 'Không tải ảnh lên được. Thử lại sau.' } },
       { status: 500 },
