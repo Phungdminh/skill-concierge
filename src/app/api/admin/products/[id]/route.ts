@@ -30,6 +30,7 @@ const patchSchema = z.object({
   price_vnd: z.number().int().min(0).nullable().optional(),
   is_free: z.boolean().optional(),
   categories: z.array(z.string().trim().min(1).max(40)).max(6).optional(),
+  folder_id: z.string().uuid().nullable().optional(),
   tags: z.array(z.string().max(40)).max(20).optional(),
   versions: z.array(productVersionSchema).max(10).optional(),
   deliverables: z.array(z.string().max(200)).max(20).optional(),
@@ -180,6 +181,7 @@ export async function PATCH(
   if (d.pricing_mode !== undefined) update.pricing_mode = d.pricing_mode;
   if (d.price_vnd !== undefined) update.price_vnd = d.price_vnd;
   if (selectedCategories !== undefined) update.categories = selectedCategories;
+  if (d.folder_id !== undefined) update.folder_id = d.folder_id;
   if (d.tags !== undefined) update.tags = d.tags;
   if (versions !== undefined) update.versions = versions;
   if (d.deliverables !== undefined) update.deliverables = d.deliverables;

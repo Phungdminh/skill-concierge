@@ -7,6 +7,7 @@ import {
   Sparkles,
   Package,
   Mail,
+  FolderTree,
   ArrowLeft,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -14,6 +15,7 @@ import { cn } from '@/lib/utils';
 const items = [
   { href: '/admin', label: 'Tổng quan', icon: LayoutDashboard },
   { href: '/admin/products', label: 'Sản phẩm', icon: Package },
+  { href: '/admin/prompt-folders', label: 'Folder prompt', icon: FolderTree },
   { href: '/admin/inquiries', label: 'Inquiries', icon: Mail },
 ];
 

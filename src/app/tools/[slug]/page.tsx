@@ -2,6 +2,12 @@ import { notFound } from 'next/navigation';
 import { ProductDetail } from '@/components/product-detail';
 import { createClient } from '@/lib/supabase/server';
 import { getRelatedProducts } from '@/lib/recommendations';
+import {
+  buildBreadcrumbJsonLd,
+  buildProductJsonLd,
+  buildProductMetadata,
+  jsonLdScript,
+} from '@/lib/seo';
 import type { Product } from '@/lib/product-types';
 
 interface PageProps {
@@ -13,16 +19,12 @@ export async function generateMetadata({ params }: PageProps) {
   const supabase = await createClient();
   const { data } = await supabase
     .from('products')
-    .select('title, tagline')
+    .select('kind, slug, title, tagline, description, thumbnail_url, gallery')
     .eq('slug', slug)
     .eq('kind', 'tool')
     .eq('status', 'published')
     .maybeSingle();
-  if (!data) return { title: 'Tool — SkillForge VN' };
-  return {
-    title: `${data.title} — SkillForge VN`,
-    description: data.tagline ?? undefined,
-  };
+  return buildProductMetadata(data as Parameters<typeof buildProductMetadata>[0]);
 }
 
 export default async function ToolDetailPage({ params }: PageProps) {
@@ -39,5 +41,15 @@ export default async function ToolDetailPage({ params }: PageProps) {
   if (error || !data) notFound();
   const product = data as Product;
   const relatedProducts = await getRelatedProducts({ product, supabase, limit: 4 });
-  return <ProductDetail product={product} relatedProducts={relatedProducts} />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLdScript([buildProductJsonLd(product), buildBreadcrumbJsonLd(product)]),
+        }}
+      />
+      <ProductDetail product={product} relatedProducts={relatedProducts} />
+    </>
+  );
 }

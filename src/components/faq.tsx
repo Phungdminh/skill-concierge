@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Plus, Minus } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { SectionFrame } from '@/components/section-frame';
 import type { FaqItem } from '@/lib/faq-data';
 
 export function Faq({
@@ -21,7 +22,8 @@ export function Faq({
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id={id} className="relative mx-auto w-full max-w-3xl px-6 py-24">
+    <section id={id} className="relative mx-auto w-full max-w-3xl px-6 py-12 md:py-16">
+     <SectionFrame>
       <div className="mb-10 text-center">
         <p className="mb-3 text-xs uppercase tracking-widest text-muted-foreground">{eyebrow}</p>
         <h2 className="text-balance text-3xl font-semibold tracking-tight md:text-5xl">{title}</h2>
@@ -65,6 +67,7 @@ export function Faq({
           );
         })}
       </ul>
+     </SectionFrame>
     </section>
   );
 }

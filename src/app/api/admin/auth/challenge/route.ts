@@ -10,6 +10,8 @@ import {
   setChallengeCookie,
 } from '@/lib/admin-verification';
 import { sendAdminLoginCodeEmail } from '@/lib/email/resend';
+import { getClientIp, rateLimit } from '@/lib/rate-limit';
+import { checkSameOrigin } from '@/lib/csrf';
 
 const bodySchema = z.object({
   returnTo: z.string().optional(),
@@ -23,6 +25,14 @@ function safeAdminPath(value: unknown) {
 }
 
 export async function POST(request: Request) {
+  const originIssue = await checkSameOrigin();
+  if (originIssue) {
+    return NextResponse.json(
+      { error: { code: 'forbidden_origin', message: 'Yêu cầu không hợp lệ.' } },
+      { status: 403 },
+    );
+  }
+
   let body: unknown;
   try {
     body = await request.json();
@@ -50,6 +60,22 @@ export async function POST(request: Request) {
     return NextResponse.json(
       { error: { code: 'forbidden', message: 'Tài khoản này không có quyền admin.' } },
       { status: 403 },
+    );
+  }
+
+  const ip = await getClientIp();
+  const ipLimit = rateLimit(`admin-challenge:ip:${ip}`, { windowMs: 60 * 60 * 1000, max: 10 });
+  const userLimit = rateLimit(`admin-challenge:user:${user.id}`, { windowMs: 60 * 60 * 1000, max: 6 });
+  if (!ipLimit.ok || !userLimit.ok) {
+    const retry = Math.max(ipLimit.retryAfterSec, userLimit.retryAfterSec);
+    return NextResponse.json(
+      {
+        error: {
+          code: 'rate_limited',
+          message: 'Bạn yêu cầu mã quá nhiều lần. Thử lại sau vài phút.',
+        },
+      },
+      { status: 429, headers: { 'Retry-After': String(retry) } },
     );
   }
 

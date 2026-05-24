@@ -43,6 +43,7 @@ export interface Product {
   price_vnd: number | null;
   is_free: boolean;
   categories: string[];
+  folder_id: string | null;
   tags: string[];
   versions: ProductVersion[];
   deliverables: string[];

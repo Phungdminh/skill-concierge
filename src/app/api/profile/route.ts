@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
-import { createAdminClient } from '@/lib/supabase/admin';
 import { emptyToNull } from '@/lib/string-normalization';
 import { httpUrl } from '@/lib/url-safety';
+import { checkSameOrigin } from '@/lib/csrf';
 
 const patchSchema = z.object({
   full_name: z.string().trim().min(1).max(120).nullable().optional(),
@@ -13,6 +13,14 @@ const patchSchema = z.object({
 });
 
 export async function PATCH(req: Request) {
+  const originIssue = await checkSameOrigin();
+  if (originIssue) {
+    return NextResponse.json(
+      { error: { code: 'forbidden_origin', message: 'Yêu cầu không hợp lệ.' } },
+      { status: 403 },
+    );
+  }
+
   const supabase = await createClient();
   const {
     data: { user },
@@ -47,9 +55,7 @@ export async function PATCH(req: Request) {
     );
   }
 
-  const admin = createAdminClient();
   const nowIso = new Date().toISOString();
-
   const upsert: Record<string, unknown> = {
     id: user.id,
     email: user.email ?? '',
@@ -62,7 +68,10 @@ export async function PATCH(req: Request) {
   if (d.gender !== undefined) upsert.gender = d.gender;
   if (d.job_title !== undefined) upsert.job_title = emptyToNull(d.job_title);
 
-  const { data, error } = await admin
+  // User-scoped client — RLS enforces auth.uid() = id. Migration adds
+  // matching INSERT policy so upsert works when handle_new_user hasn't run
+  // yet (e.g. legacy users).
+  const { data, error } = await supabase
     .from('profiles')
     .upsert(upsert, { onConflict: 'id' })
     .select()

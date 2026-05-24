@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Briefcase, Loader2, Save, Sparkles, User } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
@@ -8,6 +8,9 @@ import { GENDER_OPTIONS, type Gender, profileNeedsOnboarding } from '@/lib/profi
 import { cn } from '@/lib/utils';
 
 const DISMISS_KEY = 'skillforge-onboarding-dismissed';
+
+const FOCUSABLE_SELECTOR =
+  'a[href], area[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 export function OnboardingModal() {
   const router = useRouter();
@@ -17,6 +20,8 @@ export function OnboardingModal() {
   const [jobTitle, setJobTitle] = useState('');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const previouslyFocusedRef = useRef<HTMLElement | null>(null);
 
   const checkProfile = useCallback(async () => {
     const supabase = createClient();
@@ -81,11 +86,50 @@ export function OnboardingModal() {
     };
   }, [open]);
 
+  // Focus management: capture opener, focus first field, restore on close.
+  useEffect(() => {
+    if (!open) return;
+    previouslyFocusedRef.current = document.activeElement as HTMLElement | null;
+    const node = dialogRef.current;
+    if (node) {
+      const focusables = node.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
+      const first = focusables[0];
+      // Run after paint so React has flushed.
+      requestAnimationFrame(() => first?.focus());
+    }
+    return () => {
+      const previous = previouslyFocusedRef.current;
+      if (previous && typeof previous.focus === 'function') {
+        previous.focus();
+      }
+    };
+  }, [open]);
+
+  // Escape closes; Tab is trapped within the dialog.
   useEffect(() => {
     if (!open) return;
     function onKey(e: KeyboardEvent) {
       if (e.key === 'Escape') {
+        e.preventDefault();
         void skip();
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      const node = dialogRef.current;
+      if (!node) return;
+      const focusables = Array.from(node.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
+        (el) => !el.hasAttribute('disabled') && el.offsetParent !== null,
+      );
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+      if (e.shiftKey && active === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault();
+        first.focus();
       }
     }
     window.addEventListener('keydown', onKey);
@@ -143,11 +187,11 @@ export function OnboardingModal() {
       role="dialog"
       aria-modal="true"
       aria-labelledby="onboarding-title"
+      ref={dialogRef}
       className="fixed inset-0 z-[100] grid place-items-center px-4 py-8"
     >
-      <button
-        type="button"
-        aria-label="Bỏ qua bước này"
+      <div
+        aria-hidden="true"
         onClick={() => void skip()}
         className="absolute inset-0 cursor-default bg-black/80 backdrop-blur-sm"
       />
@@ -187,7 +231,6 @@ export function OnboardingModal() {
                   id="ob-name"
                   type="text"
                   required
-                  autoFocus
                   value={fullName}
                   onChange={(e) => {
                     setFullName(e.target.value);
@@ -245,7 +288,7 @@ export function OnboardingModal() {
             </div>
 
             {error && (
-              <p role="alert" className="rounded-lg bg-red-500/10 px-3 py-2 text-xs text-red-300 ring-1 ring-red-500/30">
+              <p role="alert" aria-live="assertive" className="rounded-lg bg-red-500/10 px-3 py-2 text-xs text-red-300 ring-1 ring-red-500/30">
                 {error}
               </p>
             )}

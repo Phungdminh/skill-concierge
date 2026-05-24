@@ -1,7 +1,9 @@
 import Link from 'next/link';
-import { ArrowUpRight, Bot, Eye, Globe, LibraryBig, TrendingUp } from 'lucide-react';
+import { ArrowUpRight, Bot, Eye, Globe, TrendingUp } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { FolderCarousel } from '@/components/folder-carousel';
 import { ProductImage } from '@/components/product-image';
+import { SectionFrame } from '@/components/section-frame';
 import { YouTubeEmbed } from '@/components/youtube-embed';
 import { productPreviewImage } from '@/lib/product-images';
 import { createClient } from '@/lib/supabase/server';
@@ -10,6 +12,7 @@ import {
   productDetailHref,
   type Product,
 } from '@/lib/product-types';
+import type { PromptFolder, PromptFolderWithCount } from '@/lib/prompt-folder-types';
 
 type ProductRankItem = Pick<
   Product,
@@ -23,7 +26,8 @@ async function loadShowcase() {
     rankToolsRes,
     heroWebRes,
     rankWebsRes,
-    promptsRes,
+    foldersRes,
+    promptCountsRes,
   ] = await Promise.all([
     supabase
       .from('products')
@@ -66,78 +70,97 @@ async function loadShowcase() {
       .order('created_at', { ascending: false })
       .limit(5),
     supabase
-      .from('products')
+      .from('prompt_folders')
       .select('*')
+      .order('sort_order', { ascending: true })
+      .order('name', { ascending: true }),
+    supabase
+      .from('products')
+      .select('folder_id')
       .eq('status', 'published')
-      .eq('kind', 'prompt')
-      .order('featured', { ascending: false })
-      .order('sort_order', { ascending: false })
-      .order('created_at', { ascending: false })
-      .limit(10),
+      .eq('kind', 'prompt'),
   ]);
+
+  // Tally published-prompt counts per folder, drop empty folders.
+  const tally = new Map<string, number>();
+  for (const row of (promptCountsRes.data ?? []) as Array<{ folder_id: string | null }>) {
+    if (row.folder_id) tally.set(row.folder_id, (tally.get(row.folder_id) ?? 0) + 1);
+  }
+  const folders: PromptFolderWithCount[] = ((foldersRes.data as PromptFolder[] | null) ?? [])
+    .map((folder) => ({ ...folder, prompt_count: tally.get(folder.id) ?? 0 }))
+    .filter((folder) => folder.prompt_count > 0);
 
   return {
     tool: (heroToolRes.data as Product | null) ?? null,
     toolRanking: ((rankToolsRes.data as ProductRankItem[] | null) ?? []) as ProductRankItem[],
     web: (heroWebRes.data as Product | null) ?? null,
     webRanking: ((rankWebsRes.data as ProductRankItem[] | null) ?? []) as ProductRankItem[],
-    prompts: ((promptsRes.data as Product[] | null) ?? []) as Product[],
+    promptFolders: folders,
   };
 }
 
 export async function LandingShowcase() {
-  const { tool, toolRanking, web, webRanking, prompts } = await loadShowcase();
+  const { tool, toolRanking, web, webRanking, promptFolders } = await loadShowcase();
 
   return (
-    <div className="relative mx-auto w-full max-w-6xl space-y-20 px-6 pb-24">
+    <div className="relative mx-auto w-full max-w-6xl space-y-12 px-6 pb-24 md:space-y-16">
       <section id="tools">
-        <header className="mb-8">
-          <p className="mb-2 text-xs uppercase tracking-widest text-muted-foreground">
-            Cửa hàng
-          </p>
-          <h2 className="text-balance text-2xl font-semibold tracking-tight md:text-3xl">
-            Tool đang bán
-          </h2>
-        </header>
-        <ShowcaseRow
-          eyebrow="Tool nổi bật"
-          product={tool}
-          ranking={toolRanking}
-          rankingTitle="Tool xem nhiều nhất"
-          icon={Bot}
-          seeAllHref="/tools"
-          seeAllTitle="Tất cả tool"
-          seeAllDesc="Duyệt toàn bộ tool .exe mình đang bán."
-          emptyTitle="Tool mới đang đóng gói"
-          emptyBody="Quay lại sớm — hoặc nhắn mình bạn cần tool gì."
-        />
+        <SectionFrame>
+          <header className="mb-8">
+            <p className="mb-2 text-xs uppercase tracking-widest text-muted-foreground">
+              Tool .exe
+            </p>
+            <h2 className="text-balance text-2xl font-semibold tracking-tight md:text-3xl">
+              Tự động làm thay bạn — mỗi ngày vài tiếng
+            </h2>
+          </header>
+          <ShowcaseRow
+            eyebrow="Tool nổi bật"
+            product={tool}
+            ranking={toolRanking}
+            rankingTitle="Tool xem nhiều nhất"
+            icon={Bot}
+            seeAllHref="/tools"
+            seeAllTitle="Tất cả tool"
+            seeAllDesc="Duyệt toàn bộ tool .exe mình đang bán."
+            emptyTitle="Tool mới đang đóng gói"
+            emptyBody="Quay lại sớm — hoặc nhắn mình bạn cần tool gì."
+          />
+        </SectionFrame>
       </section>
 
       <section id="web">
-        <header className="mb-8">
-          <p className="mb-2 text-xs uppercase tracking-widest text-muted-foreground">
-            Portfolio
-          </p>
-          <h2 className="text-balance text-2xl font-semibold tracking-tight md:text-3xl">
-            Các dự án web
-          </h2>
-        </header>
-        <ShowcaseRow
-          eyebrow="Web / portfolio nổi bật"
-          product={web}
-          ranking={webRanking}
-          rankingTitle="Web xem nhiều nhất"
-          icon={Globe}
-          seeAllHref="/web"
-          seeAllTitle="Tất cả dự án web"
-          seeAllDesc="Landing page và portfolio đã từng làm."
-          emptyTitle="Đang chọn dự án mới để showcase"
-          emptyBody="Brief project của bạn — mình quote trong 24h."
-        />
+        <SectionFrame>
+          <header className="mb-8">
+            <p className="mb-2 text-xs uppercase tracking-widest text-muted-foreground">
+              Vibe-coded
+            </p>
+            <h2 className="text-balance text-2xl font-semibold tracking-tight md:text-3xl">
+              Tạo web theo yêu cầu
+            </h2>
+            <p className="mt-3 max-w-2xl text-foreground/65">
+              Dưới đây là danh sách những website đã tạo.
+            </p>
+          </header>
+          <ShowcaseRow
+            eyebrow="Web / portfolio nổi bật"
+            product={web}
+            ranking={webRanking}
+            rankingTitle="Web xem nhiều nhất"
+            icon={Globe}
+            seeAllHref="/web"
+            seeAllTitle="Tất cả dự án web"
+            seeAllDesc="Landing page và portfolio đã từng làm."
+            emptyTitle="Đang chọn dự án mới để showcase"
+            emptyBody="Brief project của bạn — mình quote trong 24h."
+          />
+        </SectionFrame>
       </section>
 
       <section id="prompts">
-        <PromptStrip prompts={prompts} />
+        <SectionFrame>
+          <FolderCarousel folders={promptFolders} />
+        </SectionFrame>
       </section>
     </div>
   );
@@ -372,85 +395,3 @@ function SeeAllCard({
   );
 }
 
-function PromptStrip({ prompts }: { prompts: Product[] }) {
-  return (
-    <div>
-      <div className="mb-5 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-end">
-        <div>
-          <p className="mb-2 text-xs uppercase tracking-widest text-muted-foreground">
-            Prompt mẫu hot
-          </p>
-          <h3 className="text-balance text-2xl font-semibold tracking-tight md:text-3xl">
-            10 prompt được lưu nhiều nhất
-          </h3>
-        </div>
-        <Link
-          href="/prompts"
-          className="featured-cta group inline-flex min-h-10 items-center gap-2 rounded-full border border-white/12 bg-white/[0.03] px-4 py-2 text-sm font-medium text-foreground/90"
-        >
-          Tất cả prompt
-          <ArrowUpRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </Link>
-      </div>
-
-      {prompts.length === 0 ? (
-        <div className="rounded-3xl border border-dashed border-white/10 bg-[#0d0d10] px-6 py-12 text-center">
-          <span className="mx-auto grid h-11 w-11 place-items-center rounded-xl bg-white/[0.04] text-brand-orange ring-1 ring-white/10">
-            <LibraryBig className="h-5 w-5" strokeWidth={1.6} />
-          </span>
-          <p className="mt-4 text-sm text-foreground/55">
-            Prompt mới đang được tổng hợp. Quay lại sớm nhé.
-          </p>
-        </div>
-      ) : (
-        <div className="relative -mx-6 px-6">
-          <div
-            className="flex snap-x snap-proximity gap-3 overflow-x-auto pb-4"
-            style={{ scrollbarWidth: 'thin' }}
-          >
-            {prompts.map((prompt) => (
-              <PromptChip key={prompt.id} product={prompt} />
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function PromptChip({ product }: { product: Product }) {
-  const image = productPreviewImage(product);
-  return (
-    <Link
-      href={productDetailHref(product)}
-      className="group flex w-[260px] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-white/8 bg-[#0d0d10] transition hover:border-brand-orange/40 sm:w-[280px]"
-    >
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-white/[0.04]">
-        <ProductImage
-          src={image}
-          alt=""
-          kind="prompt"
-          className="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-[1.05]"
-          fallbackClassName="absolute inset-0"
-        />
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"
-        />
-      </div>
-      <div className="flex flex-1 flex-col p-4">
-        <h4 className="line-clamp-2 text-sm font-semibold tracking-tight transition group-hover:text-brand-orange">
-          {product.title}
-        </h4>
-        {product.tagline && (
-          <p className="mt-1 line-clamp-2 text-xs text-foreground/55">
-            {product.tagline}
-          </p>
-        )}
-        <span className="mt-auto pt-3 text-[10.5px] uppercase tracking-widest text-foreground/40">
-          Xem prompt
-        </span>
-      </div>
-    </Link>
-  );
-}

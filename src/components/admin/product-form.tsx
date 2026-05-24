@@ -21,6 +21,7 @@ import {
 } from '@/lib/product-types';
 import { cn } from '@/lib/utils';
 import { isSafeHttpUrl } from '@/lib/url-safety';
+import type { PromptFolder } from '@/lib/prompt-folder-types';
 
 interface RepoUrlSummary {
   kind: 'github' | 'generic';
@@ -146,6 +147,9 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [categoryQuery, setCategoryQuery] = useState('');
   const categoryDropdownRef = useRef<HTMLDivElement>(null);
+  const [folderId, setFolderId] = useState<string | null>(initial?.folder_id ?? null);
+  const [promptFolders, setPromptFolders] = useState<PromptFolder[]>([]);
+  const [foldersLoaded, setFoldersLoaded] = useState(false);
   const [tags, setTags] = useState((initial?.tags ?? []).join(', '));
   const [versions, setVersions] = useState<ProductVersionFormState[]>(
     (initial?.versions ?? []).map(toVersionFormState),
@@ -198,6 +202,29 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
     document.addEventListener('mousedown', closeCategoryDropdown);
     return () => document.removeEventListener('mousedown', closeCategoryDropdown);
   }, []);
+
+  // Load prompt folders once (lazy: only when needed for prompt kind).
+  useEffect(() => {
+    if (kind !== 'prompt' || foldersLoaded) return;
+    let cancelled = false;
+    void (async () => {
+      try {
+        const res = await fetch('/api/admin/prompt-folders');
+        const json = await res.json().catch(() => ({}));
+        if (cancelled) return;
+        if (res.ok && Array.isArray(json.folders)) {
+          setPromptFolders(json.folders as PromptFolder[]);
+        }
+      } catch {
+        // ignore — folder dropdown will show empty state
+      } finally {
+        if (!cancelled) setFoldersLoaded(true);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [kind, foldersLoaded]);
 
   function onKindChange(nextKind: ProductKind) {
     setKind(nextKind);
@@ -318,7 +345,8 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
           ? null
           : Number.parseInt(priceVnd, 10),
       is_free: kind === 'prompt' ? true : false,
-      categories: kind === 'webwork' ? [] : selectedCategories,
+      categories: kind === 'webwork' ? [] : kind === 'prompt' ? [] : selectedCategories,
+      folder_id: kind === 'prompt' ? folderId : null,
       tags:
         kind === 'webwork'
           ? []
@@ -552,27 +580,57 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
 
         {kind !== 'webwork' && (
         <div className={cn('grid grid-cols-1 gap-4', kind === 'tool' && 'md:grid-cols-2')}>
-          <FormField
-            label={kind === 'prompt' ? 'Đề tài' : 'Danh mục'}
-            htmlFor="category-dropdown"
-            hint={kind === 'prompt' ? 'Chọn đề tài chuyên ngành để khách lọc prompt trong marketplace dễ hơn.' : 'Có thể chọn nhiều danh mục để khách lọc sản phẩm dễ hơn.'}
-          >
-            <div ref={categoryDropdownRef} className="relative mt-2">
-              <button
-                id="category-dropdown"
-                type="button"
-                aria-haspopup="listbox"
-                aria-expanded={categoryDropdownOpen}
-                onClick={() => setCategoryDropdownOpen((open) => !open)}
-                className="flex min-h-12 w-full items-center justify-between rounded-xl border border-white/14 bg-[#141418] px-3.5 py-2.5 text-left text-sm text-foreground shadow-inner shadow-white/[0.03] transition hover:border-white/25 hover:bg-[#18181d] focus:outline-none focus:ring-2 focus:ring-brand-orange/45"
+          {kind === 'prompt' ? (
+            <FormField
+              label="Folder"
+              htmlFor="folder-dropdown"
+              hint="Mỗi prompt thuộc 1 folder. Khách lọc trang /prompts theo folder."
+            >
+              <select
+                id="folder-dropdown"
+                value={folderId ?? ''}
+                onChange={(e) => setFolderId(e.target.value || null)}
+                className={cn(inputCls, 'mt-2')}
               >
-                <span className={selectedCategories.length === 0 ? 'text-muted-foreground' : undefined}>
-                  {categorySummary}
-                </span>
-                <span className="text-xs text-foreground/45">Chọn</span>
-              </button>
+                <option value="">— Chưa phân loại —</option>
+                {promptFolders.map((folder) => (
+                  <option key={folder.id} value={folder.id}>
+                    {folder.name}
+                  </option>
+                ))}
+              </select>
+              {foldersLoaded && promptFolders.length === 0 && (
+                <p className="mt-2 text-xs text-amber-300">
+                  Chưa có folder nào.{' '}
+                  <a href="/admin/prompt-folders/new" className="underline">
+                    Tạo folder mới
+                  </a>{' '}
+                  trước khi gán prompt vào.
+                </p>
+              )}
+            </FormField>
+          ) : (
+            <FormField
+              label="Danh mục"
+              htmlFor="category-dropdown"
+              hint="Có thể chọn nhiều danh mục để khách lọc sản phẩm dễ hơn."
+            >
+              <div ref={categoryDropdownRef} className="relative mt-2">
+                <button
+                  id="category-dropdown"
+                  type="button"
+                  aria-haspopup="listbox"
+                  aria-expanded={categoryDropdownOpen}
+                  onClick={() => setCategoryDropdownOpen((open) => !open)}
+                  className="flex min-h-12 w-full items-center justify-between rounded-xl border border-white/14 bg-[#141418] px-3.5 py-2.5 text-left text-sm text-foreground shadow-inner shadow-white/[0.03] transition hover:border-white/25 hover:bg-[#18181d] focus:outline-none focus:ring-2 focus:ring-brand-orange/45"
+                >
+                  <span className={selectedCategories.length === 0 ? 'text-muted-foreground' : undefined}>
+                    {categorySummary}
+                  </span>
+                  <span className="text-xs text-foreground/45">Chọn</span>
+                </button>
 
-              {categoryDropdownOpen && (
+                {categoryDropdownOpen && (
                 <div className="absolute z-20 mt-2 w-full rounded-xl border border-white/10 bg-[#0d0d10] p-2 shadow-2xl shadow-black/40">
                   <div className="relative mb-2">
                     <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/40" strokeWidth={1.75} />
@@ -580,8 +638,8 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
                       type="search"
                       value={categoryQuery}
                       onChange={(e) => setCategoryQuery(e.target.value)}
-                      placeholder={kind === 'prompt' ? 'Tìm đề tài…' : 'Tìm danh mục…'}
-                      aria-label={kind === 'prompt' ? 'Tìm đề tài' : 'Tìm danh mục'}
+                      placeholder="Tìm danh mục…"
+                      aria-label="Tìm danh mục"
                       className="w-full rounded-lg border border-white/14 bg-[#15151a] px-9 py-2.5 text-sm text-foreground shadow-inner shadow-black/20 transition placeholder:text-foreground/42 focus:outline-none focus:ring-2 focus:ring-brand-orange/45"
                     />
                   </div>
@@ -630,6 +688,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
               )}
             </div>
           </FormField>
+          )}
           {kind === 'tool' && (
             <FormField
               label="Thời lượng / phạm vi"

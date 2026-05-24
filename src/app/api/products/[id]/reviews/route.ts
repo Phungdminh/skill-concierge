@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
-import { createAdminClient } from '@/lib/supabase/admin';
 import { emptyToNull } from '@/lib/string-normalization';
+import { checkSameOrigin } from '@/lib/csrf';
+import { getClientIp, rateLimit } from '@/lib/rate-limit';
 
 const idSchema = z.string().uuid();
 
@@ -17,6 +18,14 @@ interface RouteContext {
 }
 
 export async function POST(req: Request, { params }: RouteContext) {
+  const originIssue = await checkSameOrigin();
+  if (originIssue) {
+    return NextResponse.json(
+      { error: { code: 'forbidden_origin', message: 'Yêu cầu không hợp lệ.' } },
+      { status: 403 },
+    );
+  }
+
   const { id } = await params;
   const parsedId = idSchema.safeParse(id);
   if (!parsedId.success) {
@@ -34,6 +43,15 @@ export async function POST(req: Request, { params }: RouteContext) {
     return NextResponse.json(
       { error: { code: 'unauthorized', message: 'Bạn cần đăng nhập để đánh giá prompt.' } },
       { status: 401 },
+    );
+  }
+
+  const ip = await getClientIp();
+  const limit = rateLimit(`reviews:${user.id}:${ip}`, { windowMs: 60 * 60 * 1000, max: 30 });
+  if (!limit.ok) {
+    return NextResponse.json(
+      { error: { code: 'rate_limited', message: 'Bạn gửi đánh giá quá nhanh. Thử lại sau.' } },
+      { status: 429, headers: { 'Retry-After': String(limit.retryAfterSec) } },
     );
   }
 
@@ -60,26 +78,27 @@ export async function POST(req: Request, { params }: RouteContext) {
     );
   }
 
-  const admin = createAdminClient();
-  const { data: product, error: productError } = await admin
+  // User-scoped client — RLS authoritative. RLS policy already restricts to
+  // status='published' rows for selects, so any non-published product returns
+  // no row regardless of kind.
+  const { data: product, error: productError } = await supabase
     .from('products')
     .select('id, kind, status')
     .eq('id', parsedId.data)
-    .single();
+    .maybeSingle();
 
   if (productError) {
-    const status = productError.code === 'PGRST116' ? 404 : 500;
     return NextResponse.json(
-      {
-        error: {
-          code: productError.code ?? 'db_error',
-          message: status === 404 ? 'Không tìm thấy prompt.' : 'Không kiểm tra được prompt.',
-        },
-      },
-      { status },
+      { error: { code: productError.code ?? 'db_error', message: 'Không kiểm tra được prompt.' } },
+      { status: 500 },
     );
   }
-
+  if (!product) {
+    return NextResponse.json(
+      { error: { code: 'not_found', message: 'Không tìm thấy prompt.' } },
+      { status: 404 },
+    );
+  }
   if (product.kind !== 'prompt' || product.status !== 'published') {
     return NextResponse.json(
       { error: { code: 'validation_error', message: 'Chỉ có thể đánh giá prompt đang hiển thị.' } },
@@ -88,7 +107,7 @@ export async function POST(req: Request, { params }: RouteContext) {
   }
 
   const nowIso = new Date().toISOString();
-  const { data, error } = await admin
+  const { data, error } = await supabase
     .from('product_reviews')
     .upsert(
       {

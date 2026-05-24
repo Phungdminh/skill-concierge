@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 import { KIND_META, type ProductKind } from '@/lib/product-types';
 
@@ -9,6 +10,14 @@ interface ProductImageProps {
   kind: ProductKind;
   className?: string;
   fallbackClassName?: string;
+  /**
+   * Width hint for next/image sizing. Pass the container's intrinsic width so
+   * Next can pick the right resolution. Defaults to a card-sized image.
+   */
+  width?: number;
+  height?: number;
+  sizes?: string;
+  priority?: boolean;
 }
 
 export function ProductImage({
@@ -17,6 +26,10 @@ export function ProductImage({
   kind,
   className,
   fallbackClassName,
+  width = 640,
+  height = 360,
+  sizes = '(min-width: 1024px) 640px, (min-width: 640px) 50vw, 100vw',
+  priority = false,
 }: ProductImageProps) {
   const [failed, setFailed] = useState(false);
   const meta = KIND_META[kind];
@@ -24,13 +37,17 @@ export function ProductImage({
 
   if (src && !failed) {
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
+      <Image
         src={src}
         alt={alt}
-        loading="lazy"
+        width={width}
+        height={height}
+        sizes={sizes}
+        priority={priority}
+        loading={priority ? undefined : 'lazy'}
         className={className}
         onError={() => setFailed(true)}
+        unoptimized={src.startsWith('data:') || src.startsWith('blob:')}
       />
     );
   }

@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AnimatedBackground } from '@/components/animated-background';
 import { NavServer } from '@/components/nav-server';
 import { OnboardingModal } from '@/components/onboarding-modal';
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/site';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,9 +17,49 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SkillForge VN — Done-for-you AI Automation & Web",
-  description:
-    "Mình build skill AI chạy thay bạn các task lặp đi lặp lại mỗi ngày — và làm landing / web app vibe-coded cho team Việt. Tư vấn 10 phút free, trả tiền sau khi duyệt demo.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} — Done-for-you AI Automation & Web`,
+    template: `%s — ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME }],
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    locale: 'vi_VN',
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} — Done-for-you AI Automation & Web`,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${SITE_NAME} — Done-for-you AI Automation & Web`,
+    description: SITE_DESCRIPTION,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-snippet': -1,
+      'max-image-preview': 'large',
+      'max-video-preview': -1,
+    },
+  },
+  icons: {
+    icon: '/favicon.ico',
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#0a0a0b',
+  colorScheme: 'dark',
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export default function RootLayout({

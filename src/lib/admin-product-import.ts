@@ -15,6 +15,7 @@ import { normalizeGoogleDriveImageUrl } from '@/lib/google-drive-images';
 import { categoriesFor, slugify, type ProductKind, type PricingMode, type ProductStatus, type ProductVersionStatus, type SupportOption } from '@/lib/product-types';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { emptyToNull } from '@/lib/string-normalization';
+import type { PromptFolder } from '@/lib/prompt-folder-types';
 
 const SUPPORT_ALIASES: Record<string, SupportOption> = {
   drive: 'drive_folder',
@@ -166,7 +167,11 @@ function resolvedSlug(input: ProductInput) {
   return (input.slug?.trim() || slugify(input.title)).slice(0, 80);
 }
 
-export function normalizeImportRow(row: Record<string, unknown>, options: ImportProductOptions = {}): ProductInput {
+type NormalizeImportRowContext = ImportProductOptions & {
+  folderBySlug?: Map<string, PromptFolder>;
+};
+
+export function normalizeImportRow(row: Record<string, unknown>, options: NormalizeImportRowContext = {}): ProductInput {
   const kind = normalizeKind(cell(row, 'kind', 'loai', 'type'), options.defaultKind);
   if (!kind) throw new ProductCreateError('validation_error', 'Cột kind phải là tool, prompt hoặc webwork.', 422);
 
@@ -178,6 +183,30 @@ export function normalizeImportRow(row: Record<string, unknown>, options: Import
   const thumbnailUrl = normalizeGoogleDriveImageUrl(cell(row, 'thumbnail_url', 'thumbnail', 'cover', 'image', 'anh'));
   const gallery = splitImageList(cell(row, 'gallery', 'images', 'anh_phu', 'thu_vien_anh'));
   const promptImage = kind === 'prompt' && thumbnailUrl ? [thumbnailUrl] : gallery;
+
+  // Resolve folder for prompt kind only. Accept aliases. If folder slug doesn't
+  // exist in the registry, we throw — admin must create the folder first.
+  let folderId: string | null = null;
+  if (kind === 'prompt') {
+    const rawFolder = cell(row, 'folder', 'thu_muc', 'chu_de').toLowerCase();
+    let folderSlug = rawFolder;
+    // Backward compat: if no `folder` column, derive from categories[0].
+    if (!folderSlug) {
+      const cats = splitList(cell(row, 'categories', 'category', 'danh_muc'));
+      folderSlug = (cats[0] ?? '').toLowerCase();
+    }
+    if (folderSlug && options.folderBySlug) {
+      const folder = options.folderBySlug.get(folderSlug);
+      if (!folder) {
+        throw new ProductCreateError(
+          'validation_error',
+          `Folder '${folderSlug}' chưa tồn tại. Hãy tạo folder ở /admin/prompt-folders trước, rồi import lại.`,
+          422,
+        );
+      }
+      folderId = folder.id;
+    }
+  }
 
   return {
     kind,
@@ -193,7 +222,8 @@ export function normalizeImportRow(row: Record<string, unknown>, options: Import
     pricing_mode: kind === 'webwork' ? 'quote' : kind === 'prompt' ? 'fixed' : pricingMode,
     price_vnd: kind === 'prompt' || kind === 'webwork' ? null : priceVnd,
     is_free: kind === 'prompt' ? true : parseBoolean(cell(row, 'is_free', 'free', 'mien_phi')),
-    categories: kind === 'webwork' ? [] : splitList(cell(row, 'categories', 'category', 'danh_muc')),
+    categories: kind === 'webwork' || kind === 'prompt' ? [] : splitList(cell(row, 'categories', 'category', 'danh_muc')),
+    folder_id: folderId,
     tags: kind === 'webwork' ? [] : splitList(cell(row, 'tags', 'the')),
     versions: kind === 'tool' ? normalizeImportVersions(cell(row, 'versions', 'phien_ban')) : [],
     deliverables: kind === 'tool' ? splitList(cell(row, 'deliverables', 'ban_giao', 'khach_nhan_duoc')) : [],
@@ -249,11 +279,26 @@ async function existingProductsBySlug(slugs: string[]) {
   return new Map((data ?? []).map((product) => [product.slug, product as ExistingProduct]));
 }
 
+async function loadFolderRegistry(): Promise<Map<string, PromptFolder>> {
+  const { data, error } = await createAdminClient()
+    .from('prompt_folders')
+    .select('id, slug, name, description, icon, cover_image_url, sort_order, created_at, updated_at');
+  if (error) {
+    console.error('Failed to load prompt folders for import', { code: error.code, message: error.message });
+    throw new ProductCreateError('db_error', 'Không tải được danh sách folder prompt.', 500);
+  }
+  return new Map((data ?? []).map((row) => [row.slug, row as PromptFolder]));
+}
+
 async function prepareRows(rows: Record<string, unknown>[], options: ImportProductOptions) {
+  // Load folder registry once so every row can resolve folder slug → id.
+  const folderBySlug = await loadFolderRegistry();
+  const enrichedOptions: NormalizeImportRowContext = { ...options, folderBySlug };
+
   const prepared: PreparedRow[] = rows.map((row, index) => {
     const rowNumber = index + 2;
     try {
-      const input = normalizeImportRow(row, options);
+      const input = normalizeImportRow(row, enrichedOptions);
       const checked = productInputSchema.safeParse(input);
       if (!checked.success) {
         return {
@@ -351,6 +396,7 @@ async function updateProductFromImport(existing: ExistingProduct, input: Product
     pricing_mode: input.pricing_mode ?? 'fixed',
     price_vnd: input.price_vnd ?? null,
     categories: Array.from(new Set(input.categories ?? [])),
+    folder_id: input.kind === 'prompt' ? (input.folder_id ?? null) : null,
     tags: input.tags ?? [],
     versions,
     deliverables: input.deliverables ?? [],

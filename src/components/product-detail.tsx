@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { AlertTriangle, ArrowLeft, ArrowUpRight, CheckCircle2, Globe, LockKeyhole, Sparkles, Star, Tag, Clock } from 'lucide-react';
 import { Footer } from '@/components/footer';
@@ -464,10 +465,12 @@ export function ProductDetail({
                       <li>3. Mình gửi file qua Zalo/Drive.</li>
                     </ol>
                     <div className="mt-4 overflow-hidden rounded-2xl border border-white/8 bg-white p-3">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
+                      <Image
                         src={PAYMENT_INFO.qrSrc}
                         alt="QR chuyển khoản SkillForge VN"
+                        width={320}
+                        height={320}
+                        sizes="(min-width: 1024px) 280px, 70vw"
                         className="aspect-square w-full object-contain"
                       />
                     </div>

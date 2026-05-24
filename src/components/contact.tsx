@@ -24,12 +24,16 @@ const CHANNELS = [
 
 export function Contact() {
   return (
-    <section id="contact" className="relative mx-auto w-full max-w-6xl px-6 py-24">
-      <div className="relative overflow-hidden rounded-3xl border border-white/5 bg-gradient-to-br from-[#1a0d10] via-[#0d0d10] to-[#0d0d10] p-10 md:p-14">
+    <section id="contact" className="relative mx-auto w-full max-w-6xl px-6 py-12 md:py-16">
+      <div className="relative overflow-hidden rounded-3xl border border-white/12 bg-gradient-to-br from-[#1c0e12] via-[#0f0a0c] to-[#0a0a0b] p-10 shadow-[0_28px_90px_-32px_rgba(234,56,76,0.4)] ring-1 ring-inset ring-white/[0.06] md:p-14">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-14 top-0 h-px bg-gradient-to-r from-transparent via-brand-orange/70 to-transparent"
+        />
         <div
           aria-hidden
           className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full"
-          style={{ background: 'radial-gradient(closest-side, rgba(234,56,76,0.35), transparent 70%)' }}
+          style={{ background: 'radial-gradient(closest-side, rgba(234,56,76,0.4), transparent 70%)' }}
         />
 
         <div className="relative grid grid-cols-1 gap-10 md:grid-cols-12">

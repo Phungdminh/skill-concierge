@@ -2,6 +2,12 @@ import { notFound } from 'next/navigation';
 import { ProductDetail } from '@/components/product-detail';
 import { createClient } from '@/lib/supabase/server';
 import type { Product } from '@/lib/product-types';
+import {
+  buildBreadcrumbJsonLd,
+  buildProductJsonLd,
+  buildProductMetadata,
+  jsonLdScript,
+} from '@/lib/seo';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -12,16 +18,12 @@ export async function generateMetadata({ params }: PageProps) {
   const supabase = await createClient();
   const { data } = await supabase
     .from('products')
-    .select('title, tagline')
+    .select('kind, slug, title, tagline, description, thumbnail_url, gallery')
     .eq('slug', slug)
     .eq('kind', 'webwork')
     .eq('status', 'published')
     .maybeSingle();
-  if (!data) return { title: 'Web project — SkillForge VN' };
-  return {
-    title: `${data.title} — SkillForge VN`,
-    description: data.tagline ?? undefined,
-  };
+  return buildProductMetadata(data as Parameters<typeof buildProductMetadata>[0]);
 }
 
 export default async function WebDetailPage({ params }: PageProps) {
@@ -36,5 +38,16 @@ export default async function WebDetailPage({ params }: PageProps) {
     .maybeSingle();
 
   if (error || !data) notFound();
-  return <ProductDetail product={data as Product} />;
+  const product = data as Product;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLdScript([buildProductJsonLd(product), buildBreadcrumbJsonLd(product)]),
+        }}
+      />
+      <ProductDetail product={product} />
+    </>
+  );
 }

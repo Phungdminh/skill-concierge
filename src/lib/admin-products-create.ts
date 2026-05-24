@@ -27,6 +27,7 @@ export const productInputSchema = z.object({
   price_vnd: z.number().int().min(0).nullable().optional(),
   is_free: z.boolean().optional(),
   categories: z.array(z.string().trim().min(1).max(40)).max(6).optional(),
+  folder_id: z.string().uuid().nullable().optional(),
   tags: z.array(z.string().max(40)).max(20).optional(),
   versions: z.array(productVersionSchema).max(10).optional(),
   deliverables: z.array(z.string().max(200)).max(20).optional(),
@@ -78,6 +79,9 @@ export async function createAdminProduct(ownerId: string, input: ProductInput) {
   if (input.kind !== 'prompt' && hasPromptMeta(input.prompt_meta)) {
     throw new ProductCreateError('validation_error', 'Chỉ sản phẩm loại prompt mới có nội dung prompt riêng.', 422);
   }
+  if (input.kind !== 'prompt' && input.folder_id) {
+    throw new ProductCreateError('validation_error', 'Folder chỉ áp dụng cho prompt.', 422);
+  }
   if (input.kind !== 'webwork' && emptyToNull(input.repo_url)) {
     throw new ProductCreateError('validation_error', 'Repo URL chỉ áp dụng cho web/portfolio.', 422);
   }
@@ -102,6 +106,7 @@ export async function createAdminProduct(ownerId: string, input: ProductInput) {
     pricing_mode: input.pricing_mode ?? 'fixed',
     price_vnd: input.price_vnd ?? null,
     categories: selectedCategories,
+    folder_id: input.kind === 'prompt' ? (input.folder_id ?? null) : null,
     tags: input.tags ?? [],
     versions,
     deliverables: input.deliverables ?? [],

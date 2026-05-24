@@ -9,12 +9,31 @@ import {
   incrementChallengeAttemptCookie,
   setVerifiedCookie,
 } from '@/lib/admin-verification';
+import { getClientIp, rateLimit } from '@/lib/rate-limit';
+import { checkSameOrigin } from '@/lib/csrf';
 
 const bodySchema = z.object({
   code: z.string().trim().regex(/^\d{6}$/, 'Mã xác nhận phải gồm 6 chữ số.'),
 });
 
 export async function POST(request: Request) {
+  const originIssue = await checkSameOrigin();
+  if (originIssue) {
+    return NextResponse.json(
+      { error: { code: 'forbidden_origin', message: 'Yêu cầu không hợp lệ.' } },
+      { status: 403 },
+    );
+  }
+
+  const ip = await getClientIp();
+  const ipLimit = rateLimit(`admin-verify:ip:${ip}`, { windowMs: 15 * 60 * 1000, max: 20 });
+  if (!ipLimit.ok) {
+    return NextResponse.json(
+      { error: { code: 'rate_limited', message: 'Bạn nhập sai quá nhiều lần. Thử lại sau.' } },
+      { status: 429, headers: { 'Retry-After': String(ipLimit.retryAfterSec) } },
+    );
+  }
+
   let body: unknown;
   try {
     body = await request.json();

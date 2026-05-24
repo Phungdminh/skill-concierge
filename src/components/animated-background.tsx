@@ -1,8 +1,10 @@
 'use client';
 
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 
 export function AnimatedBackground() {
+  const reduced = useReducedMotion();
+
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
       <div className="bg-grid absolute inset-0" />
@@ -14,24 +16,24 @@ export function AnimatedBackground() {
           background:
             'radial-gradient(closest-side, #ea384c 0%, #f97316 40%, transparent 80%)',
         }}
-        animate={{ scale: [1, 1.15, 1], opacity: [0.35, 0.5, 0.35] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+        animate={reduced ? undefined : { scale: [1, 1.15, 1], opacity: [0.35, 0.5, 0.35] }}
+        transition={reduced ? undefined : { duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       />
 
       <motion.div
         aria-hidden
         className="absolute right-[-10%] top-[30%] h-[420px] w-[420px] rounded-full opacity-30 blur-3xl"
         style={{ background: 'radial-gradient(closest-side, #fbbf24, transparent 70%)' }}
-        animate={{ x: [0, -30, 0], y: [0, 20, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+        animate={reduced ? undefined : { x: [0, -30, 0], y: [0, 20, 0] }}
+        transition={reduced ? undefined : { duration: 12, repeat: Infinity, ease: 'easeInOut' }}
       />
 
       <motion.div
         aria-hidden
         className="absolute left-[-10%] top-[40%] h-[380px] w-[380px] rounded-full opacity-30 blur-3xl"
         style={{ background: 'radial-gradient(closest-side, #ea384c, transparent 70%)' }}
-        animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
-        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+        animate={reduced ? undefined : { x: [0, 30, 0], y: [0, -20, 0] }}
+        transition={reduced ? undefined : { duration: 14, repeat: Infinity, ease: 'easeInOut' }}
       />
 
       <div

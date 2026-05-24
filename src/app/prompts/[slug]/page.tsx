@@ -3,6 +3,12 @@ import { ProductDetail } from '@/components/product-detail';
 import { createClient } from '@/lib/supabase/server';
 import { getRelatedPromptsTfIdf } from '@/lib/recommendations-prompt';
 import { getPromptMeta, type Product, type PublicProductReview } from '@/lib/product-types';
+import {
+  buildBreadcrumbJsonLd,
+  buildProductJsonLd,
+  buildProductMetadata,
+  jsonLdScript,
+} from '@/lib/seo';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -13,16 +19,12 @@ export async function generateMetadata({ params }: PageProps) {
   const supabase = await createClient();
   const { data } = await supabase
     .from('products')
-    .select('title, tagline')
+    .select('kind, slug, title, tagline, description, thumbnail_url, gallery')
     .eq('slug', slug)
     .eq('kind', 'prompt')
     .eq('status', 'published')
     .maybeSingle();
-  if (!data) return { title: 'Prompt mẫu — SkillForge VN' };
-  return {
-    title: `${data.title} — SkillForge VN`,
-    description: data.tagline ?? undefined,
-  };
+  return buildProductMetadata(data as Parameters<typeof buildProductMetadata>[0]);
 }
 
 export default async function PromptDetailPage({ params }: PageProps) {
@@ -74,13 +76,24 @@ export default async function PromptDetailPage({ params }: PageProps) {
   });
 
   return (
-    <ProductDetail
-      product={product}
-      viewerId={user?.id ?? null}
-      reviews={reviews}
-      reviewSummary={reviewSummary}
-      relatedProducts={relatedProducts}
-      loginHref={`/login?returnTo=/prompts/${product.slug}`}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLdScript([
+            buildProductJsonLd(product, reviewSummary),
+            buildBreadcrumbJsonLd(product),
+          ]),
+        }}
+      />
+      <ProductDetail
+        product={product}
+        viewerId={user?.id ?? null}
+        reviews={reviews}
+        reviewSummary={reviewSummary}
+        relatedProducts={relatedProducts}
+        loginHref={`/login?returnTo=/prompts/${product.slug}`}
+      />
+    </>
   );
 }

@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
+import { getClientIp, rateLimit } from '@/lib/rate-limit';
+import { checkSameOrigin } from '@/lib/csrf';
 
 const inquirySchema = z.object({
   name: z.string().trim().min(2, 'Tên ngắn quá').max(120),
@@ -13,6 +15,31 @@ const inquirySchema = z.object({
 });
 
 export async function POST(req: Request) {
+  const originIssue = await checkSameOrigin();
+  if (originIssue) {
+    return NextResponse.json(
+      { error: { code: 'forbidden_origin', message: 'Yêu cầu không hợp lệ.' } },
+      { status: 403 },
+    );
+  }
+
+  const ip = await getClientIp();
+  const limit = rateLimit(`inquiries:${ip}`, { windowMs: 60 * 60 * 1000, max: 5 });
+  if (!limit.ok) {
+    return NextResponse.json(
+      {
+        error: {
+          code: 'rate_limited',
+          message: 'Bạn đã gửi quá nhiều yêu cầu. Vui lòng thử lại sau.',
+        },
+      },
+      {
+        status: 429,
+        headers: { 'Retry-After': String(limit.retryAfterSec) },
+      },
+    );
+  }
+
   let payload: unknown;
   try {
     payload = await req.json();

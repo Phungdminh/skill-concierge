@@ -66,18 +66,43 @@ export function ProductReviewForm({ productId, isLoggedIn, loginHref }: ProductR
   return (
     <form onSubmit={submit} className="rounded-2xl border border-white/8 bg-white/[0.02] p-4">
       <div className="text-sm font-semibold text-foreground">Viết đánh giá của bạn</div>
-      <div className="mt-3 flex items-center gap-1" aria-label="Chọn số sao">
-        {[1, 2, 3, 4, 5].map((value) => (
-          <button
-            key={value}
-            type="button"
-            onClick={() => setRating(value)}
-            className="rounded-md p-1 text-brand-orange transition hover:bg-white/[0.04] focus:outline-none focus:ring-2 focus:ring-brand-orange/40"
-            aria-label={`${value} sao`}
-          >
-            <Star className={cn('h-5 w-5', value <= rating && 'fill-current')} strokeWidth={1.75} />
-          </button>
-        ))}
+      <div
+        role="radiogroup"
+        aria-label="Chọn số sao"
+        className="mt-3 flex items-center gap-1"
+      >
+        {[1, 2, 3, 4, 5].map((value) => {
+          const selected = value === rating;
+          return (
+            <button
+              key={value}
+              type="button"
+              role="radio"
+              aria-checked={selected}
+              tabIndex={selected ? 0 : -1}
+              onClick={() => setRating(value)}
+              onKeyDown={(e) => {
+                if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+                  e.preventDefault();
+                  setRating(Math.min(5, rating + 1));
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+                  e.preventDefault();
+                  setRating(Math.max(1, rating - 1));
+                } else if (e.key === 'Home') {
+                  e.preventDefault();
+                  setRating(1);
+                } else if (e.key === 'End') {
+                  e.preventDefault();
+                  setRating(5);
+                }
+              }}
+              className="rounded-md p-1 text-brand-orange transition hover:bg-white/[0.04] focus:outline-none focus:ring-2 focus:ring-brand-orange/40"
+              aria-label={`${value} sao`}
+            >
+              <Star className={cn('h-5 w-5', value <= rating && 'fill-current')} strokeWidth={1.75} />
+            </button>
+          );
+        })}
       </div>
 
       <label htmlFor="review-title" className="mt-4 block text-[11px] uppercase tracking-widest text-muted-foreground">
@@ -106,7 +131,11 @@ export function ProductReviewForm({ productId, isLoggedIn, loginHref }: ProductR
       />
 
       {errorMsg && (
-        <p className="mt-3 rounded-lg bg-red-500/10 px-3 py-2 text-xs text-red-300 ring-1 ring-red-500/30">
+        <p
+          role="alert"
+          aria-live="assertive"
+          className="mt-3 rounded-lg bg-red-500/10 px-3 py-2 text-xs text-red-300 ring-1 ring-red-500/30"
+        >
           {errorMsg}
         </p>
       )}

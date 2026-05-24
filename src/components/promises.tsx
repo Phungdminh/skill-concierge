@@ -1,4 +1,5 @@
 import { ShieldCheck, Wrench, Lock, Package } from 'lucide-react';
+import { SectionFrame } from '@/components/section-frame';
 
 const PROMISES = [
   {
@@ -25,39 +26,41 @@ const PROMISES = [
 
 export function Promises() {
   return (
-    <section className="relative mx-auto w-full max-w-6xl px-6 py-24">
-      <div className="mb-10 grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-12">
-        <div className="md:col-span-5">
-          <p className="mb-3 text-xs uppercase tracking-widest text-muted-foreground">
-            Cam kết
-          </p>
-          <h2 className="text-balance text-3xl font-semibold tracking-tight md:text-5xl">
-            Mua xong vẫn có người hỗ trợ.
-          </h2>
-          <p className="mt-5 text-foreground/65">
-            Bạn mua một lần, nhận file về máy và dùng lâu dài. Có lỗi thì nhắn mình, không phải tự mò.
-          </p>
+    <section className="relative mx-auto w-full max-w-6xl px-6 py-12 md:py-16">
+      <SectionFrame>
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-12">
+          <div className="md:col-span-5">
+            <p className="mb-3 text-xs uppercase tracking-widest text-muted-foreground">
+              Cam kết
+            </p>
+            <h2 className="text-balance text-3xl font-semibold tracking-tight md:text-5xl">
+              Mua xong vẫn có người hỗ trợ.
+            </h2>
+            <p className="mt-5 text-foreground/65">
+              Bạn mua một lần, nhận file về máy và dùng lâu dài. Có lỗi thì nhắn mình, không phải tự mò.
+            </p>
+          </div>
+          <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:col-span-7">
+            {PROMISES.map((p) => {
+              const Icon = p.icon;
+              return (
+                <li
+                  key={p.title}
+                  className="rounded-2xl border border-white/5 bg-[#0d0d10] p-5"
+                >
+                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-white/[0.04] text-brand-orange ring-1 ring-white/10">
+                    <Icon className="h-5 w-5" strokeWidth={1.75} />
+                  </span>
+                  <h3 className="mt-4 text-base font-semibold tracking-tight text-foreground/95">
+                    {p.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-foreground/65">{p.body}</p>
+                </li>
+              );
+            })}
+          </ul>
         </div>
-        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:col-span-7">
-          {PROMISES.map((p) => {
-            const Icon = p.icon;
-            return (
-              <li
-                key={p.title}
-                className="rounded-2xl border border-white/5 bg-[#0d0d10] p-5"
-              >
-                <span className="grid h-10 w-10 place-items-center rounded-xl bg-white/[0.04] text-brand-orange ring-1 ring-white/10">
-                  <Icon className="h-5 w-5" strokeWidth={1.75} />
-                </span>
-                <h3 className="mt-4 text-base font-semibold tracking-tight text-foreground/95">
-                  {p.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/65">{p.body}</p>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      </SectionFrame>
     </section>
   );
 }
