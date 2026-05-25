@@ -25,14 +25,10 @@ AI sẽ sinh:
 | 00 | `00-base-context.md` | Shared context (paste before all) | — |
 | 01 | `01-sheet-cleaner.md` | Sheet Cleaner | ⭐ |
 | 02 | `02-bulk-caption-generator.md` | Bulk Caption Generator | ⭐⭐ |
-| 03 | `03-cold-email-personalizer.md` | Cold Email Personalizer | ⭐⭐⭐ |
-| 04 | `04-meeting-notes-cleaner.md` | Meeting Notes Cleaner | ⭐⭐ |
-| 05 | `05-invoice-quote-generator.md` | Invoice / Quote Generator | ⭐⭐⭐ |
-| 06 | `06-bulk-translation-sheet.md` | Bulk Translation Sheet | ⭐⭐ |
-| 07 | `07-review-reply-drafter.md` | Review Reply Drafter | ⭐⭐ |
-| 08 | `08-jd-generator.md` | JD Generator | ⭐⭐ |
-| 09 | `09-lesson-plan-generator.md` | Lesson Plan Generator | ⭐⭐ |
-| 10 | `10-listing-description-generator.md` | Listing Description Generator | ⭐⭐ |
+| 03 | `03-pdf-toolkit.md` | PDF Toolkit | ⭐⭐ |
+| 04 | `04-vietnamese-subtitle.md` | Vietnamese Subtitle | ⭐⭐ |
+| 05 | `05-bank-statement-parser.md` | Bank Statement Parser | ⭐⭐⭐ |
+| 06 | `06-claude-bulk-runner.md` | Claude.ai Bulk Runner | ⭐⭐⭐⭐ |
 
 ## Workflow khuyến nghị
 
