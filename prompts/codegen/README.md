@@ -29,6 +29,7 @@ AI sẽ sinh:
 | 04 | `04-vietnamese-subtitle.md` | Vietnamese Subtitle | ⭐⭐ |
 | 05 | `05-bank-statement-parser.md` | Bank Statement Parser | ⭐⭐⭐ |
 | 06 | `06-claude-bulk-runner.md` | Claude.ai Bulk Runner | ⭐⭐⭐⭐ |
+| 07 | `07-invoice-xml-converter.md` | Hóa Đơn XML → Excel/MISA Converter | ⭐⭐⭐ |
 
 ## Workflow khuyến nghị
 

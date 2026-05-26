@@ -9,7 +9,9 @@
       "Bash(curl -s -o /tmp/home.html -w \"HTTP %{http_code}, %{size_download}B, %{time_total}s\\\\n\" http://localhost:3001/)",
       "Read(//tmp/**)",
       "Bash(curl -s -o /dev/null -w \"/tools: HTTP %{http_code} \\(%{size_download}B, %{time_total}s\\)\\\\n\" http://localhost:3001/tools)",
-      "Bash(curl -s -o /dev/null -w \"/login: HTTP %{http_code} \\(%{size_download}B, %{time_total}s\\)\\\\n\" http://localhost:3001/login)"
+      "Bash(curl -s -o /dev/null -w \"/login: HTTP %{http_code} \\(%{size_download}B, %{time_total}s\\)\\\\n\" http://localhost:3001/login)",
+      "Bash(curl -s -o /dev/null -w \"3001: HTTP %{http_code}\\\\n\" --max-time 3 http://localhost:3001/)",
+      "Bash(curl -s -o /dev/null -w \"3000: HTTP %{http_code}\\\\n\" --max-time 3 http://localhost:3000/)"
     ],
     "defaultMode": "bypassPermissions",
     "additionalDirectories": [

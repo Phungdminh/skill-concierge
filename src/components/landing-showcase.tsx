@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowUpRight, Bot, Eye, Globe, TrendingUp } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { FolderCarousel } from '@/components/folder-carousel';
+import { InteractiveShowcaseRow } from '@/components/interactive-showcase-row';
 import { ProductImage } from '@/components/product-image';
 import { SectionFrame } from '@/components/section-frame';
 import { YouTubeEmbed } from '@/components/youtube-embed';
@@ -14,9 +15,9 @@ import {
 } from '@/lib/product-types';
 import type { PromptFolder, PromptFolderWithCount } from '@/lib/prompt-folder-types';
 
-type ProductRankItem = Pick<
+export type ProductRankItem = Pick<
   Product,
-  'id' | 'kind' | 'slug' | 'title' | 'view_count'
+  'id' | 'kind' | 'slug' | 'title' | 'view_count' | 'youtube_url' | 'tagline' | 'thumbnail_url' | 'gallery'
 >;
 
 async function loadShowcase() {
@@ -41,7 +42,7 @@ async function loadShowcase() {
       .maybeSingle(),
     supabase
       .from('products')
-      .select('id, kind, slug, title, view_count')
+      .select('id, kind, slug, title, view_count, youtube_url, tagline, thumbnail_url, gallery')
       .eq('status', 'published')
       .eq('kind', 'tool')
       .order('view_count', { ascending: false })
@@ -61,7 +62,7 @@ async function loadShowcase() {
       .maybeSingle(),
     supabase
       .from('products')
-      .select('id, kind, slug, title, view_count')
+      .select('id, kind, slug, title, view_count, youtube_url, tagline, thumbnail_url, gallery')
       .eq('status', 'published')
       .eq('kind', 'webwork')
       .order('view_count', { ascending: false })
@@ -191,14 +192,14 @@ function ShowcaseRow({
 }) {
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-[7fr_3fr] lg:grid-rows-[4fr_1fr]">
-      <HeroProductCard
-        product={product}
+      <InteractiveShowcaseRow
+        heroProduct={product}
+        rankingItems={ranking}
+        rankingTitle={rankingTitle}
         eyebrow={eyebrow}
         emptyTitle={emptyTitle}
         emptyBody={emptyBody}
-        className="lg:row-span-2"
       />
-      <RankingCard items={ranking} title={rankingTitle} />
       <SeeAllCard
         href={seeAllHref}
         icon={icon}

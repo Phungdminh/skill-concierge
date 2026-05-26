@@ -3,8 +3,10 @@ import { Sparkles, FolderPlus } from 'lucide-react';
 import { Footer } from '@/components/footer';
 import { PageHeader } from '@/components/page-header';
 import { FolderCard } from '@/components/folder-card';
+import { ProductCard } from '@/components/product-card';
+import { PromptSearch } from '@/components/prompt-search';
 import { createClient } from '@/lib/supabase/server';
-import { KIND_META } from '@/lib/product-types';
+import { KIND_META, type Product } from '@/lib/product-types';
 import type { PromptFolder } from '@/lib/prompt-folder-types';
 
 const META = KIND_META.prompt;
@@ -16,9 +18,17 @@ export const metadata = {
 
 export const revalidate = 60;
 
-export default async function PromptsPage() {
+interface PageProps {
+  searchParams: Promise<{ q?: string }>;
+}
+
+export default async function PromptsPage({ searchParams }: PageProps) {
+  const { q } = await searchParams;
+  const query = typeof q === 'string' ? q.trim() : '';
+
   const supabase = await createClient();
-  const [foldersRes, productsRes] = await Promise.all([
+
+  const [foldersRes, productsRes, searchRes] = await Promise.all([
     supabase
       .from('prompt_folders')
       .select('*')
@@ -29,7 +39,19 @@ export default async function PromptsPage() {
       .select('folder_id')
       .eq('kind', 'prompt')
       .eq('status', 'published'),
+    query
+      ? supabase
+          .from('products')
+          .select('*')
+          .eq('kind', 'prompt')
+          .eq('status', 'published')
+          .or(`title.ilike.%${query}%,tagline.ilike.%${query}%`)
+          .order('view_count', { ascending: false })
+          .limit(20)
+      : null,
   ]);
+
+  const searchResults = (searchRes?.data as Product[] | null) ?? [];
 
   const folders = (foldersRes.data as PromptFolder[] | null) ?? [];
   const tally = new Map<string, number>();
@@ -51,7 +73,33 @@ export default async function PromptsPage() {
         />
 
         <section className="mx-auto w-full max-w-6xl px-6 py-10">
-          {folders.length === 0 ? (
+          <div className="mb-8 max-w-md">
+            <PromptSearch defaultValue={query} />
+          </div>
+
+          {query ? (
+            searchResults.length > 0 ? (
+              <>
+                <p className="mb-5 text-sm text-foreground/55">
+                  {searchResults.length} kết quả cho &ldquo;{query}&rdquo;
+                </p>
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                  {searchResults.map((p) => (
+                    <ProductCard key={p.id} product={p} hideKind />
+                  ))}
+                </div>
+              </>
+            ) : (
+              <div className="grid place-items-center rounded-3xl border border-dashed border-white/10 bg-[#0a0a0b] px-6 py-20 text-center">
+                <h3 className="text-lg font-semibold">
+                  Không tìm thấy prompt nào
+                </h3>
+                <p className="mt-2 max-w-md text-sm text-foreground/55">
+                  Thử từ khóa khác hoặc xóa tìm kiếm để xem theo folder.
+                </p>
+              </div>
+            )
+          ) : folders.length === 0 ? (
             <div className="grid place-items-center rounded-3xl border border-dashed border-white/10 bg-[#0a0a0b] px-6 py-20 text-center">
               <FolderPlus className="h-10 w-10 text-foreground/30" strokeWidth={1.5} />
               <h3 className="mt-5 text-lg font-semibold">Chưa có folder nào</h3>
