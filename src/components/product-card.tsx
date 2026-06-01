@@ -31,7 +31,7 @@ export function ProductCard({ product, hideKind = false }: ProductCardProps) {
   return (
     <Link
       href={productDetailHref(product)}
-      className="subtle-card group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/5 bg-[#0d0d10]"
+      className="subtle-card group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card"
     >
       <div
         aria-hidden
@@ -42,7 +42,7 @@ export function ProductCard({ product, hideKind = false }: ProductCardProps) {
         className="pointer-events-none absolute inset-0 z-10 rounded-3xl ring-0 ring-brand-orange/0 transition duration-300 group-hover:ring-2 group-hover:ring-brand-orange/60"
       />
 
-      <div className="relative aspect-video w-full overflow-hidden bg-[#0a0a0b]">
+      <div className="relative aspect-video w-full overflow-hidden bg-muted">
         <ProductImage
           src={cover}
           alt={product.title}
@@ -96,7 +96,7 @@ export function ProductCard({ product, hideKind = false }: ProductCardProps) {
             {product.tags.slice(0, 4).map((s) => (
               <span
                 key={s}
-                className="rounded-full bg-white/[0.04] px-2 py-0.5 text-[11px] text-foreground/65 ring-1 ring-white/8"
+                className="rounded-full bg-muted px-2 py-0.5 text-[11px] text-foreground/65 ring-1 ring-[var(--ring-subtle)]"
               >
                 {s}
               </span>
@@ -113,7 +113,7 @@ export function ProductCard({ product, hideKind = false }: ProductCardProps) {
               {formatPriceVnd(product.price_vnd, product.pricing_mode, product.is_free)}
             </div>
           </div>
-          <span className="inline-flex items-center gap-1 rounded-full border border-white/10 px-3 py-1.5 text-xs text-foreground/65 transition duration-300 group-hover:border-brand-orange/50 group-hover:bg-brand-orange/10 group-hover:text-brand-orange">
+          <span className="inline-flex items-center gap-1 rounded-full border border-border px-3 py-1.5 text-xs text-foreground/65 transition duration-300 group-hover:border-brand-orange/50 group-hover:bg-brand-orange/10 group-hover:text-brand-orange">
             Xem chi tiết
             <ArrowUpRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </span>

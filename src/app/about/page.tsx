@@ -20,7 +20,7 @@ import Link from 'next/link';
 export const metadata = {
   title: 'Giới thiệu — SkillForge VN',
   description:
-    'Tại sao SkillForge VN ra đời — tool tự động hoá, website portfolio đẹp cho người tìm việc, và kho prompt thực chiến.',
+    'Tại sao SkillForge VN ra đời — tool tự động hoá, website cá nhân đẹp cho người tìm việc, và kho prompt thực chiến.',
 };
 
 const STATS = [
@@ -41,11 +41,11 @@ const OFFERINGS = [
   },
   {
     icon: Globe,
-    tag: 'Web / Portfolio',
+    tag: 'Web cá nhân',
     href: '/web',
-    title: 'Website portfolio đẹp cho người tìm việc',
-    body: 'Landing page cá nhân hoặc portfolio đẹp, hiệu ứng mượt — kết hợp cùng CV giúp bạn nổi bật khi apply việc. Giao trong 5–7 ngày, source code đứng tên bạn, 2 vòng revise miễn phí.',
-    cta: 'Xem portfolio',
+    title: 'Website cá nhân đẹp cho người tìm việc',
+    body: 'Landing page cá nhân hoặc web cá nhân đẹp, hiệu ứng mượt — kết hợp cùng CV giúp bạn nổi bật khi apply việc. Giao trong 5–7 ngày, source code đứng tên bạn, 2 vòng revise miễn phí.',
+    cta: 'Xem web',
   },
   {
     icon: FileText,
@@ -70,7 +70,7 @@ const BENEFITS = [
   },
   {
     icon: BriefcaseBusiness,
-    title: 'Portfolio giúp bạn nổi bật khi tìm việc',
+    title: 'Web cá nhân giúp bạn nổi bật khi tìm việc',
     body: 'Website cá nhân hiệu ứng đẹp kết hợp CV tạo ấn tượng mạnh với nhà tuyển dụng. Bạn có link gửi kèm hồ sơ, thay vì chỉ một file PDF.',
   },
   {
@@ -101,8 +101,8 @@ const BENEFITS = [
 ];
 
 const FIT = [
-  'Bạn đang tốn >3 giờ/tuần làm task lặp lại trên máy tính',
-  'Bạn đang tìm việc và muốn portfolio đẹp kết hợp cùng CV',
+  'Bạn tốn >3 giờ/tuần làm một task lặp lại',
+  'Bạn đang tìm việc và muốn web cá nhân đẹp kèm CV',
   'Bạn muốn dùng ChatGPT/Claude hiệu quả hơn với prompt đúng',
   'Bạn ngại subscription SaaS đắt và không muốn lock-in',
 ];
@@ -121,7 +121,7 @@ export default function AboutPage() {
         <PageHeader
           eyebrow="Giới thiệu"
           title="Tại sao mình build website này?"
-          intro="Mỗi ngày có hàng triệu người đang làm đi làm lại cùng một thao tác — copy-paste, điền form, gom data — và không biết rằng việc đó có thể tự động hoá. Người tìm việc thiếu một portfolio đẹp để gửi kèm CV. Người mới dùng AI mất hàng giờ thử sai prompt. SkillForge VN ra đời để giải quyết cả ba."
+          intro="Mỗi ngày có hàng triệu người đang làm đi làm lại cùng một thao tác — copy-paste, điền form, gom data — và không biết rằng việc đó có thể tự động hoá. Người tìm việc thiếu một web cá nhân đẹp để gửi kèm CV. Người mới dùng AI mất hàng giờ thử sai prompt. SkillForge VN ra đời để giải quyết cả ba."
           crumbs={[{ label: 'Trang chủ', href: '/' }, { label: 'Giới thiệu' }]}
         />
 
@@ -129,7 +129,7 @@ export default function AboutPage() {
         <section className="mx-auto w-full max-w-6xl px-6">
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
             {STATS.map((s) => (
-              <div key={s.label} className="rounded-2xl border border-white/5 bg-[#0d0d10] p-5">
+              <div key={s.label} className="rounded-2xl border border-border bg-card p-5">
                 <div className="text-3xl font-semibold tabular-nums text-foreground">{s.value}</div>
                 <div className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">{s.label}</div>
               </div>
@@ -149,16 +149,16 @@ export default function AboutPage() {
                   Mình bắt đầu từ việc build tool cho chính mình — những task lặp lại mỗi ngày đang ngốn mất <strong className="text-foreground">hàng giờ</strong> mà không tạo ra giá trị gì. Sau khi tự động hoá xong, mình nhận ra đây không phải vấn đề riêng của mình — rất nhiều người đang làm đúng những việc đó mỗi ngày và không biết có cách khác.
                 </p>
                 <p>
-                  Nhưng đó mới chỉ là một phần. Mình cũng thấy rất nhiều bạn đang tìm việc chỉ có một file CV PDF — trong khi một <strong className="text-foreground">website portfolio đẹp</strong> kết hợp cùng CV có thể tạo ấn tượng hoàn toàn khác với nhà tuyển dụng. Và ngày càng nhiều người muốn dùng AI nhưng không biết bắt đầu từ đâu, mất hàng giờ thử sai <strong className="text-foreground">prompt</strong> mà không ra kết quả.
+                  Nhưng đó mới chỉ là một phần. Mình cũng thấy rất nhiều bạn đang tìm việc chỉ có một file CV PDF — trong khi một <strong className="text-foreground">website cá nhân đẹp</strong> kết hợp cùng CV có thể tạo ấn tượng hoàn toàn khác với nhà tuyển dụng. Và ngày càng nhiều người muốn dùng AI nhưng không biết bắt đầu từ đâu, mất hàng giờ thử sai <strong className="text-foreground">prompt</strong> mà không ra kết quả.
                 </p>
                 <p>
-                  SkillForge VN gom ba thứ đó lại: <strong className="text-foreground">tool tự động hoá</strong>, <strong className="text-foreground">website portfolio</strong> và <strong className="text-foreground">kho prompt thực chiến</strong>. Không có middleman, không agency markup — bạn làm việc trực tiếp với người build.
+                  SkillForge VN gom ba thứ đó lại: <strong className="text-foreground">tool tự động hoá</strong>, <strong className="text-foreground">website cá nhân</strong> và <strong className="text-foreground">kho prompt thực chiến</strong>. Không có middleman, không agency markup — bạn làm việc trực tiếp với người build.
                 </p>
               </div>
             </div>
 
             <aside className="md:col-span-5">
-              <div className="rounded-3xl border border-white/5 bg-gradient-to-br from-[#1a0d10] via-[#0d0d10] to-[#0d0d10] p-7">
+              <div className="rounded-3xl border border-border bg-gradient-to-br from-brand-red/12 via-card to-background p-7">
                 <p className="text-xs uppercase tracking-widest text-muted-foreground">
                   Website này dành cho bạn nếu
                 </p>
@@ -169,7 +169,7 @@ export default function AboutPage() {
                   </li>
                   <li className="flex gap-3 text-sm text-foreground/80">
                     <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-orange" />
-                    Bạn đang tìm việc và muốn portfolio đẹp kèm CV
+                    Bạn đang tìm việc và muốn web cá nhân đẹp kèm CV
                   </li>
                   <li className="flex gap-3 text-sm text-foreground/80">
                     <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-orange" />
@@ -178,7 +178,7 @@ export default function AboutPage() {
                 </ul>
                 <Link
                   href="/contact"
-                  className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-white px-4 py-3 text-sm font-medium text-black transition hover:bg-white/90"
+                  className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-foreground px-4 py-3 text-sm font-medium text-background transition hover:bg-foreground/90"
                 >
                   Liên hệ tư vấn miễn phí
                 </Link>
@@ -199,9 +199,9 @@ export default function AboutPage() {
             {OFFERINGS.map((o) => {
               const Icon = o.icon;
               return (
-                <div key={o.tag} className="flex flex-col rounded-3xl border border-white/5 bg-[#0d0d10] p-7">
+                <div key={o.tag} className="flex flex-col rounded-3xl border border-border bg-card p-7">
                   <div className="flex items-center gap-3">
-                    <span className="grid h-10 w-10 place-items-center rounded-xl bg-white/[0.04] text-brand-orange ring-1 ring-white/10">
+                    <span className="grid h-10 w-10 place-items-center rounded-xl bg-muted text-brand-orange ring-1 ring-[var(--ring-subtle)]">
                       <Icon className="h-5 w-5" strokeWidth={1.75} />
                     </span>
                     <span className="text-[10.5px] uppercase tracking-widest text-muted-foreground">{o.tag}</span>
@@ -210,7 +210,7 @@ export default function AboutPage() {
                   <p className="mt-2 flex-1 text-sm leading-relaxed text-foreground/65">{o.body}</p>
                   <Link
                     href={o.href}
-                    className="mt-5 inline-flex w-fit items-center gap-1.5 rounded-full border border-white/10 px-4 py-1.5 text-sm font-medium text-foreground/80 transition hover:border-brand-orange/40 hover:bg-brand-orange/10 hover:text-brand-orange"
+                    className="mt-5 inline-flex w-fit items-center gap-1.5 rounded-full border border-border px-4 py-1.5 text-sm font-medium text-foreground/80 transition hover:border-brand-orange/40 hover:bg-brand-orange/10 hover:text-brand-orange"
                   >
                     {o.cta} →
                   </Link>
@@ -232,8 +232,8 @@ export default function AboutPage() {
             {BENEFITS.map((b) => {
               const Icon = b.icon;
               return (
-                <div key={b.title} className="rounded-2xl border border-white/5 bg-[#0d0d10] p-6">
-                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-white/[0.04] text-brand-orange ring-1 ring-white/10">
+                <div key={b.title} className="rounded-2xl border border-border bg-card p-6">
+                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-muted text-brand-orange ring-1 ring-[var(--ring-subtle)]">
                     <Icon className="h-5 w-5" strokeWidth={1.75} />
                   </span>
                   <h3 className="mt-4 text-sm font-semibold tracking-tight text-foreground/95">{b.title}</h3>
@@ -258,7 +258,7 @@ export default function AboutPage() {
                 ))}
               </ul>
             </div>
-            <div className="rounded-3xl border border-white/5 bg-[#0d0d10] p-7">
+            <div className="rounded-3xl border border-border bg-card p-7">
               <h3 className="text-xs uppercase tracking-widest text-muted-foreground">Không phù hợp nếu</h3>
               <ul className="mt-4 space-y-3">
                 {NOT_FIT.map((f) => (

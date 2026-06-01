@@ -18,12 +18,12 @@ export function YouTubeEmbed({ url, title = 'Video demo', className, bare = fals
   const [active, setActive] = useState(false);
   const [posterFallback, setPosterFallback] = useState(false);
   const videoId = extractYouTubeId(url);
-  const chrome = bare ? '' : 'rounded-2xl border border-white/5';
+  const chrome = bare ? '' : 'rounded-2xl border border-border';
   const sizing = fill ? '' : 'aspect-video';
 
   if (!videoId) {
     return (
-      <div className={`grid place-items-center bg-[#0d0d10] text-sm text-muted-foreground ${sizing} ${chrome} ${className ?? ''}`}>
+      <div className={`grid place-items-center bg-card text-sm text-muted-foreground ${sizing} ${chrome} ${className ?? ''}`}>
         Video chưa khả dụng
       </div>
     );
@@ -35,7 +35,7 @@ export function YouTubeEmbed({ url, title = 'Video demo', className, bare = fals
   const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
 
   return (
-    <div className={`relative w-full overflow-hidden bg-[#0a0a0b] ${sizing} ${chrome} ${className ?? ''}`}>
+    <div className={`relative w-full overflow-hidden bg-card ${sizing} ${chrome} ${className ?? ''}`}>
       {active ? (
         <>
           <iframe

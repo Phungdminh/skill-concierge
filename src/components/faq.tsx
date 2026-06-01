@@ -30,7 +30,7 @@ export function Faq({
         {intro && <p className="mx-auto mt-4 max-w-xl text-foreground/60">{intro}</p>}
       </div>
 
-      <ul className="divide-y divide-white/5 rounded-3xl border border-white/5 bg-[#0d0d10]">
+      <ul className="divide-y divide-border rounded-3xl border border-border bg-card">
         {items.map((item, i) => {
           const isOpen = open === i;
           return (
@@ -44,7 +44,7 @@ export function Faq({
                 <span className="text-base font-medium leading-snug text-foreground/95 md:text-lg">
                   {item.q}
                 </span>
-                <span className="faq-icon mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full bg-white/[0.04] text-foreground/70 ring-1 ring-white/10 transition duration-200">
+                <span className="faq-icon mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full bg-muted text-foreground/70 ring-1 ring-[var(--ring-subtle)] transition duration-200">
                   {isOpen ? <Minus className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
                 </span>
               </button>

@@ -51,7 +51,7 @@ export function ProductReviewForm({ productId, isLoggedIn, loginHref }: ProductR
 
   if (!isLoggedIn) {
     return (
-      <div className="rounded-2xl border border-white/8 bg-white/[0.02] p-4 text-sm text-foreground/65">
+      <div className="rounded-2xl border border-border bg-card p-4 text-sm text-foreground/65">
         <p>Đăng nhập để gửi đánh giá thật sau khi dùng prompt.</p>
         <Link
           href={loginHref}
@@ -64,7 +64,7 @@ export function ProductReviewForm({ productId, isLoggedIn, loginHref }: ProductR
   }
 
   return (
-    <form onSubmit={submit} className="rounded-2xl border border-white/8 bg-white/[0.02] p-4">
+    <form onSubmit={submit} className="rounded-2xl border border-border bg-card p-4">
       <div className="text-sm font-semibold text-foreground">Viết đánh giá của bạn</div>
       <div
         role="radiogroup"
@@ -96,7 +96,7 @@ export function ProductReviewForm({ productId, isLoggedIn, loginHref }: ProductR
                   setRating(5);
                 }
               }}
-              className="rounded-md p-1 text-brand-orange transition hover:bg-white/[0.04] focus:outline-none focus:ring-2 focus:ring-brand-orange/40"
+              className="rounded-md p-1 text-brand-orange transition hover:bg-muted focus:outline-none focus:ring-2 focus:ring-brand-orange/40"
               aria-label={`${value} sao`}
             >
               <Star className={cn('h-5 w-5', value <= rating && 'fill-current')} strokeWidth={1.75} />
@@ -153,4 +153,4 @@ export function ProductReviewForm({ productId, isLoggedIn, loginHref }: ProductR
 }
 
 const inputCls =
-  'mt-2 w-full rounded-xl bg-white/[0.02] px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground ring-1 ring-white/8 transition focus:outline-none focus:ring-white/25';
+  'mt-2 w-full rounded-xl bg-card px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground ring-1 ring-[var(--ring-subtle)] transition focus:outline-none focus:ring-brand-orange/35';

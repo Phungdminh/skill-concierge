@@ -119,7 +119,7 @@ export default async function PromptFolderPage({ params }: PageProps) {
 
         <section className="mx-auto w-full max-w-6xl px-6 py-10">
           {products.length === 0 ? (
-            <div className="grid place-items-center rounded-3xl border border-dashed border-white/10 bg-[#0a0a0b] px-6 py-20 text-center">
+            <div className="grid place-items-center rounded-3xl border border-dashed border-border bg-card px-6 py-20 text-center">
               <Sparkles className="h-10 w-10 text-foreground/30" strokeWidth={1.5} />
               <h3 className="mt-5 text-lg font-semibold">Folder này chưa có prompt</h3>
               <p className="mt-2 max-w-md text-sm text-foreground/55">
@@ -127,7 +127,7 @@ export default async function PromptFolderPage({ params }: PageProps) {
               </p>
               <Link
                 href="/prompts"
-                className="featured-cta mt-6 inline-flex items-center gap-2 rounded-xl border border-white/10 px-5 py-2.5 text-sm"
+                className="featured-cta mt-6 inline-flex items-center gap-2 rounded-xl border border-border px-5 py-2.5 text-sm"
               >
                 Xem các folder khác
               </Link>

@@ -70,11 +70,11 @@ export default function ProcessPage() {
               return (
                 <li
                   key={d.title}
-                  className="grid grid-cols-1 gap-5 rounded-3xl border border-white/5 bg-[#0d0d10] p-7 md:grid-cols-12"
+                  className="grid grid-cols-1 gap-5 rounded-3xl border border-border bg-card p-7 md:grid-cols-12"
                 >
                   <div className="md:col-span-3">
                     <div className="flex items-center gap-3">
-                      <span className="grid h-12 w-12 place-items-center rounded-2xl bg-white/[0.04] text-brand-orange ring-1 ring-white/10">
+                      <span className="grid h-12 w-12 place-items-center rounded-2xl bg-muted text-brand-orange ring-1 ring-[var(--ring-subtle)]">
                         <Icon className="h-6 w-6" strokeWidth={1.75} />
                       </span>
                       <span className="font-mono text-2xl tabular-nums text-muted-foreground/60">
@@ -119,7 +119,7 @@ export default function ProcessPage() {
             </Link>
             <Link
               href="/contact?custom=1"
-              className="featured-cta inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-3 text-sm font-medium text-foreground/85"
+              className="featured-cta inline-flex items-center justify-center rounded-2xl border border-border bg-card px-6 py-3 text-sm font-medium text-foreground/85"
             >
               Đặt tool riêng theo yêu cầu
             </Link>

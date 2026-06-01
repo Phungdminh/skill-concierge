@@ -811,7 +811,7 @@ export function ProductForm({ initial, mode, defaultKind = 'tool' }: ProductForm
               Hình thức bàn giao mặc định
             </div>
             <p className="mt-2 text-xs leading-relaxed text-foreground/65">
-              Với sản phẩm web/portfolio, khách luôn nhận tất cả các kênh sau — không cần tick chọn:
+              Với sản phẩm web cá nhân, khách luôn nhận tất cả các kênh sau — không cần tick chọn:
             </p>
             <ul className="mt-3 space-y-1.5">
               {WEBWORK_DEFAULT_SUPPORT.map((opt) => {

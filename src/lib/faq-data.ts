@@ -31,7 +31,7 @@ export const FAQ_GENERAL: FaqItem[] = [
   },
   {
     q: 'Làm web ở đây gồm những loại nào?',
-    a: 'Mình nhận landing page và portfolio cá nhân gọn nhẹ, tập trung vào giới thiệu dịch vụ/sản phẩm và tạo form liên hệ. Không định vị là hệ thống nội bộ phức tạp hay phần mềm quản trị doanh nghiệp.',
+    a: 'Mình nhận landing page và web cá nhân gọn nhẹ, tập trung vào giới thiệu dịch vụ/sản phẩm và tạo form liên hệ. Không định vị là hệ thống nội bộ phức tạp hay phần mềm quản trị doanh nghiệp.',
   },
   {
     q: 'Prompt mẫu dùng cho những việc gì?',

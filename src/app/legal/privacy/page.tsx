@@ -74,7 +74,7 @@ export default function PrivacyPage() {
             </section>
           ))}
 
-          <section className="rounded-2xl border border-white/5 bg-[#0d0d10] p-6 text-sm text-foreground/65">
+          <section className="rounded-2xl border border-border bg-card p-6 text-sm text-foreground/65">
             <p>
               <strong className="text-foreground/85">Câu hỏi cụ thể?</strong> Email{' '}
               <a

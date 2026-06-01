@@ -53,7 +53,7 @@ export function PromptSearch({ defaultValue = '' }: Props) {
         defaultValue={defaultValue}
         onChange={handleChange}
         placeholder="Tìm prompt theo tên, mô tả…"
-        className="w-full rounded-2xl border border-white/10 bg-white/[0.03] py-3 pl-11 pr-10 text-sm text-foreground placeholder:text-foreground/35 transition focus:border-brand-orange/40 focus:outline-none focus:ring-1 focus:ring-brand-orange/25"
+        className="w-full rounded-2xl border border-border bg-card py-3 pl-11 pr-10 text-sm text-foreground placeholder:text-foreground/35 transition focus:border-brand-orange/40 focus:outline-none focus:ring-1 focus:ring-brand-orange/25"
       />
       {(defaultValue || isPending) && (
         <button

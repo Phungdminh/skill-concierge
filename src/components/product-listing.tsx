@@ -80,7 +80,7 @@ export async function ProductListing({ kind, category, title, intro }: ProductLi
         </section>
 
         <section className="mx-auto w-full max-w-4xl px-6 pb-24 pt-8 text-center">
-          <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.04] text-brand-orange ring-1 ring-white/10">
+          <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-muted text-brand-orange ring-1 ring-[var(--ring-subtle)]">
             <Icon className="h-6 w-6" strokeWidth={1.75} />
           </span>
           <h2 className="mt-5 text-balance text-2xl font-semibold tracking-tight md:text-3xl">
@@ -118,7 +118,7 @@ function CategoryChip({
         'subtle-nav rounded-full border px-4 py-1.5 text-sm focus-visible:outline-none',
         active
           ? 'border-brand-orange/30 bg-brand-orange/15 font-semibold text-brand-orange ring-1 ring-brand-orange/30'
-          : 'border-white/10 bg-white/[0.02] text-foreground/75',
+          : 'border-border bg-card text-foreground/75',
       )}
     >
       {label}
@@ -130,7 +130,7 @@ function EmptyState({ kind, category }: { kind: ProductKind; category?: string }
   const meta = KIND_META[kind];
   const Icon = meta.icon;
   return (
-    <div className="grid place-items-center rounded-3xl border border-dashed border-white/10 bg-[#0a0a0b] px-6 py-20 text-center">
+    <div className="grid place-items-center rounded-3xl border border-dashed border-border bg-card px-6 py-20 text-center">
       <Icon className="h-10 w-10 text-foreground/30" strokeWidth={1.5} />
       <h3 className="mt-5 text-lg font-semibold">
         {category ? `Chưa có ${meta.shortLabel.toLowerCase()} nào trong "${category}"` : meta.emptyTitle}
@@ -138,7 +138,7 @@ function EmptyState({ kind, category }: { kind: ProductKind; category?: string }
       <p className="mt-2 max-w-md text-sm text-foreground/55">{meta.emptyBody}</p>
       <Link
         href={`/contact?kind=${kind}`}
-        className="featured-cta mt-6 inline-flex items-center gap-2 rounded-xl border border-white/10 px-5 py-2.5 text-sm"
+        className="featured-cta mt-6 inline-flex items-center gap-2 rounded-xl border border-border px-5 py-2.5 text-sm"
       >
         {meta.ctaLabel}
       </Link>

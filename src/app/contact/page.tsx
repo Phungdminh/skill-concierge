@@ -95,7 +95,7 @@ export default async function ContactPage({ searchParams }: PageProps) {
 
         {showForm && (
           <section className="mx-auto w-full max-w-2xl px-6 py-6">
-            <div className="rounded-3xl border border-white/5 bg-[#0d0d10] p-6 md:p-8">
+            <div className="rounded-3xl border border-border bg-card p-6 md:p-8">
               <InquiryForm
                 productId={product?.id}
                 productSlug={product?.slug}
@@ -128,7 +128,7 @@ export default async function ContactPage({ searchParams }: PageProps) {
                     href={c.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="interactive-card group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/5 bg-[#0d0d10] p-6"
+                    className="interactive-card group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card p-6"
                   >
                     <div
                       aria-hidden

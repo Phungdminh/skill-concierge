@@ -7,13 +7,14 @@ import Image from 'next/image';
 import { Sparkles, Menu, X, LogOut, User as UserIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { createClient } from '@/lib/supabase/client';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 const HIDDEN_PREFIXES = ['/admin', '/login', '/signup', '/auth'];
 
 const LINKS = [
   { href: '/tools', label: 'Tools' },
   { href: '/prompts', label: 'Prompt mẫu' },
-  { href: '/web', label: 'Web / Portfolio' },
+  { href: '/web', label: 'Web cá nhân' },
   { href: '/about', label: 'Giới thiệu' },
 ];
 
@@ -173,7 +174,7 @@ export function Nav({ initialUser = null, initialProfile = null }: NavProps = {}
             <span className="text-[10px] font-medium text-muted-foreground">VN</span>
           </Link>
 
-          <span className="mx-1 hidden h-5 w-px bg-white/10 md:block" />
+          <span className="mx-1 hidden h-5 w-px bg-border md:block" />
 
           <ul className="hidden flex-1 items-center gap-1 md:flex">
             {LINKS.map((l) => {
@@ -196,17 +197,20 @@ export function Nav({ initialUser = null, initialProfile = null }: NavProps = {}
             })}
           </ul>
 
-          {user ? (
-            <div ref={avatarMenuRef} className="relative ml-auto hidden md:block">
-              <button
+          <div className="ml-auto hidden items-center gap-1 md:flex">
+            <ThemeToggle />
+
+            {user ? (
+              <div ref={avatarMenuRef} className="relative">
+                <button
                 type="button"
                 onClick={() => setMenuOpen((v) => !v)}
                 aria-haspopup="menu"
                 aria-expanded={menuOpen}
                 aria-label={displayName ? `Mở menu tài khoản: ${displayName}` : 'Mở menu tài khoản'}
-                className="subtle-nav grid h-9 w-9 place-items-center overflow-hidden rounded-full border border-white/10 bg-white/[0.04] transition hover:border-white/20 focus-visible:outline-none"
+                className="subtle-nav grid h-9 w-9 place-items-center overflow-hidden rounded-full border border-border bg-muted/45 transition hover:border-brand-orange/30 focus-visible:outline-none"
               >
-                <span className="relative grid h-full w-full place-items-center overflow-hidden rounded-full bg-white/10 text-xs font-semibold text-foreground/85">
+                <span className="relative grid h-full w-full place-items-center overflow-hidden rounded-full bg-muted text-xs font-semibold text-foreground/85">
                   {avatarUrl ? (
                     <Image
                       src={avatarUrl}
@@ -225,13 +229,13 @@ export function Nav({ initialUser = null, initialProfile = null }: NavProps = {}
               {menuOpen && (
                 <div
                   role="menu"
-                  className="absolute right-0 top-[calc(100%+6px)] w-56 overflow-hidden rounded-2xl border border-white/10 bg-[#0d0d10] py-1 shadow-2xl"
+                  className="glass-solid absolute right-0 top-[calc(100%+6px)] w-56 overflow-hidden rounded-2xl py-1 shadow-2xl"
                 >
                   <Link
                     href="/account"
                     role="menuitem"
                     onClick={() => setMenuOpen(false)}
-                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-foreground/85 transition hover:bg-white/[0.05]"
+                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-foreground/85 transition hover:bg-muted"
                   >
                     <UserIcon className="h-4 w-4" />
                     Hồ sơ
@@ -240,7 +244,7 @@ export function Nav({ initialUser = null, initialProfile = null }: NavProps = {}
                     type="button"
                     role="menuitem"
                     onClick={signOut}
-                    className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-foreground/85 transition hover:bg-white/[0.05]"
+                    className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-foreground/85 transition hover:bg-muted"
                   >
                     <LogOut className="h-4 w-4" />
                     Đăng xuất
@@ -248,14 +252,17 @@ export function Nav({ initialUser = null, initialProfile = null }: NavProps = {}
                 </div>
               )}
             </div>
-          ) : (
-            <Link
-              href="/login?returnTo=/contact"
-              className="subtle-nav ml-auto hidden rounded-full border border-transparent bg-white px-4 py-1.5 font-medium text-black md:inline-flex"
-            >
-              Đăng nhập
-            </Link>
-          )}
+            ) : (
+              <Link
+                href="/login?returnTo=/contact"
+                className="subtle-nav rounded-full border border-transparent bg-foreground px-4 py-1.5 font-medium text-background"
+              >
+                Đăng nhập
+              </Link>
+            )}
+          </div>
+
+          <ThemeToggle className="ml-auto md:hidden" />
 
           <button
             ref={menuButtonRef}
@@ -263,7 +270,7 @@ export function Nav({ initialUser = null, initialProfile = null }: NavProps = {}
             onClick={() => setOpen(true)}
             aria-label="Mở menu"
             aria-expanded={open}
-            className="subtle-nav ml-auto inline-flex h-9 w-9 items-center justify-center rounded-full border border-transparent text-foreground/80 focus-visible:outline-none md:hidden"
+            className="subtle-nav inline-flex h-9 w-9 items-center justify-center rounded-full border border-transparent text-foreground/80 focus-visible:outline-none md:hidden"
           >
             <Menu className="h-5 w-5" />
           </button>
@@ -281,7 +288,7 @@ export function Nav({ initialUser = null, initialProfile = null }: NavProps = {}
         <div
           onClick={() => setOpen(false)}
           className={cn(
-            'absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity duration-300',
+            'absolute inset-0 bg-[var(--overlay)] backdrop-blur-sm transition-opacity duration-300',
             open ? 'opacity-100' : 'opacity-0',
           )}
         />
@@ -291,7 +298,7 @@ export function Nav({ initialUser = null, initialProfile = null }: NavProps = {}
           aria-modal="true"
           aria-label="Menu"
           className={cn(
-            'absolute inset-x-3 top-3 rounded-3xl border border-white/10 bg-[#0d0d10] p-5 shadow-2xl transition-all duration-300',
+            'glass-solid absolute inset-x-3 top-3 rounded-3xl p-5 shadow-2xl transition-[transform,opacity] duration-300',
             open ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0',
           )}
         >
@@ -317,9 +324,13 @@ export function Nav({ initialUser = null, initialProfile = null }: NavProps = {}
             </button>
           </div>
 
+          <div className="mt-5">
+            <ThemeToggle showLabel className="rounded-2xl px-4 py-3" />
+          </div>
+
           {user && (
-            <div className="mt-5 flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-3">
-              <span className="relative grid h-10 w-10 place-items-center overflow-hidden rounded-full bg-white/10 text-sm font-semibold text-foreground/85">
+            <div className="mt-4 flex items-center gap-3 rounded-2xl border border-border bg-muted/60 p-3">
+              <span className="relative grid h-10 w-10 place-items-center overflow-hidden rounded-full bg-muted text-sm font-semibold text-foreground/85">
                 {avatarUrl ? (
                   <Image
                     src={avatarUrl}
@@ -359,14 +370,14 @@ export function Nav({ initialUser = null, initialProfile = null }: NavProps = {}
               <Link
                 href="/account"
                 onClick={() => setOpen(false)}
-                className="subtle-nav flex items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-base font-medium text-foreground/85"
+                className="subtle-nav flex items-center gap-2 rounded-2xl border border-border bg-muted/60 px-4 py-3 text-base font-medium text-foreground/85"
               >
                 <UserIcon className="h-4 w-4" /> Hồ sơ
               </Link>
               <button
                 type="button"
                 onClick={signOut}
-                className="flex w-full items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-base font-medium text-foreground/85"
+                className="flex w-full items-center justify-center gap-2 rounded-2xl border border-border bg-muted/60 px-4 py-3 text-base font-medium text-foreground/85"
               >
                 <LogOut className="h-4 w-4" /> Đăng xuất
               </button>
@@ -375,7 +386,7 @@ export function Nav({ initialUser = null, initialProfile = null }: NavProps = {}
             <Link
               href="/login?returnTo=/contact"
               onClick={() => setOpen(false)}
-              className="subtle-nav mt-4 block w-full rounded-2xl border border-transparent bg-white py-3 text-center font-medium text-black"
+              className="subtle-nav mt-4 block w-full rounded-2xl border border-transparent bg-foreground py-3 text-center font-medium text-background"
             >
               Đăng nhập
             </Link>

@@ -25,7 +25,7 @@ function inline(text: string): string {
   // inline code
   text = text.replace(
     /`([^`]+)`/g,
-    '<code class="rounded bg-white/[0.06] px-1.5 py-0.5 text-[0.9em] text-foreground/95">$1</code>',
+    '<code class="rounded bg-muted px-1.5 py-0.5 text-[0.9em] text-foreground/95">$1</code>',
   );
   return text;
 }
@@ -59,7 +59,7 @@ export function renderMarkdown(input: string | null | undefined): string {
       flushList();
       if (inCode) {
         out.push(
-          `<pre class="my-4 overflow-x-auto rounded-xl border border-white/8 bg-[#0a0a0b] p-4 text-[12.5px] leading-relaxed text-foreground/85"><code>${codeBuf.join('\n')}</code></pre>`,
+          `<pre class="my-4 overflow-x-auto rounded-xl border border-border bg-card p-4 text-[12.5px] leading-relaxed text-foreground/85"><code>${codeBuf.join('\n')}</code></pre>`,
         );
         codeBuf = [];
         inCode = false;
@@ -118,7 +118,7 @@ export function renderMarkdown(input: string | null | undefined): string {
   flushList();
   if (inCode && codeBuf.length) {
     out.push(
-      `<pre class="my-4 overflow-x-auto rounded-xl border border-white/8 bg-[#0a0a0b] p-4 text-[12.5px] leading-relaxed text-foreground/85"><code>${codeBuf.join('\n')}</code></pre>`,
+      `<pre class="my-4 overflow-x-auto rounded-xl border border-border bg-card p-4 text-[12.5px] leading-relaxed text-foreground/85"><code>${codeBuf.join('\n')}</code></pre>`,
     );
   }
   return out.join('\n');

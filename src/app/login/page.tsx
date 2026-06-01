@@ -178,16 +178,16 @@ function LoginForm() {
                 type="button"
                 onClick={signInWithGoogle}
                 disabled={isSending}
-                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-5 py-3 text-sm font-medium text-foreground/90 transition hover:border-brand-orange/45 hover:bg-brand-orange/10 disabled:cursor-wait disabled:opacity-70"
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card px-5 py-3 text-sm font-medium text-foreground/90 transition hover:border-brand-orange/45 hover:bg-brand-orange/10 disabled:cursor-wait disabled:opacity-70"
               >
                 {isSending ? 'Đang xử lý...' : 'Tiếp tục với Google'}
                 <ArrowRight className="h-4 w-4" />
               </button>
 
               <div className="my-6 flex items-center gap-3 text-[11px] uppercase tracking-widest text-muted-foreground">
-                <span className="h-px flex-1 bg-white/10" />
+                <span className="h-px flex-1 bg-border" />
                 Hoặc
-                <span className="h-px flex-1 bg-white/10" />
+                <span className="h-px flex-1 bg-border" />
               </div>
             </>
           ) : null}
@@ -197,7 +197,7 @@ function LoginForm() {
               <label htmlFor="user-email" className="text-[11px] uppercase tracking-widest text-muted-foreground">
                 Email
               </label>
-              <div className="mt-2 flex items-center gap-2 rounded-xl bg-white/[0.02] px-3 py-3 ring-1 ring-white/8 focus-within:ring-white/20">
+              <div className="mt-2 flex items-center gap-2 rounded-xl bg-card px-3 py-3 ring-1 ring-[var(--ring-subtle)] focus-within:ring-brand-orange/35">
                 <Mail className="h-4 w-4 text-muted-foreground" />
                 <input
                   id="user-email"
@@ -222,7 +222,7 @@ function LoginForm() {
                 <label htmlFor="user-password" className="text-[11px] uppercase tracking-widest text-muted-foreground">
                   Mật khẩu
                 </label>
-                <div className="mt-2 flex items-center gap-2 rounded-xl bg-white/[0.02] px-3 py-3 ring-1 ring-white/8 focus-within:ring-white/20">
+                <div className="mt-2 flex items-center gap-2 rounded-xl bg-card px-3 py-3 ring-1 ring-[var(--ring-subtle)] focus-within:ring-brand-orange/35">
                   <Lock className="h-4 w-4 text-muted-foreground" />
                   <input
                     id="user-password"
@@ -243,7 +243,7 @@ function LoginForm() {
               </div>
             ) : null}
 
-            <label className="flex items-start gap-3 rounded-xl border border-white/5 bg-white/[0.02] p-3 text-xs leading-5 text-foreground/65">
+            <label className="flex items-start gap-3 rounded-xl border border-border bg-card p-3 text-xs leading-5 text-foreground/65">
               <input
                 type="checkbox"
                 checked={acceptedTerms}
@@ -251,7 +251,7 @@ function LoginForm() {
                   setAcceptedTerms(e.target.checked);
                   resetMessage();
                 }}
-                className="mt-1 h-4 w-4 rounded border-white/20 bg-transparent accent-brand-orange"
+                className="mt-1 h-4 w-4 rounded border-border bg-transparent accent-brand-orange"
               />
               <span>
                 Tôi xác nhận đã đọc và đồng ý với{' '}

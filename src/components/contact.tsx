@@ -25,7 +25,7 @@ const CHANNELS = [
 export function Contact() {
   return (
     <section id="contact" className="relative mx-auto w-full max-w-6xl px-6 py-12 md:py-16">
-      <div className="relative overflow-hidden rounded-3xl border border-white/12 bg-gradient-to-br from-[#1c0e12] via-[#0f0a0c] to-[#0a0a0b] p-10 shadow-[0_28px_90px_-32px_rgba(234,56,76,0.4)] ring-1 ring-inset ring-white/[0.06] md:p-14">
+      <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-brand-red/12 via-surface to-background p-10 shadow-[var(--shadow-brand)] ring-1 ring-inset ring-[var(--ring-subtle)] md:p-14">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-x-14 top-0 h-px bg-gradient-to-r from-transparent via-brand-orange/70 to-transparent"
@@ -55,7 +55,7 @@ export function Contact() {
                     href={c.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="featured-cta group flex items-center gap-4 rounded-2xl border border-white/5 bg-white/[0.02] p-4"
+                    className="featured-cta group flex items-center gap-4 rounded-2xl border border-border bg-card p-4"
                   >
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-2">

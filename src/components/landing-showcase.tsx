@@ -137,14 +137,14 @@ export async function LandingShowcase() {
             </p>
           </header>
           <ShowcaseRow
-            eyebrow="Web / portfolio nổi bật"
+            eyebrow="Web cá nhân nổi bật"
             product={web}
             ranking={webRanking}
             rankingTitle="Web xem nhiều nhất"
             icon={Globe}
             seeAllHref="/web"
             seeAllTitle="Tất cả dự án web"
-            seeAllDesc="Landing page và portfolio đã từng làm."
+            seeAllDesc="Landing page và web cá nhân đã từng làm."
             emptyTitle="Đang chọn dự án mới để showcase"
             emptyBody="Brief project của bạn — mình quote trong 24h."
           />
@@ -217,14 +217,14 @@ function SeeAllCard({
   return (
     <Link
       href={href}
-      className="group relative flex h-full min-h-[140px] flex-col justify-between overflow-hidden rounded-3xl border border-white/8 bg-[#0d0d10] p-5 transition hover:border-brand-orange/40 hover:bg-[#101015]"
+      className="group relative flex h-full min-h-[140px] flex-col justify-between overflow-hidden rounded-3xl border border-border bg-card p-5 transition hover:border-brand-orange/40 hover:bg-surface-muted"
     >
       <div
         aria-hidden
         className="pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full bg-gradient-to-br from-brand-orange/30 to-brand-amber/10 opacity-30 blur-3xl transition duration-300 group-hover:opacity-70"
       />
       <div className="relative flex items-center gap-3">
-        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/[0.04] text-brand-orange ring-1 ring-white/10 transition group-hover:bg-brand-orange group-hover:text-white group-hover:ring-brand-orange/40">
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-muted text-brand-orange ring-1 ring-[var(--ring-subtle)] transition group-hover:bg-brand-orange group-hover:text-white group-hover:ring-brand-orange/40">
           <Icon className="h-5 w-5" strokeWidth={1.6} />
         </span>
         <div className="min-w-0">

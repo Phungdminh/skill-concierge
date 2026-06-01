@@ -54,7 +54,7 @@ export default async function AdminHome() {
       <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
         <Stat label="Tool" value={toolsCount ?? 0} />
         <Stat label="Prompt" value={promptsCount ?? 0} />
-        <Stat label="Web/Portfolio" value={webworkCount ?? 0} />
+        <Stat label="Web cá nhân" value={webworkCount ?? 0} />
         <Stat label="Inquiry mới" value={inquiriesNew ?? 0} accent />
       </div>
 

@@ -40,7 +40,7 @@ export function InteractiveShowcaseRow({
   return (
     <>
       {/* Hero preview area */}
-      <div className="flex h-full flex-col overflow-hidden rounded-3xl border border-white/8 bg-[#0a0a0b] lg:row-span-2">
+      <div className="flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card lg:row-span-2">
         {!selected ? (
           <div className="grid h-full min-h-[280px] place-items-center px-8 py-16 text-center">
             <div>
@@ -106,7 +106,7 @@ export function InteractiveShowcaseRow({
       </div>
 
       {/* Ranking card */}
-      <div className="relative flex h-full min-h-[280px] flex-col overflow-hidden rounded-3xl border border-white/8 bg-[#0d0d10] p-5">
+      <div className="relative flex h-full min-h-[280px] flex-col overflow-hidden rounded-3xl border border-border bg-card p-5">
         <div className="mb-3 flex items-center gap-3">
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-brand-orange/15 text-brand-orange ring-1 ring-brand-orange/25">
             <TrendingUp className="h-4 w-4" strokeWidth={2} />
@@ -136,7 +136,7 @@ export function InteractiveShowcaseRow({
                   <button
                     type="button"
                     onClick={() => setSelectedId(item.id)}
-                    className={`group flex flex-1 items-center gap-3 rounded-xl px-2 py-2.5 transition hover:bg-white/[0.04] ${
+                    className={`group flex flex-1 items-center gap-3 rounded-xl px-2 py-2.5 transition hover:bg-muted ${
                       isActive
                         ? 'bg-brand-orange/10 ring-1 ring-brand-orange/25'
                         : ''
@@ -146,7 +146,7 @@ export function InteractiveShowcaseRow({
                       className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg text-xs font-semibold tabular-nums ring-1 transition ${
                         isActive
                           ? 'bg-brand-orange/20 text-brand-orange ring-brand-orange/30'
-                          : 'bg-white/[0.04] text-foreground/65 ring-white/10 group-hover:bg-brand-orange/20 group-hover:text-brand-orange group-hover:ring-brand-orange/30'
+                          : 'bg-muted text-foreground/65 ring-[var(--ring-subtle)] group-hover:bg-brand-orange/20 group-hover:text-brand-orange group-hover:ring-brand-orange/30'
                       }`}
                     >
                       {index + 1}
@@ -167,7 +167,7 @@ export function InteractiveShowcaseRow({
                   </button>
                   <Link
                     href={productDetailHref(item)}
-                    className="grid h-7 w-7 shrink-0 place-items-center rounded-lg text-foreground/30 transition hover:bg-white/[0.04] hover:text-brand-orange"
+                    className="grid h-7 w-7 shrink-0 place-items-center rounded-lg text-foreground/30 transition hover:bg-muted hover:text-brand-orange"
                     title="Mở trang chi tiết"
                   >
                     <ExternalLink className="h-3.5 w-3.5" strokeWidth={1.8} />

@@ -40,14 +40,14 @@ export default function ThanksPage() {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/tools"
-              className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.02] px-5 py-3 text-sm font-medium text-foreground/90 transition hover:bg-white/[0.06]"
+              className="inline-flex items-center gap-2 rounded-2xl border border-border bg-card px-5 py-3 text-sm font-medium text-foreground/90 transition hover:bg-white/[0.06]"
             >
               Xem tools
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               href="/process"
-              className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.02] px-5 py-3 text-sm font-medium text-foreground/90 transition hover:bg-white/[0.06]"
+              className="inline-flex items-center gap-2 rounded-2xl border border-border bg-card px-5 py-3 text-sm font-medium text-foreground/90 transition hover:bg-white/[0.06]"
             >
               Cách mua tool
               <ArrowRight className="h-4 w-4" />
@@ -63,7 +63,7 @@ export default function ThanksPage() {
             {WHAT_NEXT.map((s, i) => (
               <li
                 key={s.when}
-                className="grid grid-cols-12 gap-4 rounded-2xl border border-white/5 bg-[#0d0d10] p-5"
+                className="grid grid-cols-12 gap-4 rounded-2xl border border-border bg-card p-5"
               >
                 <div className="col-span-12 md:col-span-3">
                   <div className="font-mono text-xs tabular-nums text-muted-foreground">

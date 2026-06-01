@@ -14,7 +14,7 @@ const KIND_PATH: Record<Product['kind'], string> = {
   webwork: '/web',
 };
 
-export function productPath(product: Pick<Product, 'kind' | 'slug'>): string {
+function productPath(product: Pick<Product, 'kind' | 'slug'>): string {
   return `${KIND_PATH[product.kind]}/${product.slug}`;
 }
 

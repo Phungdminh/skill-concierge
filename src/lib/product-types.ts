@@ -143,15 +143,15 @@ export const KIND_META: Record<ProductKind, KindMeta> = {
   },
   webwork: {
     kind: 'webwork',
-    label: 'Làm web / portfolio',
-    shortLabel: 'Web / Portfolio',
-    pluralLabel: 'Web & Portfolio',
-    description: 'Landing page và portfolio cá nhân theo yêu cầu. Vibe-coded gọn nhẹ, deploy Vercel/Netlify, source code đứng tên bạn.',
+    label: 'Làm web cá nhân',
+    shortLabel: 'Web',
+    pluralLabel: 'Web cá nhân',
+    description: 'Landing page và web cá nhân theo yêu cầu. Vibe-coded gọn nhẹ, deploy Vercel/Netlify, source code đứng tên bạn.',
     route: '/web',
     icon: Globe,
     accent: 'from-brand-red/60 to-brand-amber/30',
     emptyTitle: 'Chưa có case showcase',
-    emptyBody: 'Mình đang xin phép khách cũ show portfolio. Trong lúc đó, mô tả nhu cầu của bạn — mình quote trong 24h.',
+    emptyBody: 'Mình đang xin phép khách cũ show case study. Trong lúc đó, mô tả nhu cầu của bạn — mình quote trong 24h.',
     ctaLabel: 'Brief project của bạn',
   },
 };
@@ -207,7 +207,6 @@ export const PROMPT_CATEGORIES = [
 
 export const WEBWORK_CATEGORIES = [
   { value: 'landing', label: 'Landing page' },
-  { value: 'portfolio', label: 'Portfolio' },
   { value: 'personal', label: 'Web cá nhân' },
   { value: 'webapp', label: 'Web app cá nhân' },
   { value: 'other', label: 'Khác' },

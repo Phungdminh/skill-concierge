@@ -7,7 +7,7 @@ const COLS: { heading: string; links: { label: string; href: string }[] }[] = [
     links: [
       { label: 'Tool desktop', href: '/tools' },
       { label: 'Prompt mẫu', href: '/prompts' },
-      { label: 'Web / portfolio cá nhân', href: '/web' },
+      { label: 'Web cá nhân', href: '/web' },
     ],
   },
   {
@@ -30,7 +30,7 @@ const COLS: { heading: string; links: { label: string; href: string }[] }[] = [
 
 export function Footer() {
   return (
-    <footer className="relative mt-12 border-t border-white/5 bg-[#080809]">
+    <footer className="relative mt-12 border-t border-border bg-surface">
       <div className="mx-auto w-full max-w-6xl px-6 py-14">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-12">
           <div className="col-span-2 md:col-span-4">
@@ -106,7 +106,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t border-white/5 pt-6 text-xs text-muted-foreground md:flex-row md:items-center">
+        <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row md:items-center">
           <p>© {new Date().getFullYear()} SkillForge VN — Desktop tool storefront</p>
           <p className="flex items-center gap-3">
             <span className="inline-flex items-center gap-1.5">

@@ -90,7 +90,7 @@ export default async function PromptsPage({ searchParams }: PageProps) {
                 </div>
               </>
             ) : (
-              <div className="grid place-items-center rounded-3xl border border-dashed border-white/10 bg-[#0a0a0b] px-6 py-20 text-center">
+              <div className="grid place-items-center rounded-3xl border border-dashed border-border bg-card px-6 py-20 text-center">
                 <h3 className="text-lg font-semibold">
                   Không tìm thấy prompt nào
                 </h3>
@@ -100,7 +100,7 @@ export default async function PromptsPage({ searchParams }: PageProps) {
               </div>
             )
           ) : folders.length === 0 ? (
-            <div className="grid place-items-center rounded-3xl border border-dashed border-white/10 bg-[#0a0a0b] px-6 py-20 text-center">
+            <div className="grid place-items-center rounded-3xl border border-dashed border-border bg-card px-6 py-20 text-center">
               <FolderPlus className="h-10 w-10 text-foreground/30" strokeWidth={1.5} />
               <h3 className="mt-5 text-lg font-semibold">Chưa có folder nào</h3>
               <p className="mt-2 max-w-md text-sm text-foreground/55">
@@ -119,9 +119,9 @@ export default async function PromptsPage({ searchParams }: PageProps) {
               {orphanCount > 0 && (
                 <Link
                   href="/prompts/folder/_orphan"
-                  className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-dashed border-white/10 bg-white/[0.02] p-5 transition hover:border-brand-orange/30 hover:bg-white/[0.04]"
+                  className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-dashed border-border bg-card p-5 transition hover:border-brand-orange/30 hover:bg-surface-muted"
                 >
-                  <div className="grid h-11 w-11 place-items-center rounded-2xl bg-black/35 text-foreground/60 ring-1 ring-white/10">
+                  <div className="grid h-11 w-11 place-items-center rounded-2xl bg-muted text-foreground/60 ring-1 ring-[var(--ring-subtle)]">
                     <Sparkles className="h-5 w-5" strokeWidth={1.5} />
                   </div>
                   <div>
@@ -139,7 +139,7 @@ export default async function PromptsPage({ searchParams }: PageProps) {
         </section>
 
         <section className="mx-auto w-full max-w-4xl px-6 pb-24 pt-8 text-center">
-          <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.04] text-brand-orange ring-1 ring-white/10">
+          <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-muted text-brand-orange ring-1 ring-[var(--ring-subtle)]">
             <Sparkles className="h-6 w-6" strokeWidth={1.75} />
           </span>
           <h2 className="mt-5 text-balance text-2xl font-semibold tracking-tight md:text-3xl">

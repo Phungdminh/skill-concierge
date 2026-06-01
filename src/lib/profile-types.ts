@@ -20,11 +20,6 @@ export const GENDER_OPTIONS: { value: Gender; label: string }[] = [
   { value: 'prefer_not_to_say', label: 'Không muốn nói' },
 ];
 
-export function genderLabel(value: Gender | null | undefined): string {
-  if (!value) return '';
-  return GENDER_OPTIONS.find((option) => option.value === value)?.label ?? '';
-}
-
 export function profileNeedsOnboarding(
   profile: Pick<Profile, 'full_name'> | null | undefined,
 ): boolean {

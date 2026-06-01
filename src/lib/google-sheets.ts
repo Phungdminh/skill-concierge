@@ -19,7 +19,7 @@ export class GoogleSheetsError extends Error {
   }
 }
 
-export function extractSpreadsheetId(input: string) {
+function extractSpreadsheetId(input: string) {
   const value = input.trim();
   if (!value) return null;
   if (SHEET_ID_PATTERN.test(value) && !value.startsWith('http')) return value;

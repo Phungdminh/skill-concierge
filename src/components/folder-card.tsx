@@ -23,8 +23,8 @@ export function FolderCard({ folder, promptCount }: FolderCardProps) {
     <Link
       href={href}
       className={cn(
-        'group relative flex flex-col overflow-hidden rounded-3xl border border-white/8 bg-white/[0.02] p-5 transition',
-        'hover:border-brand-orange/40 hover:bg-white/[0.04]',
+        'group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-card p-5 transition',
+        'hover:border-brand-orange/40 hover:bg-surface-muted',
       )}
     >
       <div
@@ -33,10 +33,10 @@ export function FolderCard({ folder, promptCount }: FolderCardProps) {
       />
 
       <div className="relative flex items-start justify-between gap-3">
-        <span className="grid h-11 w-11 place-items-center rounded-2xl bg-black/35 text-brand-orange ring-1 ring-white/12">
+        <span className="grid h-11 w-11 place-items-center rounded-2xl bg-muted text-brand-orange ring-1 ring-[var(--ring-subtle)]">
           <FolderIconRenderer name={folder.icon ?? undefined} className="h-5 w-5" strokeWidth={1.75} />
         </span>
-        <span className="rounded-full bg-white/[0.04] px-2.5 py-1 text-[11px] uppercase tracking-widest text-foreground/55 ring-1 ring-white/10">
+        <span className="rounded-full bg-muted px-2.5 py-1 text-[11px] uppercase tracking-widest text-foreground/55 ring-1 ring-[var(--ring-subtle)]">
           {promptCount === 0 ? 'Sắp có' : `${promptCount} prompt`}
         </span>
       </div>

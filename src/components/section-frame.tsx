@@ -26,8 +26,8 @@ export function SectionFrame({ children, className, variant = 'default' }: Secti
       className={cn(
         'relative overflow-hidden rounded-3xl border p-6 md:p-10',
         variant === 'default'
-          ? 'border-white/15 bg-gradient-to-b from-white/[0.05] via-white/[0.025] to-white/[0.01] shadow-[0_24px_80px_-30px_rgba(0,0,0,0.7)] ring-1 ring-inset ring-white/[0.06]'
-          : 'border-white/12 bg-gradient-to-br from-[#1c0e12] via-[#100b0d] to-[#0a0a0b] shadow-[0_28px_90px_-32px_rgba(234,56,76,0.35)] ring-1 ring-inset ring-white/[0.05]',
+          ? 'border-border bg-gradient-to-b from-surface via-surface/80 to-surface-muted/50 shadow-[var(--shadow-frame)] ring-1 ring-inset ring-[var(--ring-subtle)]'
+          : 'border-border bg-gradient-to-br from-brand-red/12 via-surface to-background shadow-[var(--shadow-brand)] ring-1 ring-inset ring-[var(--ring-subtle)]',
         className,
       )}
     >
@@ -54,7 +54,7 @@ export function SectionFrame({ children, className, variant = 'default' }: Secti
       {/* Subtle corner shimmer (top-left) */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -left-12 -top-12 h-40 w-40 rounded-full bg-[radial-gradient(closest-side,rgba(255,255,255,0.05),transparent_70%)]"
+        className="pointer-events-none absolute -left-12 -top-12 h-40 w-40 rounded-full bg-[radial-gradient(closest-side,var(--ring-subtle),transparent_70%)]"
       />
 
       <div className="relative">{children}</div>

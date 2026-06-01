@@ -40,7 +40,7 @@ export function PromptCopyButton({ content }: PromptCopyButtonProps) {
     <button
       type="button"
       onClick={handleCopy}
-      className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-foreground/85 transition hover:border-white/20 hover:bg-white/[0.08] disabled:opacity-60"
+      className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground/85 transition hover:border-brand-orange/30 hover:bg-muted disabled:opacity-60"
       aria-live="polite"
     >
       {copied ? (

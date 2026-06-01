@@ -163,7 +163,7 @@ export function InquiryForm({
       </div>
 
       {hasSessionEmail && (
-        <p className="rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3 text-sm text-foreground/65">
+        <p className="rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground/65">
           Email phản hồi: <span className="font-medium text-foreground/90">{userEmail}</span>
         </p>
       )}
@@ -276,7 +276,7 @@ function Field({ icon: Icon, label, htmlFor, align = 'center', children }: Field
       </span>
       <span
         className={cn(
-          'mt-2 flex gap-2 rounded-xl bg-white/[0.02] px-3 py-3 ring-1 ring-white/8 transition focus-within:ring-white/20',
+          'mt-2 flex gap-2 rounded-xl bg-card px-3 py-3 ring-1 ring-[var(--ring-subtle)] transition focus-within:ring-brand-orange/35',
           align === 'center' ? 'items-center' : 'items-start',
         )}
       >

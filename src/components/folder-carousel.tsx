@@ -77,7 +77,7 @@ export function FolderCarousel({
         </div>
         <Link
           href="/prompts"
-          className="featured-cta group inline-flex min-h-10 items-center gap-2 rounded-full border border-white/12 bg-white/[0.03] px-4 py-2 text-sm font-medium text-foreground/90"
+          className="featured-cta group inline-flex min-h-10 items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground/90"
         >
           Tất cả chủ đề
           <ArrowUpRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -85,8 +85,8 @@ export function FolderCarousel({
       </div>
 
       {folders.length === 0 ? (
-        <div className="rounded-3xl border border-dashed border-white/10 bg-[#0d0d10] px-6 py-12 text-center">
-          <span className="mx-auto grid h-11 w-11 place-items-center rounded-xl bg-white/[0.04] text-brand-orange ring-1 ring-white/10">
+        <div className="rounded-3xl border border-dashed border-border bg-card px-6 py-12 text-center">
+          <span className="mx-auto grid h-11 w-11 place-items-center rounded-xl bg-muted text-brand-orange ring-1 ring-[var(--ring-subtle)]">
             <LibraryBig className="h-5 w-5" strokeWidth={1.6} />
           </span>
           <p className="mt-4 text-sm text-foreground/55">Chủ đề prompt đang được tổng hợp. Quay lại sớm nhé.</p>
@@ -133,9 +133,9 @@ export function FolderCarousel({
             onClick={() => scrollByCards(-1)}
             disabled={!canScrollLeft}
             className={cn(
-              'absolute left-1 top-1/2 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-white/10 bg-black/65 text-foreground/85 backdrop-blur transition md:grid',
+              'absolute left-1 top-1/2 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-border bg-surface-solid text-foreground/85 backdrop-blur transition md:grid',
               canScrollLeft
-                ? 'opacity-100 hover:border-white/25 hover:bg-black/85'
+                ? 'opacity-100 hover:border-brand-orange/30 hover:bg-surface-muted'
                 : 'pointer-events-none opacity-0',
             )}
           >
@@ -147,9 +147,9 @@ export function FolderCarousel({
             onClick={() => scrollByCards(1)}
             disabled={!canScrollRight}
             className={cn(
-              'absolute right-1 top-1/2 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-white/10 bg-black/65 text-foreground/85 backdrop-blur transition md:grid',
+              'absolute right-1 top-1/2 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-border bg-surface-solid text-foreground/85 backdrop-blur transition md:grid',
               canScrollRight
-                ? 'opacity-100 hover:border-white/25 hover:bg-black/85'
+                ? 'opacity-100 hover:border-brand-orange/30 hover:bg-surface-muted'
                 : 'pointer-events-none opacity-0',
             )}
           >
@@ -173,7 +173,7 @@ function FolderChip({ folder }: { folder: PromptFolderWithCount }) {
     <Link
       data-carousel-item
       href={`/prompts/folder/${folder.slug}`}
-      className="group relative flex w-[260px] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-white/8 bg-[#0d0d10] p-5 transition hover:border-brand-orange/40 sm:w-[280px]"
+      className="group relative flex w-[260px] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-border bg-card p-5 transition hover:border-brand-orange/40 sm:w-[280px]"
     >
       <div
         aria-hidden
@@ -181,10 +181,10 @@ function FolderChip({ folder }: { folder: PromptFolderWithCount }) {
       />
 
       <div className="relative flex items-start justify-between gap-2">
-        <span className="grid h-11 w-11 place-items-center rounded-2xl bg-black/35 text-brand-orange ring-1 ring-white/12">
+        <span className="grid h-11 w-11 place-items-center rounded-2xl bg-muted text-brand-orange ring-1 ring-[var(--ring-subtle)]">
           <FolderIconRenderer name={folder.icon ?? undefined} className="h-5 w-5" strokeWidth={1.75} />
         </span>
-        <span className="rounded-full bg-white/[0.04] px-2.5 py-1 text-[10.5px] uppercase tracking-widest text-foreground/55 ring-1 ring-white/10">
+        <span className="rounded-full bg-muted px-2.5 py-1 text-[10.5px] uppercase tracking-widest text-foreground/55 ring-1 ring-[var(--ring-subtle)]">
           {folder.prompt_count} prompt
         </span>
       </div>

@@ -111,16 +111,16 @@ export function ProductDetail({
           <div className="mt-6 grid grid-cols-1 gap-10 lg:grid-cols-12">
             <div className="lg:col-span-8">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.04] px-3 py-1 text-[11px] uppercase tracking-widest text-muted-foreground ring-1 ring-white/8">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-muted px-3 py-1 text-[11px] uppercase tracking-widest text-muted-foreground ring-1 ring-[var(--ring-subtle)]">
                   <Icon className="h-3 w-3" strokeWidth={2.25} /> {meta.label}
                 </span>
                 {product.categories.map((category) => (
-                  <span key={category} className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.04] px-3 py-1 text-[11px] uppercase tracking-widest text-muted-foreground ring-1 ring-white/8">
+                  <span key={category} className="inline-flex items-center gap-1.5 rounded-full bg-muted px-3 py-1 text-[11px] uppercase tracking-widest text-muted-foreground ring-1 ring-[var(--ring-subtle)]">
                     <Tag className="h-3 w-3" /> {categoryLabelFor(product.kind, category)}
                   </span>
                 ))}
                 {product.duration_label && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.04] px-3 py-1 text-[11px] uppercase tracking-widest text-muted-foreground ring-1 ring-white/8">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-muted px-3 py-1 text-[11px] uppercase tracking-widest text-muted-foreground ring-1 ring-[var(--ring-subtle)]">
                     <Clock className="h-3 w-3" /> {product.duration_label}
                   </span>
                 )}

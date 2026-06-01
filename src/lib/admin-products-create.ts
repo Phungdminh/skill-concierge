@@ -83,10 +83,10 @@ export async function createAdminProduct(ownerId: string, input: ProductInput) {
     throw new ProductCreateError('validation_error', 'Folder chỉ áp dụng cho prompt.', 422);
   }
   if (input.kind !== 'webwork' && emptyToNull(input.repo_url)) {
-    throw new ProductCreateError('validation_error', 'Repo URL chỉ áp dụng cho web/portfolio.', 422);
+    throw new ProductCreateError('validation_error', 'Repo URL chỉ áp dụng cho web cá nhân.', 422);
   }
   if (input.kind === 'webwork' && (input.gallery?.length ?? 0) > 0) {
-    throw new ProductCreateError('validation_error', 'Sản phẩm web/portfolio không có gallery — chỉ dùng YouTube hoặc repo URL.', 422);
+    throw new ProductCreateError('validation_error', 'Sản phẩm web cá nhân không có gallery — chỉ dùng YouTube hoặc repo URL.', 422);
   }
 
   const promptMeta = input.kind === 'prompt' ? normalizePromptMeta(input.prompt_meta) : {};

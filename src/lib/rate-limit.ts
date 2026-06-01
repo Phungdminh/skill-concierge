@@ -75,7 +75,7 @@ export async function getClientIp(): Promise<string> {
   return h.get('x-real-ip')?.trim() || 'unknown';
 }
 
-export async function getClientUserAgent(): Promise<string> {
+async function getClientUserAgent(): Promise<string> {
   const h = await headers();
   return h.get('user-agent') ?? 'unknown';
 }

@@ -193,9 +193,9 @@ export function OnboardingModal() {
       <div
         aria-hidden="true"
         onClick={() => void skip()}
-        className="absolute inset-0 cursor-default bg-black/80 backdrop-blur-sm"
+        className="absolute inset-0 cursor-default bg-[var(--overlay)] backdrop-blur-sm"
       />
-      <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-[#0d0d10] shadow-2xl">
+      <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-border bg-card shadow-2xl">
         <div
           aria-hidden
           className="pointer-events-none absolute -top-24 left-1/2 h-[280px] w-[420px] -translate-x-1/2 rounded-full opacity-30 blur-3xl"
@@ -225,7 +225,7 @@ export function OnboardingModal() {
               <label htmlFor="ob-name" className="text-[11px] uppercase tracking-widest text-muted-foreground">
                 Họ và tên
               </label>
-              <div className="mt-2 flex items-center gap-2 rounded-xl bg-white/[0.02] px-3 py-3 ring-1 ring-white/8 focus-within:ring-white/20">
+              <div className="mt-2 flex items-center gap-2 rounded-xl bg-card px-3 py-3 ring-1 ring-[var(--ring-subtle)] focus-within:ring-brand-orange/35">
                 <User className="h-4 w-4 text-muted-foreground" strokeWidth={1.75} />
                 <input
                   id="ob-name"
@@ -259,7 +259,7 @@ export function OnboardingModal() {
                         'rounded-full border px-4 py-1.5 text-sm transition',
                         active
                           ? 'border-brand-orange/40 bg-brand-orange/15 text-brand-orange'
-                          : 'border-white/10 bg-white/[0.02] text-foreground/70 hover:border-white/20',
+                          : 'border-border bg-card text-foreground/70 hover:border-brand-orange/30',
                       )}
                     >
                       {opt.label}
@@ -273,7 +273,7 @@ export function OnboardingModal() {
               <label htmlFor="ob-job" className="text-[11px] uppercase tracking-widest text-muted-foreground">
                 Công việc (tuỳ chọn)
               </label>
-              <div className="mt-2 flex items-center gap-2 rounded-xl bg-white/[0.02] px-3 py-3 ring-1 ring-white/8 focus-within:ring-white/20">
+              <div className="mt-2 flex items-center gap-2 rounded-xl bg-card px-3 py-3 ring-1 ring-[var(--ring-subtle)] focus-within:ring-brand-orange/35">
                 <Briefcase className="h-4 w-4 text-muted-foreground" strokeWidth={1.75} />
                 <input
                   id="ob-job"

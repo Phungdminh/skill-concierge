@@ -45,7 +45,7 @@ export function HowItWorks() {
               className="glass relative flex flex-col rounded-2xl p-6"
             >
               <div className="flex items-center justify-between">
-                <span className="grid h-11 w-11 place-items-center rounded-xl bg-white/[0.04] text-brand-orange ring-1 ring-white/8">
+                <span className="grid h-11 w-11 place-items-center rounded-xl bg-muted text-brand-orange ring-1 ring-[var(--ring-subtle)]">
                   <Icon className="h-5 w-5" strokeWidth={1.75} />
                 </span>
                 <span className="text-[10.5px] uppercase tracking-widest text-muted-foreground">

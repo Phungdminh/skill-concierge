@@ -46,9 +46,9 @@ export function Promises() {
               return (
                 <li
                   key={p.title}
-                  className="rounded-2xl border border-white/5 bg-[#0d0d10] p-5"
+                  className="rounded-2xl border border-border bg-card p-5"
                 >
-                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-white/[0.04] text-brand-orange ring-1 ring-white/10">
+                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-muted text-brand-orange ring-1 ring-[var(--ring-subtle)]">
                     <Icon className="h-5 w-5" strokeWidth={1.75} />
                   </span>
                   <h3 className="mt-4 text-base font-semibold tracking-tight text-foreground/95">

@@ -4,7 +4,7 @@ export function googleApiKey() {
   return process.env.GOOGLE_API_KEY?.trim() || null;
 }
 
-export function extractGoogleDriveFileId(input: string): string | null {
+function extractGoogleDriveFileId(input: string): string | null {
   const value = input.trim();
   if (!value) return null;
   if (DRIVE_FILE_ID_PATTERN.test(value) && !value.startsWith('http')) return value;

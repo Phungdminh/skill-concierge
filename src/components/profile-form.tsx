@@ -121,7 +121,7 @@ export function ProfileForm({
     <form onSubmit={submit} className="space-y-6">
       {!hideAvatar && (
         <div className="flex items-center gap-5">
-          <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full bg-white/[0.04] ring-1 ring-white/10">
+          <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full bg-muted ring-1 ring-[var(--ring-subtle)]">
             {avatarUrl ? (
               <Image
                 src={avatarUrl}
@@ -155,7 +155,7 @@ export function ProfileForm({
               type="button"
               onClick={() => fileInputRef.current?.click()}
               disabled={uploading}
-              className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-medium text-foreground transition hover:border-brand-orange/40 hover:bg-brand-orange/10 disabled:cursor-wait disabled:opacity-70"
+              className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2 text-sm font-medium text-foreground transition hover:border-brand-orange/40 hover:bg-brand-orange/10 disabled:cursor-wait disabled:opacity-70"
             >
               <Camera className="h-4 w-4" />
               {avatarUrl ? 'Đổi ảnh' : 'Chọn ảnh'}
@@ -169,7 +169,7 @@ export function ProfileForm({
         <label htmlFor="pf-name" className="text-[11px] uppercase tracking-widest text-muted-foreground">
           Họ và tên
         </label>
-        <div className="mt-2 flex items-center gap-2 rounded-xl bg-white/[0.02] px-3 py-3 ring-1 ring-white/8 focus-within:ring-white/20">
+        <div className="mt-2 flex items-center gap-2 rounded-xl bg-card px-3 py-3 ring-1 ring-[var(--ring-subtle)] focus-within:ring-brand-orange/35">
           <User className="h-4 w-4 text-muted-foreground" strokeWidth={1.75} />
           <input
             id="pf-name"
@@ -186,7 +186,7 @@ export function ProfileForm({
 
       <div>
         <span className="text-[11px] uppercase tracking-widest text-muted-foreground">Email</span>
-        <p className="mt-2 rounded-xl border border-white/5 bg-white/[0.02] px-3 py-3 text-sm text-foreground/65">
+        <p className="mt-2 rounded-xl border border-border bg-card px-3 py-3 text-sm text-foreground/65">
           {email}
         </p>
       </div>
@@ -207,7 +207,7 @@ export function ProfileForm({
                   'rounded-full border px-4 py-1.5 text-sm transition',
                   active
                     ? 'border-brand-orange/40 bg-brand-orange/15 text-brand-orange'
-                    : 'border-white/10 bg-white/[0.02] text-foreground/70 hover:border-white/20',
+                    : 'border-border bg-card text-foreground/70 hover:border-brand-orange/30',
                 )}
               >
                 {opt.label}
@@ -221,7 +221,7 @@ export function ProfileForm({
         <label htmlFor="pf-job" className="text-[11px] uppercase tracking-widest text-muted-foreground">
           Công việc (tuỳ chọn)
         </label>
-        <div className="mt-2 flex items-center gap-2 rounded-xl bg-white/[0.02] px-3 py-3 ring-1 ring-white/8 focus-within:ring-white/20">
+        <div className="mt-2 flex items-center gap-2 rounded-xl bg-card px-3 py-3 ring-1 ring-[var(--ring-subtle)] focus-within:ring-brand-orange/35">
           <Briefcase className="h-4 w-4 text-muted-foreground" strokeWidth={1.75} />
           <input
             id="pf-job"
@@ -244,7 +244,7 @@ export function ProfileForm({
               ? 'bg-emerald-500/10 text-emerald-300 ring-emerald-500/30'
               : state === 'error'
                 ? 'bg-red-500/10 text-red-300 ring-red-500/30'
-                : 'bg-white/[0.02] text-foreground/70 ring-white/10',
+                : 'bg-card text-foreground/70 ring-[var(--ring-subtle)]',
           )}
         >
           {message}

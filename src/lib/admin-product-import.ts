@@ -366,10 +366,10 @@ function assertUpdateAllowed(existing: ExistingProduct, input: ProductInput) {
     throw new ProductCreateError('validation_error', 'Chỉ sản phẩm loại prompt mới có nội dung prompt riêng.', 422);
   }
   if (input.kind !== 'webwork' && emptyToNull(input.repo_url)) {
-    throw new ProductCreateError('validation_error', 'Repo URL chỉ áp dụng cho web/portfolio.', 422);
+    throw new ProductCreateError('validation_error', 'Repo URL chỉ áp dụng cho web cá nhân.', 422);
   }
   if (input.kind === 'webwork' && (input.gallery?.length ?? 0) > 0) {
-    throw new ProductCreateError('validation_error', 'Sản phẩm web/portfolio không có gallery — chỉ dùng YouTube hoặc repo URL.', 422);
+    throw new ProductCreateError('validation_error', 'Sản phẩm web cá nhân không có gallery — chỉ dùng YouTube hoặc repo URL.', 422);
   }
 }
 
