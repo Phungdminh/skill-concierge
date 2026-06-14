@@ -296,6 +296,36 @@ html.theme-changing *::after {
   box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.35);
 }
 
+.description-framed {
+  display: grid;
+  gap: 1rem;
+}
+
+.description-section {
+  border: 1px solid var(--border-subtle);
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.025);
+  padding: 1.25rem;
+}
+
+.description-section > :is(h1, h2, h3, h4):first-child {
+  border-left: 3px solid var(--brand-orange);
+  padding-left: 0.875rem;
+}
+
+.description-section > :first-child {
+  margin-top: 0;
+}
+
+.description-section > :last-child {
+  margin-bottom: 0;
+}
+
+[data-theme="light"] .description-section {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: var(--border-medium);
+}
+
 .subtle-nav:hover .nav-logo-mark,
 .subtle-nav:focus-visible .nav-logo-mark {
   transform: scale(1.06) rotate(2deg);

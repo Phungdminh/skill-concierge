@@ -36,6 +36,8 @@ const MOCKUP_AUTOMATION_NOTICE = 'Tool Mockup Automation có thể xuất ra nhi
 const MOCKUP_COLLAGE_PROMPT_NOTICE = 'File prompt có thể có rất nhiều prompt, có thể lên đến 100 prompt, nhưng output chỉ là 1 ảnh. Trong ảnh đó sẽ bao gồm nhiều ảnh nhỏ được đặt trong các khung tách nhau. Nếu bạn muốn phiên bản xuất nhiều ảnh riêng lẻ, hãy liên hệ để mình làm riêng theo quy trình của bạn.';
 const AUTO_PROMPT_POSTING_NOTICE = 'File prompt có thể gồm nhiều prompt, nhưng mỗi lượt chạy chỉ dùng 1 ảnh. Nếu cần bản input nhiều ảnh, hãy liên hệ để làm riêng.';
 
+const HIDDEN_DETAIL_TAGS = new Set(['pymupdf', 'customtkinter', 'pyinstaller', 'playwright', 'python']);
+
 const PAYMENT_INFO = {
   bank: 'Techcombank',
   accountNumber: '9868886886',
@@ -84,7 +86,19 @@ export function ProductDetail({
       : isAutoPromptPosting
         ? AUTO_PROMPT_POSTING_NOTICE
         : null);
-  const showPaymentInfo = !product.is_free && product.pricing_mode !== 'quote';
+  const showPaymentInfo = product.kind !== 'prompt' && !product.is_free && product.pricing_mode !== 'quote';
+  const primaryCtaHref = product.kind === 'prompt' ? loginHref : `/contact?product=${product.slug}&kind=${product.kind}`;
+  const primaryCtaLabel = product.kind === 'prompt'
+    ? product.is_free
+      ? 'Đăng nhập để nhận prompt miễn phí'
+      : 'Đăng nhập để xem prompt'
+    : product.kind === 'tool'
+      ? 'Liên hệ để làm một phiên bản tương tự'
+      : product.kind === 'webwork'
+        ? 'Liên hệ để làm theo web của bạn'
+        : product.pricing_mode === 'quote'
+          ? 'Yêu cầu báo giá'
+          : 'Mua / Đặt câu hỏi';
   const promptMeta = product.kind === 'prompt' ? getPromptMeta(product) : null;
   const promptExplanationHtml = promptMeta?.explanation ? renderMarkdown(promptMeta.explanation) : '';
   const promptFullContent = promptMeta?.full_content?.trim() ?? '';
@@ -95,6 +109,7 @@ export function ProductDetail({
   const hasPromptBody = Boolean(promptDisplayContent);
   const shouldLockPrompt = !viewerId && Boolean(promptFullContent);
   const safeRepoUrl = safeHttpUrl(product.repo_url);
+  const visibleTags = product.tags.filter((tag) => !HIDDEN_DETAIL_TAGS.has(tag.trim().toLowerCase()));
 
   return (
     <>
@@ -110,30 +125,32 @@ export function ProductDetail({
 
           <div className="mt-6 grid grid-cols-1 gap-10 lg:grid-cols-12">
             <div className="lg:col-span-8">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-muted px-3 py-1 text-[11px] uppercase tracking-widest text-muted-foreground ring-1 ring-[var(--ring-subtle)]">
-                  <Icon className="h-3 w-3" strokeWidth={2.25} /> {meta.label}
-                </span>
-                {product.categories.map((category) => (
-                  <span key={category} className="inline-flex items-center gap-1.5 rounded-full bg-muted px-3 py-1 text-[11px] uppercase tracking-widest text-muted-foreground ring-1 ring-[var(--ring-subtle)]">
-                    <Tag className="h-3 w-3" /> {categoryLabelFor(product.kind, category)}
-                  </span>
-                ))}
-                {product.duration_label && (
+              <section className="rounded-3xl border border-brand-orange/30 bg-brand-orange/10 p-5 shadow-[0_18px_44px_-34px_rgba(249,115,22,0.7)] md:p-6">
+                <div className="flex flex-wrap items-center gap-2">
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-muted px-3 py-1 text-[11px] uppercase tracking-widest text-muted-foreground ring-1 ring-[var(--ring-subtle)]">
-                    <Clock className="h-3 w-3" /> {product.duration_label}
+                    <Icon className="h-3 w-3" strokeWidth={2.25} /> {meta.label}
                   </span>
-                )}
-              </div>
+                  {product.categories.map((category) => (
+                    <span key={category} className="inline-flex items-center gap-1.5 rounded-full bg-muted px-3 py-1 text-[11px] uppercase tracking-widest text-muted-foreground ring-1 ring-[var(--ring-subtle)]">
+                      <Tag className="h-3 w-3" /> {categoryLabelFor(product.kind, category)}
+                    </span>
+                  ))}
+                  {product.duration_label && (
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-muted px-3 py-1 text-[11px] uppercase tracking-widest text-muted-foreground ring-1 ring-[var(--ring-subtle)]">
+                      <Clock className="h-3 w-3" /> {product.duration_label}
+                    </span>
+                  )}
+                </div>
 
-              <h1 className="mt-4 text-balance text-4xl font-semibold tracking-tight md:text-5xl">
-                {product.title}
-              </h1>
-              {product.tagline && (
-                <p className="mt-4 max-w-3xl text-balance text-lg text-foreground/70">
-                  {product.tagline}
-                </p>
-              )}
+                <h1 className="mt-5 text-balance text-4xl font-semibold tracking-tight md:text-5xl">
+                  {product.title}
+                </h1>
+                {product.tagline && (
+                  <p className="mt-4 max-w-3xl text-balance text-lg text-foreground/70">
+                    {product.tagline}
+                  </p>
+                )}
+              </section>
 
               {product.kind === 'prompt' && (
                 <div className="mt-8 aspect-video overflow-hidden rounded-2xl border border-white/5">
@@ -176,42 +193,47 @@ export function ProductDetail({
                 </a>
               )}
 
-              {product.tags.length > 0 && (
-                <div className="mt-8 flex flex-wrap gap-2">
-                  {product.tags.map((s) => (
-                    <span
-                      key={s}
-                      className="rounded-full bg-white/[0.04] px-3 py-1 text-xs text-foreground/80 ring-1 ring-white/10"
-                    >
-                      {s}
-                    </span>
-                  ))}
-                </div>
+              {visibleTags.length > 0 && (
+                <section className="mt-8 rounded-2xl border border-white/8 bg-white/[0.02] p-5">
+                  <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                    Từ khóa
+                  </h2>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {visibleTags.map((s) => (
+                      <span
+                        key={s}
+                        className="rounded-full border border-brand-orange/20 bg-brand-orange/10 px-3 py-1 text-xs font-medium text-foreground/85"
+                      >
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </section>
               )}
 
               {versions.length > 0 && (
-                <div className="mt-10 rounded-2xl border border-white/5 bg-white/[0.02] p-5">
+                <div className="mt-10 rounded-3xl border border-brand-orange/30 bg-brand-orange/10 p-5 shadow-[0_18px_44px_-34px_rgba(249,115,22,0.7)]">
                   <div className="flex flex-wrap items-end justify-between gap-3">
                     <div>
-                      <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                      <h2 className="text-xs font-semibold uppercase tracking-widest text-brand-orange">
                         Phiên bản
                       </h2>
-                      <p className="mt-2 text-sm text-foreground/60">
+                      <p className="mt-2 text-sm text-foreground/75">
                         Sản phẩm này có nhiều phiên bản. Chọn bản phù hợp với quy trình của bạn khi liên hệ.
                       </p>
                     </div>
-                    <span className="rounded-full bg-brand-orange/10 px-3 py-1 text-xs text-brand-orange ring-1 ring-brand-orange/25">
+                    <span className="rounded-full border border-brand-orange/30 bg-brand-orange/15 px-3 py-1 text-xs font-medium text-brand-orange">
                       {versions.length} phiên bản
                     </span>
                   </div>
                   <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-2">
                     {versions.map((version) => (
-                      <div key={version.slug ?? version.name} className="rounded-2xl border border-white/8 bg-black/15 p-4">
+                      <div key={version.slug ?? version.name} className="rounded-2xl border border-brand-orange/20 bg-black/20 p-4">
                         <div className="flex flex-wrap items-start justify-between gap-2">
                           <div>
                             <h3 className="text-base font-semibold tracking-tight text-foreground/95">{version.name}</h3>
                             {version.executable_label && (
-                              <div className="mt-1 text-xs text-foreground/45">{version.executable_label}</div>
+                              <div className="mt-1 text-xs text-foreground/60">{version.executable_label}</div>
                             )}
                           </div>
                           <VersionStatusBadge status={version.status ?? 'available'} />
@@ -233,24 +255,24 @@ export function ProductDetail({
               {versions.length > 0 && (
                 <Link
                   href={`/contact?kind=${product.kind}`}
-                  className="featured-cta group mt-4 flex items-center justify-between rounded-2xl border border-white/8 bg-white/[0.02] p-5"
+                  className="featured-cta group mt-4 flex items-center justify-between rounded-3xl border border-brand-orange/30 bg-brand-orange/10 p-5 shadow-[0_18px_44px_-34px_rgba(249,115,22,0.7)]"
                 >
                   <div>
-                    <div className="text-sm font-medium">Cần khác đi 1 chút?</div>
-                    <div className="mt-0.5 text-xs text-foreground/55">{meta.ctaLabel}</div>
+                    <div className="text-sm font-semibold text-foreground/95">Cần khác đi 1 chút?</div>
+                    <div className="mt-0.5 text-xs text-foreground/70">{meta.ctaLabel}</div>
                   </div>
-                  <ArrowUpRight className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  <ArrowUpRight className="h-4 w-4 text-brand-orange transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </Link>
               )}
 
               {product.prerequisites.length > 0 && (
-                <div className="mt-10 rounded-2xl border border-white/5 bg-white/[0.02] p-5">
-                  <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                <div className="mt-10 rounded-3xl border border-brand-orange/30 bg-brand-orange/10 p-5 shadow-[0_18px_44px_-34px_rgba(249,115,22,0.7)]">
+                  <h2 className="text-xs font-semibold uppercase tracking-widest text-brand-orange">
                     Yêu cầu trước khi bắt đầu
                   </h2>
                   <ul className="mt-4 space-y-2.5">
                     {product.prerequisites.map((p) => (
-                      <li key={p} className="flex items-start gap-2.5 text-sm text-foreground/80">
+                      <li key={p} className="flex items-start gap-2.5 rounded-2xl border border-brand-orange/20 bg-black/15 p-3 text-sm text-foreground/85">
                         <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-orange" />
                         {p}
                       </li>
@@ -277,7 +299,7 @@ export function ProductDetail({
 
               {html && (
                 <article
-                  className="mt-10 max-w-none"
+                  className="description-framed mt-10 max-w-none"
                   dangerouslySetInnerHTML={{ __html: html }}
                 />
               )}
@@ -333,7 +355,7 @@ export function ProductDetail({
                         Giải thích cách dùng prompt
                       </h2>
                       <div
-                        className="mt-4 max-w-none"
+                        className="description-framed mt-4 max-w-none"
                         dangerouslySetInnerHTML={{ __html: promptExplanationHtml }}
                       />
                     </section>
@@ -424,27 +446,31 @@ export function ProductDetail({
 
             <aside className="lg:col-span-4">
               <div className="sticky top-24 space-y-4">
-                <div className="rounded-3xl border border-white/5 bg-gradient-to-br from-[#1a0d10] via-[#0d0d10] to-[#0d0d10] p-6">
-                  <div className="text-[11px] uppercase tracking-widest text-muted-foreground">
-                    Giá
+                <div className="rounded-3xl border border-brand-orange/25 bg-card p-6 text-foreground shadow-[0_18px_44px_-34px_rgba(249,115,22,0.55)]">
+                  <div className="text-[11px] uppercase tracking-widest text-brand-orange">
+                    {product.kind === 'webwork' ? 'Showcase web' : 'Giá'}
                   </div>
-                  <div className="mt-1 text-3xl font-semibold tabular-nums">
-                    {formatPriceVnd(product.price_vnd, product.pricing_mode, product.is_free)}
+                  <div className="mt-1 text-3xl font-bold tabular-nums text-brand-orange">
+                    {product.kind === 'webwork'
+                      ? 'Làm web tương tự'
+                      : formatPriceVnd(product.price_vnd, product.pricing_mode, product.is_free)}
                   </div>
-                  <p className="mt-3 text-sm leading-relaxed text-foreground/65">
+                  <p className="mt-3 text-sm leading-relaxed text-foreground/70">
                     {product.is_free
-                      ? 'Miễn phí. Nhấn nút bên dưới để nhận file.'
-                      : product.pricing_mode === 'quote'
-                        ? 'Bạn gửi nhu cầu, mình báo giá lại rõ ràng.'
-                        : 'Muốn mua thì chuyển khoản theo QR bên dưới. Xong nhắn mình để nhận file.'}
+                      ? null
+                      : product.kind === 'webwork'
+                        ? 'Đây là mẫu showcase. Bạn gửi nhu cầu, mình tư vấn hướng làm web tương tự theo nội dung của bạn.'
+                        : product.pricing_mode === 'quote'
+                          ? 'Bạn gửi nhu cầu, mình báo giá lại rõ ràng.'
+                          : null}
                   </p>
 
                   <Link
-                    href={`/contact?product=${product.slug}&kind=${product.kind}`}
+                    href={primaryCtaHref}
                     className="hero-primary-cta bg-brand-gradient glow-red mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-semibold text-black"
                   >
                     <Sparkles className="h-4 w-4" />{' '}
-                    {product.is_free ? 'Nhận prompt miễn phí' : product.pricing_mode === 'quote' ? 'Yêu cầu báo giá' : 'Mua / Đặt câu hỏi'}
+                    {primaryCtaLabel}
                   </Link>
 
                   <ul className="mt-5 space-y-2.5 text-sm text-foreground/75">
@@ -455,7 +481,7 @@ export function ProductDetail({
                 </div>
 
                 {showPaymentInfo && (
-                  <div className="rounded-3xl border border-brand-orange/20 bg-[#0d0d10] p-6">
+                  <div className="rounded-3xl border border-brand-orange/25 bg-card p-6 text-foreground shadow-[0_18px_44px_-34px_rgba(249,115,22,0.55)]">
                     <div className="text-[11px] uppercase tracking-widest text-brand-orange">
                       Cách mua
                     </div>
@@ -464,7 +490,7 @@ export function ProductDetail({
                       <li>2. Nhắn mình ảnh giao dịch.</li>
                       <li>3. Mình gửi file qua Zalo/Drive.</li>
                     </ol>
-                    <div className="mt-4 overflow-hidden rounded-2xl border border-white/8 bg-white p-3">
+                    <div className="mt-4 overflow-hidden rounded-2xl border border-orange-200 bg-white p-3">
                       <Image
                         src={PAYMENT_INFO.qrSrc}
                         alt="QR chuyển khoản SkillForge VN"
@@ -474,42 +500,42 @@ export function ProductDetail({
                         className="aspect-square w-full object-contain"
                       />
                     </div>
-                    <dl className="mt-4 space-y-2.5 text-sm">
-                      <div className="flex justify-between gap-3">
-                        <dt className="text-foreground/55">Ngân hàng</dt>
-                        <dd className="text-right font-medium text-foreground/90">{PAYMENT_INFO.bank}</dd>
+                    <dl className="mt-4 space-y-2.5 text-sm text-foreground">
+                      <div className="flex justify-between gap-3 rounded-2xl bg-surface-muted px-3 py-2 ring-1 ring-[var(--ring-subtle)]">
+                        <dt className="text-foreground/60">Ngân hàng</dt>
+                        <dd className="text-right font-semibold text-foreground/95">{PAYMENT_INFO.bank}</dd>
                       </div>
-                      <div className="flex justify-between gap-3">
-                        <dt className="text-foreground/55">Số tài khoản</dt>
-                        <dd className="text-right font-semibold tabular-nums text-foreground/95">{PAYMENT_INFO.accountNumber}</dd>
+                      <div className="flex justify-between gap-3 rounded-2xl bg-surface-muted px-3 py-2 ring-1 ring-[var(--ring-subtle)]">
+                        <dt className="text-foreground/60">Số tài khoản</dt>
+                        <dd className="text-right font-bold tabular-nums text-foreground/95">{PAYMENT_INFO.accountNumber}</dd>
                       </div>
-                      <div className="flex justify-between gap-3">
-                        <dt className="text-foreground/55">Chủ tài khoản</dt>
-                        <dd className="text-right font-medium text-foreground/90">{PAYMENT_INFO.accountName}</dd>
+                      <div className="flex justify-between gap-3 rounded-2xl bg-surface-muted px-3 py-2 ring-1 ring-[var(--ring-subtle)]">
+                        <dt className="text-foreground/60">Chủ tài khoản</dt>
+                        <dd className="text-right font-semibold text-foreground/95">{PAYMENT_INFO.accountName}</dd>
                       </div>
-                      <div className="rounded-2xl bg-white/[0.04] p-3 ring-1 ring-white/8">
-                        <dt className="text-[11px] uppercase tracking-widest text-muted-foreground">Nội dung chuyển khoản</dt>
-                        <dd className="mt-1 font-semibold text-foreground/95">Tên - chuyển khoản {product.title}</dd>
+                      <div className="rounded-2xl bg-brand-orange/10 p-3 text-foreground ring-1 ring-brand-orange/20">
+                        <dt className="text-[11px] uppercase tracking-widest text-foreground/60">Nội dung chuyển khoản</dt>
+                        <dd className="mt-1 font-bold text-foreground/95">Tên - chuyển khoản {product.title}</dd>
                       </div>
                     </dl>
-                    <p className="mt-4 text-sm leading-relaxed text-foreground/65">
-                      Nhớ kiểm tra đúng tên <span className="font-medium text-foreground/90">{PAYMENT_INFO.accountName}</span> trước khi chuyển.
+                    <p className="mt-4 text-sm leading-relaxed text-foreground/70">
+                      Nhớ kiểm tra đúng tên <span className="font-bold text-brand-orange">{PAYMENT_INFO.accountName}</span> trước khi chuyển.
                     </p>
                   </div>
                 )}
 
                 {product.support_options.length > 0 && (
-                  <div className="rounded-3xl border border-white/5 bg-[#0d0d10] p-6">
-                    <div className="text-[11px] uppercase tracking-widest text-muted-foreground">
+                  <div className="rounded-3xl border border-brand-orange/25 bg-card p-6 text-foreground shadow-[0_18px_44px_-34px_rgba(249,115,22,0.55)]">
+                    <div className="text-[11px] uppercase tracking-widest text-brand-orange">
                       Hình thức hỗ trợ
                     </div>
                     <ul className="mt-4 space-y-3">
                       {product.support_options.map((opt) => {
                         const m = SUPPORT_META[opt];
                         return (
-                          <li key={opt}>
-                            <div className="text-sm font-medium text-foreground/95">{m.label}</div>
-                            <div className="mt-0.5 text-xs text-foreground/55">{m.description}</div>
+                          <li key={opt} className="rounded-2xl border border-brand-orange/15 bg-surface-muted p-3">
+                            <div className="text-sm font-semibold text-foreground/95">{m.label}</div>
+                            <div className="mt-0.5 text-xs leading-relaxed text-foreground/60">{m.description}</div>
                           </li>
                         );
                       })}

@@ -39,9 +39,21 @@ export function renderMarkdown(input: string | null | undefined): string {
   let inCode = false;
   let codeBuf: string[] = [];
   let paragraph: string[] = [];
+  let sectionOpen = false;
 
+  function ensureSection() {
+    if (sectionOpen) return;
+    out.push('<section class="description-section">');
+    sectionOpen = true;
+  }
+  function closeSection() {
+    if (!sectionOpen) return;
+    out.push('</section>');
+    sectionOpen = false;
+  }
   function flushParagraph() {
     if (paragraph.length === 0) return;
+    ensureSection();
     out.push(`<p class="my-3 text-foreground/80 leading-relaxed">${inline(paragraph.join(' '))}</p>`);
     paragraph = [];
   }
@@ -58,6 +70,7 @@ export function renderMarkdown(input: string | null | undefined): string {
       flushParagraph();
       flushList();
       if (inCode) {
+        ensureSection();
         out.push(
           `<pre class="my-4 overflow-x-auto rounded-xl border border-border bg-card p-4 text-[12.5px] leading-relaxed text-foreground/85"><code>${codeBuf.join('\n')}</code></pre>`,
         );
@@ -77,13 +90,15 @@ export function renderMarkdown(input: string | null | undefined): string {
       flushParagraph();
       flushList();
       const level = line.match(/^#+/)![0].length;
+      if (level <= 2) closeSection();
+      ensureSection();
       const text = inline(line.replace(/^#+\s/, ''));
       const cls =
         level === 1
-          ? 'mt-8 mb-3 text-2xl font-semibold tracking-tight md:text-3xl'
+          ? 'mb-4 text-2xl font-semibold tracking-tight md:text-3xl'
           : level === 2
-            ? 'mt-7 mb-3 text-xl font-semibold tracking-tight md:text-2xl'
-            : 'mt-5 mb-2 text-base font-semibold tracking-tight';
+            ? 'mb-4 text-xl font-semibold tracking-tight md:text-2xl'
+            : 'mt-5 mb-2 text-base font-semibold tracking-tight text-foreground/95';
       out.push(`<h${Math.min(level, 4)} class="${cls}">${text}</h${Math.min(level, 4)}>`);
       continue;
     }
@@ -92,6 +107,7 @@ export function renderMarkdown(input: string | null | undefined): string {
     const olMatch = line.match(/^\d+\.\s+(.*)$/);
     if (ulMatch || olMatch) {
       flushParagraph();
+      ensureSection();
       const desired = ulMatch ? 'ul' : 'ol';
       if (listType !== desired) {
         flushList();
@@ -117,9 +133,11 @@ export function renderMarkdown(input: string | null | undefined): string {
   flushParagraph();
   flushList();
   if (inCode && codeBuf.length) {
+    ensureSection();
     out.push(
       `<pre class="my-4 overflow-x-auto rounded-xl border border-border bg-card p-4 text-[12.5px] leading-relaxed text-foreground/85"><code>${codeBuf.join('\n')}</code></pre>`,
     );
   }
+  closeSection();
   return out.join('\n');
 }

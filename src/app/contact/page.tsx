@@ -2,6 +2,7 @@ import { Footer } from '@/components/footer';
 import { PageHeader } from '@/components/page-header';
 import { InquiryForm } from '@/components/inquiry-form';
 import { createClient } from '@/lib/supabase/server';
+import { redirect } from 'next/navigation';
 import { ArrowUpRight } from 'lucide-react';
 import {
   ALL_KINDS,
@@ -13,7 +14,7 @@ import {
 export const metadata = {
   title: 'Liên hệ — SkillForge VN',
   description:
-    'Đặt mua tool, lấy prompt mẫu, hay yêu cầu làm web — rep trong 24h qua Zalo / Telegram / Email.',
+    'Đặt mua tool hoặc yêu cầu làm web — rep trong 24h qua Zalo / Telegram / Email.',
 };
 
 const CHANNELS = [
@@ -50,6 +51,10 @@ export default async function ContactPage({ searchParams }: PageProps) {
     ? (kindParam as ProductKind)
     : undefined;
 
+  if (kind === 'prompt') {
+    redirect(productSlug ? `/login?returnTo=${encodeURIComponent(`/prompts/${productSlug}`)}` : '/prompts');
+  }
+
   const supabase = await createClient();
   const {
     data: { user },
@@ -67,6 +72,10 @@ export default async function ContactPage({ searchParams }: PageProps) {
     if (data) product = data;
   }
 
+  if (product?.kind === 'prompt') {
+    redirect(`/login?returnTo=${encodeURIComponent(`/prompts/${product.slug}`)}`);
+  }
+
   const showForm = product != null || kind != null;
   const kindMeta = kind ? KIND_META[kind] : null;
 
@@ -80,7 +89,7 @@ export default async function ContactPage({ searchParams }: PageProps) {
     ? 'Điền form bên dưới — mình rep trong 24h kèm thông tin thanh toán và bước tiếp theo.'
     : kindMeta
       ? `Mô tả nhu cầu ${kindMeta.shortLabel.toLowerCase()} riêng của bạn — mình rep trong 24h với hướng xử lý và quote sơ bộ.`
-      : 'Kể nhu cầu của bạn về tool, prompt mẫu hoặc web — mình rep trong 24h với mức quote sơ bộ.';
+      : 'Kể nhu cầu của bạn về tool hoặc web — mình rep trong 24h với mức quote sơ bộ.';
 
   return (
     <>

@@ -104,16 +104,18 @@ export function ProductCard({ product, hideKind = false }: ProductCardProps) {
           </div>
         )}
 
-        <div className="mt-auto flex items-end justify-between pt-5">
-          <div>
-            <div className="text-[10.5px] uppercase tracking-widest text-muted-foreground">
-              {product.duration_label ?? 'Giá'}
+        <div className="mt-auto flex items-end justify-between gap-3 pt-5">
+          <div className="min-w-0 flex-1">
+            <div className="max-w-[11rem] text-[10.5px] uppercase leading-snug tracking-widest text-muted-foreground">
+              {product.kind === 'webwork' ? 'Showcase web' : product.duration_label ?? 'Giá'}
             </div>
-            <div className="mt-0.5 text-base font-semibold tabular-nums text-foreground/95">
-              {formatPriceVnd(product.price_vnd, product.pricing_mode, product.is_free)}
+            <div className="mt-0.5 text-base font-semibold tabular-nums text-brand-orange">
+              {product.kind === 'webwork'
+                ? 'Làm web tương tự'
+                : formatPriceVnd(product.price_vnd, product.pricing_mode, product.is_free)}
             </div>
           </div>
-          <span className="inline-flex items-center gap-1 rounded-full border border-border px-3 py-1.5 text-xs text-foreground/65 transition duration-300 group-hover:border-brand-orange/50 group-hover:bg-brand-orange/10 group-hover:text-brand-orange">
+          <span className="inline-flex shrink-0 items-center gap-1 self-end rounded-full border border-border px-3 py-1.5 text-xs text-foreground/65 transition duration-300 group-hover:border-brand-orange/50 group-hover:bg-brand-orange/10 group-hover:text-brand-orange">
             Xem chi tiết
             <ArrowUpRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </span>
