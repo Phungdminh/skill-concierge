@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { createClient } from '@/lib/supabase/server';
+import { createPublicClient } from '@/lib/supabase/public';
 import { SITE_URL } from '@/lib/site';
 
 export const revalidate = 3600;
@@ -32,7 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const [productsRes, foldersRes] = await Promise.all([
       supabase
         .from('products')
