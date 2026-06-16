@@ -153,7 +153,7 @@ export function ProductDetail({
               </section>
 
               {product.kind === 'prompt' && (
-                <div className="mt-8 aspect-video overflow-hidden rounded-2xl border border-white/5">
+                <div className="mt-8 aspect-video overflow-hidden rounded-2xl border border-[var(--border-subtle)]">
                   <ProductImage
                     src={product.gallery[0] ?? product.thumbnail_url}
                     alt={`${product.title} ảnh tham khảo`}
@@ -176,7 +176,7 @@ export function ProductDetail({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Mở link source / demo: ${safeRepoUrl.replace(/^https?:\/\//, '')}`}
-                  className="mt-8 flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition hover:border-white/25 hover:bg-white/[0.06]"
+                  className="mt-8 flex items-center justify-between gap-4 rounded-2xl border border-[var(--border-medium)] bg-surface-muted p-4 transition hover:border-brand-orange/45 hover:bg-brand-orange/5"
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <Globe aria-hidden="true" className="h-5 w-5 shrink-0 text-foreground/85" strokeWidth={1.75} />
@@ -194,7 +194,7 @@ export function ProductDetail({
               )}
 
               {visibleTags.length > 0 && (
-                <section className="mt-8 rounded-2xl border border-white/8 bg-white/[0.02] p-5">
+                <section className="mt-8 rounded-2xl border border-[var(--border-subtle)] bg-surface-muted p-5">
                   <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                     Từ khóa
                   </h2>
@@ -228,7 +228,7 @@ export function ProductDetail({
                   </div>
                   <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-2">
                     {versions.map((version) => (
-                      <div key={version.slug ?? version.name} className="rounded-2xl border border-brand-orange/20 bg-black/20 p-4">
+                      <div key={version.slug ?? version.name} className="rounded-2xl border border-brand-orange/20 bg-card p-4">
                         <div className="flex flex-wrap items-start justify-between gap-2">
                           <div>
                             <h3 className="text-base font-semibold tracking-tight text-foreground/95">{version.name}</h3>
@@ -243,7 +243,7 @@ export function ProductDetail({
                         )}
                         {version.platform && (
                           <div className="mt-4 flex flex-wrap gap-2 text-xs text-foreground/60">
-                            <span className="rounded-full bg-white/[0.04] px-2.5 py-1 ring-1 ring-white/8">{version.platform}</span>
+                            <span className="rounded-full bg-surface-muted px-2.5 py-1 ring-1 ring-[var(--ring-subtle)]">{version.platform}</span>
                           </div>
                         )}
                       </div>
@@ -272,7 +272,7 @@ export function ProductDetail({
                   </h2>
                   <ul className="mt-4 space-y-2.5">
                     {product.prerequisites.map((p) => (
-                      <li key={p} className="flex items-start gap-2.5 rounded-2xl border border-brand-orange/20 bg-black/15 p-3 text-sm text-foreground/85">
+                      <li key={p} className="flex items-start gap-2.5 rounded-2xl border border-brand-orange/20 bg-card p-3 text-sm text-foreground/85">
                         <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-orange" />
                         {p}
                       </li>
@@ -307,7 +307,7 @@ export function ProductDetail({
               {promptMeta && (
                 <div className="mt-10 space-y-6">
                   {hasPromptBody && (
-                    <section className="rounded-2xl border border-white/8 bg-white/[0.02] p-5">
+                    <section className="rounded-2xl border border-[var(--border-subtle)] bg-surface-muted p-5">
                       <div className="flex flex-wrap items-center justify-between gap-3">
                         <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                           Nội dung prompt
@@ -318,14 +318,14 @@ export function ProductDetail({
                       </div>
                       <div className="relative mt-4">
                         <pre
-                          className={`whitespace-pre-wrap rounded-2xl bg-black/25 p-4 font-mono text-sm leading-relaxed text-foreground/80 ring-1 ring-white/8 ${
+                          className={`whitespace-pre-wrap rounded-2xl bg-surface-muted p-4 font-mono text-sm leading-relaxed text-foreground/80 ring-1 ring-[var(--ring-subtle)] ${
                             shouldLockPrompt ? 'max-h-72 overflow-hidden' : ''
                           }`}
                         >
                           {promptDisplayContent}
                         </pre>
                         {shouldLockPrompt && (
-                          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 rounded-b-2xl bg-gradient-to-t from-[#0d0d10] via-[#0d0d10]/85 to-transparent" />
+                          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 rounded-b-2xl bg-gradient-to-t from-[var(--card)] via-[var(--card)]/85 to-transparent" />
                         )}
                       </div>
 
@@ -350,7 +350,7 @@ export function ProductDetail({
                   )}
 
                   {promptExplanationHtml && (
-                    <section className="rounded-2xl border border-white/8 bg-white/[0.02] p-5">
+                    <section className="rounded-2xl border border-[var(--border-subtle)] bg-surface-muted p-5">
                       <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                         Giải thích cách dùng prompt
                       </h2>
@@ -370,7 +370,7 @@ export function ProductDetail({
                   </h2>
                   <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
                     {product.gallery.map((src) => (
-                      <div key={src} className="aspect-video overflow-hidden rounded-2xl border border-white/5">
+                      <div key={src} className="aspect-video overflow-hidden rounded-2xl border border-[var(--border-subtle)]">
                         <ProductImage
                           src={src}
                           alt={`${product.title} screenshot`}
@@ -385,7 +385,7 @@ export function ProductDetail({
               )}
 
               {product.kind === 'prompt' && (
-                <section className="mt-12 rounded-2xl border border-white/8 bg-white/[0.02] p-5">
+                <section className="mt-12 rounded-2xl border border-[var(--border-subtle)] bg-surface-muted p-5">
                   <div className="flex flex-wrap items-end justify-between gap-3">
                     <div>
                       <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
@@ -403,7 +403,7 @@ export function ProductDetail({
                   {reviews.length > 0 && (
                     <div className="mt-5 space-y-3">
                       {reviews.map((review) => (
-                        <article key={review.id} className="rounded-2xl border border-white/8 bg-black/15 p-4">
+                        <article key={review.id} className="rounded-2xl border border-[var(--border-subtle)] bg-card p-4">
                           <div className="flex flex-wrap items-center justify-between gap-2">
                             <div className="text-sm font-medium text-foreground/90">
                               {review.profile?.full_name ?? 'Khách hàng SkillForge'}
@@ -560,7 +560,7 @@ function VersionStatusBadge({ status }: { status: ProductVersionStatus }) {
         ? 'Ngừng khuyến nghị'
         : 'Đang bán';
   return (
-    <span className="rounded-full bg-white/[0.04] px-2.5 py-1 text-[11px] text-foreground/65 ring-1 ring-white/8">
+    <span className="rounded-full bg-surface-muted px-2.5 py-1 text-[11px] text-foreground/65 ring-1 ring-[var(--ring-subtle)]">
       {label}
     </span>
   );
