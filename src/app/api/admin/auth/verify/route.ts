@@ -9,7 +9,7 @@ import {
   incrementChallengeAttemptCookie,
   setVerifiedCookie,
 } from '@/lib/admin-verification';
-import { getClientIp, rateLimit } from '@/lib/rate-limit';
+import { getClientIp, checkRateLimit } from '@/lib/rate-limit';
 import { checkSameOrigin } from '@/lib/csrf';
 
 const bodySchema = z.object({
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
   }
 
   const ip = await getClientIp();
-  const ipLimit = rateLimit(`admin-verify:ip:${ip}`, { windowMs: 15 * 60 * 1000, max: 20 });
+  const ipLimit = await checkRateLimit(`admin-verify:ip:${ip}`, { windowMs: 15 * 60 * 1000, max: 20 });
   if (!ipLimit.ok) {
     return NextResponse.json(
       { error: { code: 'rate_limited', message: 'Bạn nhập sai quá nhiều lần. Thử lại sau.' } },

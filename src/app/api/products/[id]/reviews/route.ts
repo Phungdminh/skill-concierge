@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { emptyToNull } from '@/lib/string-normalization';
 import { checkSameOrigin } from '@/lib/csrf';
-import { getClientIp, rateLimit } from '@/lib/rate-limit';
+import { getClientIp, checkRateLimit } from '@/lib/rate-limit';
 
 const idSchema = z.string().uuid();
 
@@ -47,7 +47,7 @@ export async function POST(req: Request, { params }: RouteContext) {
   }
 
   const ip = await getClientIp();
-  const limit = rateLimit(`reviews:${user.id}:${ip}`, { windowMs: 60 * 60 * 1000, max: 30 });
+  const limit = await checkRateLimit(`reviews:${user.id}:${ip}`, { windowMs: 60 * 60 * 1000, max: 30 });
   if (!limit.ok) {
     return NextResponse.json(
       { error: { code: 'rate_limited', message: 'Bạn gửi đánh giá quá nhanh. Thử lại sau.' } },

@@ -10,7 +10,7 @@ import {
   setChallengeCookie,
 } from '@/lib/admin-verification';
 import { sendAdminLoginCodeEmail } from '@/lib/email/resend';
-import { getClientIp, rateLimit } from '@/lib/rate-limit';
+import { getClientIp, checkRateLimit } from '@/lib/rate-limit';
 import { checkSameOrigin } from '@/lib/csrf';
 
 const bodySchema = z.object({
@@ -64,8 +64,10 @@ export async function POST(request: Request) {
   }
 
   const ip = await getClientIp();
-  const ipLimit = rateLimit(`admin-challenge:ip:${ip}`, { windowMs: 60 * 60 * 1000, max: 10 });
-  const userLimit = rateLimit(`admin-challenge:user:${user.id}`, { windowMs: 60 * 60 * 1000, max: 6 });
+  const [ipLimit, userLimit] = await Promise.all([
+    checkRateLimit(`admin-challenge:ip:${ip}`, { windowMs: 60 * 60 * 1000, max: 10 }),
+    checkRateLimit(`admin-challenge:user:${user.id}`, { windowMs: 60 * 60 * 1000, max: 6 }),
+  ]);
   if (!ipLimit.ok || !userLimit.ok) {
     const retry = Math.max(ipLimit.retryAfterSec, userLimit.retryAfterSec);
     return NextResponse.json(
