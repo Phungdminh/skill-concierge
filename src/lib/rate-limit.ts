@@ -73,10 +73,27 @@ function cleanupIfNeeded(now: number) {
 // shared Redis counter that is accurate across every instance; otherwise we
 // fall back to the in-memory limiter (handy for local dev with no Redis).
 
-const upstashRedis =
-  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
-    ? Redis.fromEnv()
-    : null;
+// Vercel's Upstash/KV integrations inject the REST URL + token under different
+// names depending on the flavour (native Upstash, Vercel KV, or a custom
+// "STORAGE" prefix). Read whichever pair is present so the limiter activates
+// regardless of how the database was provisioned.
+function createUpstashRedis(): Redis | null {
+  const env = process.env;
+  const url =
+    env.UPSTASH_REDIS_REST_URL ??
+    env.KV_REST_API_URL ??
+    env.STORAGE_REST_API_URL ??
+    env.STORAGE_KV_REST_API_URL;
+  const token =
+    env.UPSTASH_REDIS_REST_TOKEN ??
+    env.KV_REST_API_TOKEN ??
+    env.STORAGE_REST_API_TOKEN ??
+    env.STORAGE_KV_REST_API_TOKEN;
+  if (!url || !token) return null;
+  return new Redis({ url, token });
+}
+
+const upstashRedis = createUpstashRedis();
 
 // One Ratelimit instance per (max, window) config, reused across requests.
 const limiters = new Map<string, Ratelimit>();
