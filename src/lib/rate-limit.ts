@@ -67,12 +67,25 @@ function cleanupIfNeeded(now: number) {
 
 export async function getClientIp(): Promise<string> {
   const h = await headers();
+
+  // `x-real-ip` is set by the hosting edge (Vercel/Cloudflare/Nginx) to the
+  // actual connecting client and overwrites any client-supplied value, so it
+  // cannot be spoofed the way the leftmost X-Forwarded-For entry can.
+  const realIp = h.get('x-real-ip')?.trim();
+  if (realIp) return realIp;
+
+  // Fallback: take the RIGHTMOST entry of X-Forwarded-For. A malicious client
+  // can prepend fake IPs (`X-Forwarded-For: <fake>`), but the trusted edge
+  // appends the real connecting IP last — so the last hop is the trustworthy
+  // one. Never trust xff[0]; that is exactly the attacker-controlled value.
   const xff = h.get('x-forwarded-for');
   if (xff) {
-    const first = xff.split(',')[0]?.trim();
-    if (first) return first;
+    const parts = xff.split(',').map((part) => part.trim()).filter(Boolean);
+    const last = parts[parts.length - 1];
+    if (last) return last;
   }
-  return h.get('x-real-ip')?.trim() || 'unknown';
+
+  return 'unknown';
 }
 
 async function getClientUserAgent(): Promise<string> {
