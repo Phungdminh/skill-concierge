@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
-import { visitorHash } from '@/lib/rate-limit';
+import { getClientIp, rateLimit, visitorHash } from '@/lib/rate-limit';
 
 const idSchema = z.string().uuid();
 
@@ -16,6 +16,18 @@ export async function POST(_req: Request, { params }: RouteContext) {
     return NextResponse.json(
       { error: { code: 'invalid_id', message: 'Product id không hợp lệ.' } },
       { status: 400 },
+    );
+  }
+
+  // App-layer throttle so a flood can't hammer the DB RPC, even though the
+  // dedup table already prevents view_count inflation. 60/min/IP is well
+  // above normal browsing.
+  const ip = await getClientIp();
+  const limit = rateLimit(`view:${ip}`, { windowMs: 60 * 1000, max: 60 });
+  if (!limit.ok) {
+    return NextResponse.json(
+      { error: { code: 'rate_limited', message: 'Quá nhiều yêu cầu. Thử lại sau.' } },
+      { status: 429, headers: { 'Retry-After': String(limit.retryAfterSec) } },
     );
   }
 
